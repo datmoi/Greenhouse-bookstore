@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+th:replace="~{client/main-layout.html :: layout (~{::title}, ~{::#layout})}">
+
+<head>
+    <title>Liên hệ</title>
+</head>
+<main id="layout" ng-controller="ContactController">
+    <div class="site-wrapper" id="top">
+        <section class="breadcrumb-section">
+            <h2 class="sr-only">Site Breadcrumb</h2>
+            <div class="container">
+                <div class="breadcrumb-contents">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#!home" th:text="#{lo.mn.homecon}">Trang chủ</a></li>
+                            <li class="breadcrumb-item active" th:text="#{lo.mn.contackcon}">Liên hệ</li>
+                        </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
+    <!-- contact area Start -->
+    <main class="contact_area inner-page-sec-padding-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="contact_form">
+                        <h3 class="ct_title" th:text="#{lo.mn.green}">Liên hệ với GreenHouse</h3>
+                        <form id="contact-form" class="contact-form">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label th:text="#{lo.mn.fullname}">Họ và tên <span
+                                                class="required">*</span></label>
+                                        <input type="text" name="fullName" ng-model="fullName" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>Email <span class="required">*</span></label>
+                                        <input type="text" name="email" ng-model="email" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label th:text="#{lo.mn.loinhan}">Hãy gửi lời nhắn cho chúng tôi</label>
+                                        <textarea name="content" ng-model="content" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-btn">
+                                        <button type="button" ng-click="Create()" class="btn btn-black w-100"
+                                                th:text="#{lo.mn.gui}">Gửi
+                                        </button>
+                                    </div>
+                                    <div class="form__output"></div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="form-output">
+                            <p class="form-messege"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31433.16534351629!2d105.74979965406243!3d10.004824079651781!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a089cb87ab7abf%3A0x8ded7457828a8ddb!2zUGjhu5UgdGjDtG5nIENhbyDEkeG6s25nIEZQVCBQb2x5dGVjaG5pYyBD4bqnbiBUaMah!5e0!3m2!1svi!2s!4v1694442472312!5m2!1svi!2s" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- contact area End -->
+    <div class="contact-bottom-info inner-page-sec-padding-bottom">
+        <div class="container">
+            <div class="row">
+                <!--Contact Information Start-->
+                <div class="col-lg-4 col-sm-6 col-12 mb-30">
+                    <div class="contact-info">
+                        <span class="icon"><i class="fa fa-phone"></i></span>
+                        <div class="content">
+                            <h3 class="title" th:text="#{lo.mn.lhphone}">Liên hệ qua số điện thoại</h3>
+                            <p>088.6077.296</p>
+                        </div>
+                    </div>
+                </div>
+                <!--Contact Information End-->
+
+                <!--Contact Information Start-->
+                <div class="col-lg-4 col-sm-6 col-12 mb-30">
+                    <div class="contact-info">
+                        <span class="icon"><i class="fa fa-envelope"></i></span>
+                        <div class="content">
+                            <h3 class="title" th:text="#{lo.mn.lhemail}">Liên hệ qua email</h3>
+                            <p>greenhouse20033@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+                <!--Contact Information End-->
+
+                <!--Contact Information Start-->
+                <div class="col-lg-4 col-sm-6 col-12 mb-30">
+                    <div class="contact-info">
+                        <span class="icon"><i class="fa fa-map-marker"></i></span>
+                        <div class="content">
+                            <h3 class="title" th:text="#{lo.mn.lhtructiep}">Liên hệ trực tiếp</h3>
+                            <p>Toà nhà FPT Polytechnic, Đ. Số 22, Thường Thạnh,<br> Cái Răng, Cần Thơ, Vietnam</p>
+                        </div>
+                    </div>
+                </div>
+                <!--Contact Information End-->
+            </div>
+        </div>
+    </div>
+    <section class="section-margin">
+        <h2 class="sr-only">Brand Slider</h2>
+        <div class="container">
+            <div class="brand-slider sb-slick-slider border-top border-bottom" data-slick-setting='{
+                                            "autoplay": true,
+                                            "autoplaySpeed": 8000,
+                                            "slidesToShow": 6
+                                            }' data-slick-responsive='[
+                {"breakpoint":992, "settings": {"slidesToShow": 4} },
+                {"breakpoint":768, "settings": {"slidesToShow": 3} },
+                {"breakpoint":575, "settings": {"slidesToShow": 3} },
+                {"breakpoint":480, "settings": {"slidesToShow": 2} },
+                {"breakpoint":320, "settings": {"slidesToShow": 1} }
+            ]'>
+                <div class="single-slide1">
+                    <img src="/client/image/others/lh1.jfif" alt="">
+                </div>
+                <div class="single-slide1">
+                    <img src="/client/image/others/lh2.jfif" alt="">
+                </div>
+                <div class="single-slide1">
+                    <img src="/client/image/others/lh3.jpg" alt="">
+                </div>
+                <div class="single-slide1">
+                    <img src="/client/image/others/lh4.jpeg" alt="">
+                </div>
+                <div class="single-slide1">
+                    <img src="/client/image/others/lh5.jpg" alt="">
+                </div>
+                <div class="single-slide1">
+                    <img src="/client/image/others/lh6.avif" alt="">
+                </div>
+                <div class="single-slide1">
+                    <img src="/client/image/others/lh7.jpg" alt="">
+                </div>
+                <div class="single-slide1">
+                    <img src="/client/image/others/lh8.webp" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
+</main>
+</html>

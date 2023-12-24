@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{client/main-layout.html :: layout (~{::title}, ~{::#layout})}">
+
+<head>
+    <title>Giỏ hàng</title>
+</head>
+<main id="layout">
+    <div class="site-wrapper cart-page-main-block" id="top">
+        <section class="breadcrumb-section">
+            <div class="container-fuild">
+                <div class="breadcrumb-contents">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                            <li class="breadcrumb-item active">Giỏ hàng</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </section>
+        <!-- Cart Page Start -->
+        <main class=" inner-page-sec-padding-bottom container-fuild" ng-controller="cartController">
+            <div class="cart">
+                <div class="page-title">
+                    <div class="page-title-container">
+                        <h1 style="display: inline-block;width: auto;">
+                            Giỏ hàng
+                        </h1>
+                        <span class="cart-title-num-items">
+                            ( {{listCartItem.length}} sản phẩm )
+                        </span>
+                    </div>
+                </div>
+                <div class="cart-ui-content row" ng-if="listCartItem.length > 0">
+                    <div class="col-sm-8 col-xs-12">
+                        <div>
+                            <div class="header-cart-item ">
+                                <div class="check-all-product ">
+                                    <div class="checkbox-wrapper-12 mx-2">
+                                        <div class="cbx">
+                                            <input id="cbx-12" name="checkAll" type="checkbox" ng-model="checkAll"
+                                                ng-click="toggleCheckAll()">
+                                            <label for="cbx-12"></label>
+                                            <svg width="15" height="14" viewBox="0 0 15 14" fill="none">
+                                                <path d="M2 8.36364L6.23077 12L13 2"></path>
+                                            </svg>
+                                        </div>
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+                                            <defs>
+                                                <filter id="goo-12">
+                                                    <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur">
+                                                    </feGaussianBlur>
+                                                    <feColorMatrix in="blur" mode="matrix"
+                                                        values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -7"
+                                                        result="goo-12"></feColorMatrix>
+                                                    <feBlend in="SourceGraphic" in2="goo-12"></feBlend>
+                                                </filter>
+                                            </defs>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="space">Đang chọn {{listCartItemSelected.length}} sản phẩm</div>
+                                <div class="cart-action">
+                                    <div class="div-of-btn-remove-cart" ng-click="removeCartSelected()"
+                                        ng-if="listCartItemSelected.length > 0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="delete">
+                                            <path
+                                                d="M24.2,12.193,23.8,24.3a3.988,3.988,0,0,1-4,3.857H12.2a3.988,3.988,0,0,1-4-3.853L7.8,12.193a1,1,0,0,1,2-.066l.4,12.11a2,2,0,0,0,2,1.923h7.6a2,2,0,0,0,2-1.927l.4-12.106a1,1,0,0,1,2,.066Zm1.323-4.029a1,1,0,0,1-1,1H7.478a1,1,0,0,1,0-2h3.1a1.276,1.276,0,0,0,1.273-1.148,2.991,2.991,0,0,1,2.984-2.694h2.33a2.991,2.991,0,0,1,2.984,2.694,1.276,1.276,0,0,0,1.273,1.148h3.1A1,1,0,0,1,25.522,8.164Zm-11.936-1h4.828a3.3,3.3,0,0,1-.255-.944,1,1,0,0,0-.994-.9h-2.33a1,1,0,0,0-.994.9A3.3,3.3,0,0,1,13.586,7.164Zm1.007,15.151V13.8a1,1,0,0,0-2,0v8.519a1,1,0,0,0,2,0Zm4.814,0V13.8a1,1,0,0,0-2,0v8.519a1,1,0,0,0,2,0Z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-cart-left">
+                                <div ng-repeat="cart in listCartItem track by $index">
+                                    <div class="item-product-cart">
+                                        <div class="checked-product-cart">
+                                            <div class="checkbox-wrapper-12">
+                                                <div class="cbx">
+                                                    <input id="{{cart.productDetail.productDetailId}}" type="checkbox"
+                                                        ng-model="cart.checked">
+                                                    <label for="{{cart.productDetail.productDetailId}}"></label>
+                                                    <svg width="15" height="14" viewBox="0 0 15 14" fill="none">
+                                                        <path d="M2 8.36364L6.23077 12L13 2"></path>
+                                                    </svg>
+                                                </div>
+                                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+                                                    <defs>
+                                                        <filter id="goo-12">
+                                                            <feGaussianBlur in="SourceGraphic" stdDeviation="4"
+                                                                result="blur"></feGaussianBlur>
+                                                            <feColorMatrix in="blur" mode="matrix"
+                                                                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -7"
+                                                                result="goo-12"></feColorMatrix>
+                                                            <feBlend in="SourceGraphic" in2="goo-12"></feBlend>
+                                                        </filter>
+                                                    </defs>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div class="img-product-cart">
+                                            <a ng-click="getProductDetail(cart.productDetail.productDetailId)"><img
+                                                    src="{{cart.productDetail.image}}" alt=""></a>
+                                        </div>
+                                        <div class="group-product-info">
+                                            <div class="info-product-cart"
+                                                ng-click="getProductDetail(cart.productDetail.productDetailId)">
+                                                <h2 class="product-name-full-text">
+                                                    {{cart.productDetail.product.productName}}</h2>
+                                                <div class="price-original">
+                                                    <div class="cart-price">
+                                                        <div class="cart-item-price">
+                                                            <div>
+                                                                <span class="price">{{(cart.priceDiscount - cart.price
+                                                                    != 0
+                                                                    ?
+                                                                    cart.priceDiscount : cart.price) | number:'0'}}
+                                                                    <span class="currency">đ</span></span>
+                                                            </div>
+                                                            <div class="price-old"
+                                                                ng-if="cart.priceDiscount - cart.price != 0">
+                                                                <span class="price">
+                                                                    {{cart.price | number:'0'}} <span
+                                                                        class="currency">đ</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="flashsale-product-banner" ng-if="isProductFlashSale(cart)">
+                                                    <img
+                                                        src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/flashsale/label-flashsale.svg?q=10357">
+                                                </div>
+                                            </div>
+                                            <div class="number-product-cart">
+                                                <div class="product-view-quantity-box">
+                                                    <div class="product-view-quantity-box-block">
+
+                                                        <a class="btn-subtract-qty"
+                                                            ng-click="subtractQuantity($index)"><img
+                                                                style="width: 12px; height: auto;vertical-align: middle;"
+                                                                src="https://cdn0.fahasa.com/skin//frontend/ma_vanese/fahasa/images/ico_minus2x.png"></a>
+
+                                                        <input type="text" class="qty-carts" ng-model="cart.quantity"
+                                                            ng-blur="updateQuantity($index)">
+
+                                                        <a class="btn-add-qty" ng-click="addQuantity($index)"><img
+                                                                style="width: 12px; height: auto;vertical-align: middle;"
+                                                                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_plus2x.png"></a>
+
+                                                    </div>
+                                                    <div class="product-view-icon-remove-mobile" style="display:none;">
+                                                        <a title="Remove item" class="btn-remove-mobile-cart"><i
+                                                                class="fa fa-trash-o" style="font-size:22px"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div class="cart-price-total">
+                                                    <span class="cart-price">
+                                                        <span class="price">{{cart.amount | number:'0'}} đ</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="div-of-btn-remove-cart" ng-click="removeFromCart($index)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="delete">
+                                                <path
+                                                    d="M24.2,12.193,23.8,24.3a3.988,3.988,0,0,1-4,3.857H12.2a3.988,3.988,0,0,1-4-3.853L7.8,12.193a1,1,0,0,1,2-.066l.4,12.11a2,2,0,0,0,2,1.923h7.6a2,2,0,0,0,2-1.927l.4-12.106a1,1,0,0,1,2,.066Zm1.323-4.029a1,1,0,0,1-1,1H7.478a1,1,0,0,1,0-2h3.1a1.276,1.276,0,0,0,1.273-1.148,2.991,2.991,0,0,1,2.984-2.694h2.33a2.991,2.991,0,0,1,2.984,2.694,1.276,1.276,0,0,0,1.273,1.148h3.1A1,1,0,0,1,25.522,8.164Zm-11.936-1h4.828a3.3,3.3,0,0,1-.255-.944,1,1,0,0,0-.994-.9h-2.33a1,1,0,0,0-.994.9A3.3,3.3,0,0,1,13.586,7.164Zm1.007,15.151V13.8a1,1,0,0,0-2,0v8.519a1,1,0,0,0,2,0Zm4.814,0V13.8a1,1,0,0,0-2,0v8.519a1,1,0,0,0,2,0Z">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="border-product"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 hidden-max-width-992 position-relative">
+                        <div class="total-cart-right">
+                            <div class="effect-scroll-cart-right">
+                                <div class="cart-event-promo-outer">
+                                    <div class="col-xs-12 col-sm-12 block event-promotion-block" id="block-totals"
+                                        style="display: block;">
+                                        <div class="totals">
+                                            <div class="gh_checkout_event_promotion">
+                                                <div class="gh-event-promo">
+                                                    <div class="gh-event-promo-title">
+                                                        <div class="gh-event-promo-title-left"><span><img
+                                                                    src="https://cdn0.fahasa.com/skin//frontend/ma_vanese/fahasa/images/promotion/ico_coupon.svg"></span><span>Khuyến
+                                                                mãi</span>
+                                                        </div>
+                                                        <div class="gh-event-promo-title-viewmore"
+                                                            ng-click="openEventCartPopup()"><span>Xem
+                                                                thêm</span><span><img
+                                                                    src="https://cdn0.fahasa.com/skin//frontend/ma_vanese/fahasa/images/ico_seemore_blue.svg"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="gh-event-promo-item gh-event-promo-item-line"
+                                                        ng-repeat="voucher in relatedVouchers | limitTo: 4 track by $index">
+                                                        <div>
+                                                            <div class="gh-event-promo-list-item-content">
+                                                                <div>
+                                                                    <div class="gh-event-promo-list-item-content-title">
+                                                                        {{voucher.voucherName}}
+                                                                    </div>
+                                                                    <div class="gh-event-promo-list-item-detail gh_blue_link"
+                                                                        ng-click="showVoucherDetail(voucher)">
+                                                                        Chi tiết
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="gh-event-promo-list-item-content-description">
+                                                                    {{voucher.description}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div class="gh-event-promo-item-progress-bar">
+                                                                <div class="gh-event-promo-item-progress">
+                                                                    <hr
+                                                                        ng-style="{'width': voucher.moreAmountPercents + '%'}">
+                                                                    <img class="progress-cheat"
+                                                                        src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico-cheatprogresss.svg?q=102479">
+                                                                </div>
+                                                                <div class="gh-event-promo-item-minmax">
+                                                                    <span>Mua
+                                                                        thêm {{voucher.moreAmount | number:'0'}} đ để
+                                                                        nhận
+                                                                        mã</span><span>{{voucher.minimumPurchaseAmount |
+                                                                        number:'0'}} đ</span>
+                                                                </div>
+                                                            </div>
+                                                            <div><a href="/product">
+                                                                    <button type="button" title="Mua Thêm"
+                                                                        class="gh-btn-view-promo"><span>Mua
+                                                                            Thêm</span></button>
+                                                                </a></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="gh-event-promo-sumary">
+                                                    <div class="gh-event-promo-sumary-matched"
+                                                        ng-click="openEventCartPopup()">
+                                                        <span>{{eligibleVouchers.length}} khuyến mãi
+                                                            đủ điều kiện</span><span><img
+                                                                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_seemore_blue.svg"></span>
+                                                    </div>
+                                                    <div class="gh_label_note">
+                                                        <div class="gh_label_coupon_label_info">
+                                                            <div>Có thể áp dụng đồng thời nhiều mã</div>
+                                                            <div class="gh_tooltip" style="margin-left: 0.25em;">
+                                                                <img
+                                                                    src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/promotion/ico-alert-grey.svg?q=102479"><span>Áp
+                                                                    dụng tối đa 1 mã giảm giá <br>và 1 mã
+                                                                    freeship</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="clear:both;"></div>
+                                <div class="block-total-cart mb-3">
+                                    <div class="block-address p-3">
+                                        <div class="block-address-header mb-3">
+                                            <div class="title-address-checkout">Thông tin giao hàng</div>
+                                            <button class="btn btn-edit-address float-right shadow-none"
+                                                data-bs-toggle="modal" data-bs-target="#chooseAddressModal">THAY ĐỔI ĐỊA
+                                                CHỈ</button>
+                                        </div>
+                                        <div class="border-product mb-3"></div>
+                                        <div class="info-receiver" ng-if="confirmAddress">
+                                            <div class="receiver-name-phone">
+                                                {{confirmAddress.fullname + ' | ' + confirmAddress.phone}}
+                                            </div>
+                                            <div class="receiver-address">
+                                                {{confirmAddress.address}}
+                                            </div>
+                                        </div>
+                                        <div class="info-receiver" ng-if="!confirmAddress">
+                                            Vui lòng chọn địa chỉ
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block-total-cart">
+                                    <div class="block-totals-cart-page">
+                                        <div class="total-cart-page ">
+                                            <div class="title-cart-page-left">Tổng tiền hàng</div>
+                                            <div class="number-cart-page-right"><span class="price">{{totalCartAmount |
+                                                    number:'0'}} đ</span>
+                                            </div>
+                                        </div>
+                                        <div class="total-cart-page ">
+                                            <div class="title-cart-page-left">
+                                                Phí vận chuyển</div>
+                                            <div class="number-cart-page-right">
+                                                <span class="price" ng-if="shippingFeeDiscount <= 0">
+                                                    {{shippingFee | number:'0'}} đ
+                                                </span>
+                                                <span class="px-2" ng-if="shippingFeeDiscount > 0">
+                                                    <del> {{shippingFee | number:'0'}} đ</del>
+                                                </span>
+                                                <span class="price px-2" ng-if="shippingFeeDiscount > 0">
+                                                    {{shippingFeeDiscount | number:'0'}} đ
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="total-cart-page " ng-if="voucherApplied.normalVoucherApplied">
+                                            <div class="title-cart-page-left">
+                                                {{voucherApplied.normalVoucherApplied.voucherName}}</div>
+                                            <div class="number-cart-page-right"><span class="price">-{{normalDiscount
+                                                    | number:'0'}} đ</span>
+                                            </div>
+                                        </div>
+                                        <div class="border-product"></div>
+                                        <div class="total-cart-page title-final-total">
+                                            <div class="title-cart-page-left">Tổng thanh toán</div>
+                                            <div class="number-cart-page-right"><span class="price">{{totalPaymentAmount
+                                                    | number:'0'}} đ</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="checkout-type-button-cart" style="text-align: center;">
+                                        <div class="method-button-cart">
+                                            <a ng-click="checkout()">
+                                                <button type="button" title="Thanh toán"
+                                                    class="btn-proceed-checkout btn-checkout"><span><span>Đặt
+                                                            Hàng</span></span>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cart-ui-content row" ng-if="!listCartItem.length > 0">
+                    <div
+                        style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);padding: 50px;background-color: #fff;flex: 1; border-radius: 10px;">
+                        <div class="cart-empty body-mh-300"
+                            style="justify-content: center;display: flex;align-items: center;">
+                            <div style="text-align: center">
+                                <div class="icon-empty-cart"><img
+                                        src="https://cdn0.fahasa.com/skin//frontend/ma_vanese/fahasa/images/checkout_cart/ico_emptycart.svg"
+                                        class="center"></div>
+                                <p style="font-size:1.4rem;margin: 20px 0;">Chưa có sản phẩm trong giỏ hàng của bạn.</p>
+                                <a style="color: white;text-transform: uppercase;" href="/product"><button
+                                        class="button-shopping" type="button" title="Mua sắm ngay"
+                                        style="margin:auto">Mua sắm ngay</button></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="background-popup"></div>
+            <div id="popup-loading-event-cart">
+                <div class="popup-loading-event-cart-info">
+                    <div class="popup-loading-event-cart-title">
+                        <div class="gh-event-promo-title">
+                            <div class="gh-event-promo-title-left">
+                                <span><img
+                                        src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/promotion/ico_coupon.svg?q=102519" /></span>
+                                <span>Chọn mã khuyến mãi</span>
+                                <span class="gh_label_note" style="margin-left: 8px;">
+                                    <div class="gh_label_note">
+                                        <div class="gh_label_coupon_label_info">
+                                            <div>Có thể áp dụng đồng thời nhiều mã </div>
+                                            <div class="gh_tooltip" style="margin-left: 0.25em;"><img
+                                                    src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/promotion/ico-alert-grey.svg?q=102519" /><span>Áp
+                                                    dụng tối đa 1 mã giảm giá <br />và 1 mã freeship</span></div>
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="gh-event-promo-title-right">
+                                <div class="gh_event_promo_btn_close lg-close" ng-click="closeEventCartPopup()">
+                                    <img
+                                        src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_delete_gray.svg?q=102519" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="gh-input-box gh-input-btn gh-input-group-horizontal-coupon popup-loading-event-cart-coupon">
+                        <div class="gh_checkout_block_content">
+                            <div class="gh_checkout_block_address_block">
+                                <div class="gh-input-box gh-input-btn gh-input-group-horizontal-coupon">
+                                    <div class="gh_label_note">
+                                        <div class="gh_label_coupon_label_info">
+                                            <div>Có thể áp dụng đồng thời nhiều mã</div>
+                                            <div class="gh_tooltip" style="margin-left: 0.25em;"><img
+                                                    src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/promotion/ico-alert-grey.svg?q=102519" /><span>Áp
+                                                    dụng tối đa 1 mã giảm giá <br />và 1 mã freeship</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="gh-input-alert">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="popup-loading-event-cart-content">
+                        <div id="popup-loading-event-cart-content-tabs" class="loading">
+                            <div class="popup-loading-event-cart-content-promotion">
+
+                                <div class="gh-event-promo-list" ng-if="listNormalVouchers.length > 0">
+                                    <div class="gh-event-promo-list-title">
+                                        <span>Mã giảm giá</span><span class="gh_label_note" style="margin-left: 8px;">Áp
+                                            dụng tối đa:
+                                            1</span>
+                                    </div>
+                                    <div ng-repeat="vPopup in listNormalVouchers | limitTo: numViewNormalVouchers track by $index"
+                                        class="gh-event-promo-list-item matched gh-event-promo-list-item-coupon">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" class="coupon_bg"
+                                            viewBox="10 0 478.5 148">
+                                            <g fill="none" fill-rule="evenodd">
+                                                <g>
+                                                    <g>
+                                                        <g>
+                                                            <g
+                                                                transform="translate(-544 -3050) translate(80 2072) translate(0 930) translate(464 48)">
+                                                                <path id="Frame_voucher_Web"
+                                                                    d="M 110 144 h -98 a 12 12 0 0 1 -12 -12 v -122 a 12 12 0 0 1 12 -12 H 110 a 12.02 12 0 0 0 24 0 H 480.5 a 12 12 0 0 1 12 12 V 132 a 12 12 0 0 1 -12 12 H 134 v 0 a 12 12 0 0 0 -24 0 v 0 Z"
+                                                                    fill="#fff" stroke="rgba(0,0,0,0)"
+                                                                    stroke-miterlimit="10" stroke-width="1"></path>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                        <div class="voucherNormal"
+                                            ng-class="{'eligible': isEligibleVoucherPopup(vPopup)}">
+                                            <img
+                                                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/promotion/ico_promotion.svg?q=10268">
+                                        </div>
+                                        <div class="gh-event-promo-item ">
+                                            <div>
+                                                <div class="gh-event-promo-list-item-content"
+                                                    ng-click="showVoucherDetail(vPopup)">
+                                                    <div>
+                                                        <div class="gh-event-promo-list-item-content-title">
+                                                            {{vPopup.voucherName}}
+                                                        </div>
+                                                        <div class="gh-event-promo-list-item-detail gh_blue_link"
+                                                            ng-click="showVoucherDetail(vPopup)">
+                                                            Chi
+                                                            tiết
+                                                        </div>
+                                                    </div>
+                                                    <div class="gh-event-promo-list-item-content-description">
+                                                        {{vPopup.description}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="gh-event-promo-item-progress-bar">
+                                                    <div class="gh-event-promo-item-msg"
+                                                        ng-if="isAppliedVoucher(vPopup)">
+                                                        <img
+                                                            src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/promotion/ico_check.svg?q=10268">
+                                                        <span style="padding-left: 4px; color: #2F80ED;">Đã áp
+                                                            dụng</span>
+                                                    </div>
+
+                                                    <div ng-if="vPopup.moreAmount > 0">
+                                                        <div class="gh-event-promo-item-progress">
+                                                            <hr ng-style="{'width': vPopup.moreAmountPercents + '%'}">
+                                                            <img class="progress-cheat"
+                                                                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico-cheatprogresss.svg?q=10274">
+                                                        </div>
+                                                        <div class="gh-event-promo-item-minmax">
+                                                            <span>Mua thêm {{vPopup.moreAmount | number:'0' }} đ để nhận
+                                                                mã</span>
+                                                            <span>{{vPopup.minimumPurchaseAmount | number:'0' }}
+                                                                đ</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div ng-if="isEligibleVoucherPopup(vPopup)">
+                                                    <div ng-if="isAppliedVoucher(vPopup)">
+                                                        <button type="button" ng-click="toggleVoucherApplied(vPopup)"
+                                                            title="Bỏ chọn"
+                                                            class="gh-btn-view-promo-coupon applied"><span>Bỏ
+                                                                chọn</span></button>
+                                                    </div>
+                                                    <div ng-if="!isAppliedVoucher(vPopup)">
+                                                        <button type="button" ng-click="applyVoucher(vPopup)"
+                                                            title="Áp dụng" class="gh-btn-view-promo-coupon"><span>Áp
+                                                                dụng</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div><a href="/product" ng-if="!isEligibleVoucherPopup(vPopup)">
+                                                        <button type="button" title="Mua Thêm"
+                                                            class="gh-btn-view-promo"><span>Mua
+                                                                Thêm</span></button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="label_expired"
+                                            ng-if="vPopup.totalQuantity - vPopup.usedQuantity <= 10"><img
+                                                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/promotion/label_saphet.svg?q=10268">
+                                        </div>
+                                    </div>
+                                    <div class="gh-event-promo-list-viewmore">
+                                        <a href="">
+                                            <div ng-show="numViewNormalVouchers == 2"
+                                                ng-click="viewMoreNormalVouchers()">
+                                                <span class="text-viewmore">Xem
+                                                    thêm
+                                                </span>
+                                                <img
+                                                    src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_down_orange.svg?q=10272">
+                                            </div>
+
+                                            <div ng-show="numViewNormalVouchers != 2"
+                                                ng-click="viewLessNormalVouchers()">
+                                                <span class="text-viewless">Rút gọn</span>
+                                                <img ng-class="{'rotate-icon': numViewNormalVouchers != 2}"
+                                                    src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_down_orange.svg?q=10272">
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+
+                                <div class="gh-event-promo-list" ng-if="listShippingVouchers.length > 0">
+                                    <div class="gh-event-promo-list-title">
+                                        <span>Mã vận chuyển</span><span class="gh_label_note"
+                                            style="margin-left: 8px;">Áp
+                                            dụng tối đa:
+                                            1</span>
+                                    </div>
+                                    <div ng-repeat="vPopup in listShippingVouchers | limitTo: numViewShippingVouchers track by $index"
+                                        class="gh-event-promo-list-item matched gh-event-promo-list-item-coupon">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" class="coupon_bg"
+                                            viewBox="10 0 478.5 148"
+                                            style="filter: drop-shadow(rgba(0, 0, 0, 0.15) 0px 1px 3px);">
+                                            <g fill="none" fill-rule="evenodd">
+                                                <g>
+                                                    <g>
+                                                        <g>
+                                                            <g
+                                                                transform="translate(-544 -3050) translate(80 2072) translate(0 930) translate(464 48)">
+                                                                <path id="Frame_voucher_Web"
+                                                                    d="M 110 144 h -98 a 12 12 0 0 1 -12 -12 v -122 a 12 12 0 0 1 12 -12 H 110 a 12.02 12 0 0 0 24 0 H 480.5 a 12 12 0 0 1 12 12 V 132 a 12 12 0 0 1 -12 12 H 134 v 0 a 12 12 0 0 0 -24 0 v 0 Z"
+                                                                    fill="#fff" stroke="rgba(0,0,0,0)"
+                                                                    stroke-miterlimit="10" stroke-width="1"></path>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                        <div class="voucherShipping"
+                                            ng-class="{'eligible': isEligibleVoucherPopup(vPopup)}">
+                                            <img
+                                                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/promotion/ico_freeship.svg?q=10274">
+                                        </div>
+                                        <div class="gh-event-promo-item ">
+                                            <div>
+                                                <div class="gh-event-promo-list-item-content"
+                                                    ng-click="showVoucherDetail(vPopup)">
+                                                    <div>
+                                                        <div class="gh-event-promo-list-item-content-title">
+                                                            {{vPopup.voucherName}}
+                                                        </div>
+                                                        <div class="gh-event-promo-list-item-detail gh_blue_link"
+                                                            ng-click="showVoucherDetail(vPopup)">
+                                                            Chi
+                                                            tiết
+                                                        </div>
+                                                    </div>
+                                                    <div class="gh-event-promo-list-item-content-description">
+                                                        {{vPopup.description}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="gh-event-promo-item-progress-bar">
+                                                    <div class="gh-event-promo-item-msg"
+                                                        ng-if="isAppliedVoucher(vPopup)">
+                                                        <img
+                                                            src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/promotion/ico_check.svg?q=10268">
+                                                        <span style="padding-left: 4px; color: #2F80ED;">Đã áp
+                                                            dụng</span>
+                                                    </div>
+
+                                                    <div ng-if="vPopup.moreAmount > 0">
+                                                        <div class="gh-event-promo-item-progress">
+                                                            <hr ng-style="{'width': vPopup.moreAmountPercents + '%'}">
+                                                            <img class="progress-cheat"
+                                                                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico-cheatprogresss.svg?q=10274">
+                                                        </div>
+                                                        <div class="gh-event-promo-item-minmax">
+                                                            <span>Mua thêm {{vPopup.moreAmount | number:'0' }} đ để nhận
+                                                                mã</span>
+                                                            <span>{{vPopup.minimumPurchaseAmount | number:'0' }}
+                                                                đ</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div ng-if="isEligibleVoucherPopup(vPopup)">
+                                                    <div ng-if="isAppliedVoucher(vPopup)">
+                                                        <button type="button" ng-click="toggleVoucherApplied(vPopup)"
+                                                            title="Bỏ chọn"
+                                                            class="gh-btn-view-promo-coupon applied"><span>Bỏ
+                                                                chọn</span></button>
+                                                    </div>
+                                                    <div ng-if="!isAppliedVoucher(vPopup)">
+                                                        <button type="button" ng-click="applyVoucher(vPopup)"
+                                                            title="Áp dụng" class="gh-btn-view-promo-coupon"><span>Áp
+                                                                dụng</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div><a href="/product" ng-if="!isEligibleVoucherPopup(vPopup)">
+                                                        <button type="button" title="Mua Thêm"
+                                                            class="gh-btn-view-promo"><span>Mua
+                                                                Thêm</span></button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="label_expired"
+                                            ng-if="vPopup.totalQuantity - vPopup.usedQuantity <= 10">
+                                            <img
+                                                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/promotion/label_saphet.svg?q=10268">
+                                        </div>
+                                    </div>
+                                    <div class="gh-event-promo-list-viewmore">
+                                        <a href="">
+                                            <div ng-show="numViewShippingVouchers == 2"
+                                                ng-click="viewMoreShippingVouchers()">
+                                                <span class="text-viewmore">Xem
+                                                    thêm
+                                                </span>
+                                                <img
+                                                    src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_down_orange.svg?q=10272">
+                                            </div>
+
+                                            <div ng-show="numViewShippingVouchers != 2"
+                                                ng-click="viewLessShippingVouchers()">
+                                                <span class="text-viewless">Rút gọn</span>
+                                                <img ng-class="{'rotate-icon': numViewShippingVouchers != 2}"
+                                                    src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_down_orange.svg?q=10272">
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="popup-loading-event-cart-detail">
+                    <div class="popup-loading-event-cart-title">
+                        <div class="gh-event-promo-title">
+                            <div class="gh-event-promo-title-left" ng-click="backPopupVoucher()">
+                                <div><img
+                                        src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_back_blue.svg?q=102519" />
+                                </div>
+                            </div>
+                            <div class="gh-event-promo-title-center">Điều kiện áp dụng</div>
+                            <div class="gh-event-promo-title-right lg-close" ng-click="closeVoucherDetail()">
+                                <div><img
+                                        src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_delete_gray.svg?q=102519" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="popup-loading-event-cart-content">
+                        <div id="gh-event-promo-list-detail-content" class="gh-event-promo-list-detail-content">
+                            <style>
+                                .gh-container {
+                                    padding: 5px 0;
+                                }
+
+                                .bold-text {
+                                    font-weight: bold;
+                                }
+                            </style>
+                            <div class="gh-container bold-text">
+                                {{getNameTypeOfVoucher(vDetail)}}
+                            </div>
+                            <div style="background-color: #f2ddc3ab;padding: 8px 16px; color: #ea7601;">
+                                {{vDetail.voucherName}}
+                            </div>
+                            <div class="gh-container">
+                                {{'- ' + vDetail.description}}
+                            </div>
+                            <div class="gh-event-promo-item-progress-bar">
+                                <div ng-if="vDetail.moreAmount > 0">
+                                    <div class="gh-event-promo-item-progress">
+                                        <hr ng-style="{'width': vDetail.moreAmountPercents + '%'}">
+                                        <img class="progress-cheat"
+                                            src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico-cheatprogresss.svg?q=10274">
+                                    </div>
+                                    <div class="gh-event-promo-item-minmax">
+                                        <span>Mua thêm {{vDetail.moreAmount | number:'0' }} đ để nhận
+                                            mã</span>
+                                        <span>{{vDetail.minimumPurchaseAmount | number:'0' }}
+                                            đ</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="popup-loading-event-cart-bottom">
+                    <div id="popup_event_cart_info_close" class="close-popup-event" style="display: none;">
+                        <button type="button" title="Đóng" class="btn-close-popup-event"><span>Đóng</span></button>
+                    </div>
+                    <div id="popup_event_cart_detail_close" class="close-popup-event" style="display: flex;"
+                        ng-if="isEligibleVoucherPopup(vDetail)">
+                        <a ng-if="isAppliedVoucher(vDetail)">
+                            <button type="button" ng-click="toggleVoucherApplied(vDetail)" title="Bỏ chọn"
+                                class="btn-close-popup-event gh-btn-view-promo applied"><span>Bỏ
+                                    chọn</span></button>
+                        </a>
+                        <a ng-if="!isAppliedVoucher(vDetail)">
+                            <button type="button" ng-click="applyVoucher(vDetail)" title="Áp dụng"
+                                class="btn-close-popup-event gh-btn-view-promo"><span>Áp dụng</span>
+                            </button>
+                        </a>
+                    </div>
+                    <div id="popup_event_cart_detail_close" class="close-popup-event" style="display: flex;"
+                        ng-if="!isEligibleVoucherPopup(vDetail)">
+                        <a href="/product">
+                            <button type="button" title="Mua Thêm"
+                                class="btn-close-popup-event gh-btn-view-promo"><span>Mua Thêm</span>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Chọn Địa Chỉ Nhận Hàng Start -->
+            <div class="modal fade" id="chooseAddressModal" tabindex="-1" aria-labelledby="chooseAddressModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                    <div class="modal-content  profile-account">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-16 ml--10">Chọn địa chỉ nhận hàng</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Hiển thị danh sách địa chỉ -->
+                            <div ng-repeat="address in listAddress" class="form-check">
+                                <label>
+                                    <input type="radio" name="chooseAddressModal" ng-model="selectedAddress"
+                                        ng-value="address" ng-click="selectAddress(address)">
+                                    <div class="info-receiver">
+                                        <div class="ship-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99.13 56.58"
+                                                id="truck">
+                                                <g data-name="Layer 2">
+                                                    <g data-name="Layer 1">
+                                                        <g opacity=".1">
+                                                            <path fill="#4b4868"
+                                                                d="M23.65 4.15a10 10 0 00-8 9.8V44a2 2 0 002 2h38v-7.92h-12a20 20 0 01-20-20zM60.63 38.08V46h33a4 4 0 004-4v-3.92z">
+                                                            </path>
+                                                        </g>
+                                                        <path fill="#ffc599"
+                                                            d="M77.71 24.08h-8.06a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1h4.49a1 1 0 0 1 .81.42l3.57 5a1 1 0 0 1-.81 1.58z">
+                                                        </path>
+                                                        <path fill="none" stroke="#ffc599" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="3"
+                                                            d="M16.15 30.54h14M35.15 30.54h1"></path>
+                                                        <path fill="none" stroke="#4b4668" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="3"
+                                                            d="M83.13 24l-6.9-9.2a2 2 0 0 0-1.6-.8h-12a2 2 0 0 0-2 2v30h33a4 4 0 0 0 4-4V30a4 4 0 0 0-4-4h-6.5a5 5 0 0 1-4-2z">
+                                                        </path>
+                                                        <circle cx="79.13" cy="46.08" r="9" fill="#fff" stroke="#4b4668"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="3"></circle>
+                                                        <path fill="none" stroke="#4b4668" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="3"
+                                                            d="M66.15 30.54h4M57.4 55.08h35.43M21.05 55.08h29.38M16.15 55.08h.82M75.21 26.08h-8.06a1 1 0 01-1-1v-5a1 1 0 011-1h4.49a1 1 0 01.81.42l3.57 5a1 1 0 01-.81 1.58zM10.15 34.58h5M13.15 37.08h2M6.15 34.58">
+                                                        </path>
+                                                        <g opacity=".2">
+                                                            <path fill="none" stroke="#4b4668" stroke-linecap="round"
+                                                                stroke-linejoin="round" stroke-width="3"
+                                                                d="M64.24 1.5v5M66.74 4h-5"></path>
+                                                        </g>
+                                                        <g opacity=".2">
+                                                            <path fill="none" stroke="#4b4668" stroke-linecap="round"
+                                                                stroke-linejoin="round" stroke-width="3"
+                                                                d="M4 21.99v5M6.5 24.49h-5"></path>
+                                                        </g>
+                                                        <circle cx="88.65" cy="17.08" r="2.5" fill="none"
+                                                            stroke="#ffc599" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="3" opacity=".5">
+                                                        </circle>
+                                                        <path fill="none" stroke="#4b4668" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="3"
+                                                            d="M15.63 14v30a2 2 0 0 0 2 2h38V6a2 2 0 0 0-2-2h-28a10 10 0 0 0-10 10z">
+                                                        </path>
+                                                        <circle cx="35.63" cy="46.08" r="9" fill="#fff" stroke="#4b4668"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="3"></circle>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </div>
+                                        <div class="receiver-name-phone">
+                                            {{address.fullname + ' | ' + address.phone}}
+                                        </div>
+                                        <div class="receiver-address">
+                                            {{address.address}}
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-edit-address" data-bs-toggle="modal"
+                                data-bs-target="#createAddressModal" ng-click="openModalCreateAddress()">Thêm địa chỉ
+                                mới</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Chọn Địa Chỉ Nhận Hàng End -->
+
+            <!-- Modal Address Start -->
+            <div class="modal fade" id="createAddressModal" tabindex="-1" aria-labelledby="createAddressModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-16 ml--10">Tạo địa chỉ </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                                ng-click="closeModalCreateAddress()"></button>
+                        </div>
+                        <div class="modal-body ">
+                            <div class="container">
+                                <form method="post" class="position-relative">
+                                    <div class="row">
+                                        <input type="text" style="visibility: hidden;" ng-model="address.id">
+                                        <div class="form-group col-md-6">
+                                            <label for="lastname" class="text-bold text-dark">*Họ tên</label>
+                                            <input type="text" class="form-control" name="fullname" id="fullname"
+                                                aria-describedby="fullnameHelp" ng-model="address.fullname"
+                                                ng-required="reqFullname">
+                                            <span class="text-danger">{{errors.fullname}}</span>
+                                        </div>
+                                        <div class="form-group col-md-6 mb-2">
+                                            <label for="phone" class="text-bold text-dark">*Số điện thoại</label>
+                                            <input type="text" class="form-control" name="phone" id="phone"
+                                                aria-describedby="fullnameHelp" ng-model="address.phone" maxlength="10"
+                                                ng-required="reqPhone" ng-attr-phone="reqPhone">
+                                            <span class="text-danger">{{errors.phone}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="form-group col-12 col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-bold text-dark">*Tỉnh/Thành phố</label>
+                                                <select class="form-control" title="Chọn Tỉnh" name="province"
+                                                    id="province" ng-model="selectedProvinceCode"
+                                                    ng-options="y.code as y.name for y in listProvince"
+                                                    ng-change="getListDistrict()" ng-required="reqProvince"></select>
+                                                <span class="text-danger">{{errors.province}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-12 col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-bold text-dark">*Huyện/Quận</label>
+                                                <select class="form-control" title="Chọn Huyện"
+                                                    ng-model="selectedDistrictCode"
+                                                    ng-options="y.code as y.name for y in listDistrict"
+                                                    ng-change="getListWard()" name="district" id="district"
+                                                    ng-required="reqDistrict"></select>
+                                                <span class="text-danger">{{errors.district}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-12 col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-bold text-dark">*Xã/Phường</label>
+                                                <select class="form-control" title="Chọn Xã" ng-model="selectedWardCode"
+                                                    ng-options="y.code as y.name for y in listWard" name="ward"
+                                                    id="ward" ng-required="reqWard" ng-change="refeshList()"></select>
+                                                <span class="text-danger">{{errors.ward}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <label class="text-bold text-dark">*Địa chỉ cụ thể</label>
+                                            <textarea class="form-control " placeholder="Địa chỉ cụ thể"
+                                                ng-model="address.adr" name="adr" id="adr"
+                                                ng-required="reqAdr"></textarea>
+                                            <span class="text-danger">{{errors.adr}}</span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                ng-click="closeModalCreateAddress()">Đóng</button>
+                            <button type="button" class="btn btn-primary" ng-click="saveAddress()">Thêm
+                                địa chỉ
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Address End -->
+        </main>
+    </div>
+</main>
+
+</html>

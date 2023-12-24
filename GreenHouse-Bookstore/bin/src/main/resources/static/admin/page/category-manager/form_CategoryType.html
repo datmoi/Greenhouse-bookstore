@@ -1,0 +1,75 @@
+<div class="container-fluid" ng-controller="CategoryTypeController">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="card-title mb-0">Thông Tin Loại Danh Mục</h4>
+
+                        <div class="d-flex">
+                            <a type="button" class="btn btn-success mr-2" href="#!/category-table">
+                                <i class="fa fa-list"></i> Danh Sách Danh Mục
+                            </a>
+
+                            <a type="button" class="btn btn-success" href="#!/categorytype-table">
+                                <i class="fa fa-list"></i> Danh Sách Loại Danh Mục
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <h4 class="card-title">Thông Tin Loại Danh Mục</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="categoryName">ID Loại Danh Mục(*)</label>
+                                    <input type="text" class="form-control" placeholder="Mã loại danh mục tự động"
+                                           id="typeId" ng-disabled="isEditing" name="typeId"
+                                           ng-model="editingCategoryType.typeId"/>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="typeName">Tên Loại Danh Mục(*)</label>
+                                    <input type="text" class="form-control" placeholder="Nhập tên loại danh mục"
+                                           ng-change="hideError('typeName')" id="typeName" name="typeName"
+                                           ng-model="editingCategoryType.typeName"/>
+                                    <small class="text-danger" ng-show="errors.typeName">{{ errors.typeName }}</small>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="parentCategoriesType">Phân Loại Danh Mục(*)</label>
+                                    <input type="text" class="form-control" placeholder="Nhập Phân Loại Danh Mục"
+                                           ng-change="hideError('parentCategoriesType')" id="parentCategoriesType"
+                                           name="parentCategoriesType"
+                                           ng-model="editingCategoryType.parentCategoriesType"/>
+                                    <small class="text-danger" ng-show="errors.parentCategoriesType">{{
+                                        errors.parentCategoriesType }}</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="description">Mô tả</label>
+                                <textarea class="form-control" placeholder="Viết mô tả...." id="description" rows="4"
+                                          name="description" ng-model="editingCategoryType.description"></textarea>
+                            </div>
+                            <button type="button" class="btn btn-primary" ng-click="saveCategoryType()">
+                                <i class="fa fa-save"> </i> {{ isEditing ? 'Lưu Sửa Đổi' : 'Thêm Loại Danh Mục' }}
+                            </button>
+                            <button type="button" class="btn btn-primary" ng-click="resetForm()"><i class="fa fa-undo">
+                                </i>Làm
+                                Mới
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- / .card -->
+
+        </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+
+</div> <!-- .container-fluid -->

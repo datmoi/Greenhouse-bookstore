@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{client/main-layout.html :: layout (~{::title}, ~{::#layout})}">
+
+<head>
+    <title>Tài khoản</title>
+</head>
+<main id="layout">
+    <div class="site-wrapper profile-account" ng-controller="OrderCancelController">
+        <section class="breadcrumb-section">
+            <div class="container">
+                <div class="breadcrumb-contents">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/index" th:text="#{lo.mn.homecon}">Trang chủ</a></li>
+                            <li class="breadcrumb-item "><a href="/account/order">Đơn hàng của tôi</a></li>
+                            <li class="breadcrumb-item active"><a href="/account/order-cancel">Đơn hủy</a></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </section>
+        <div class="page-section inner-page-sec-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <!-- My Account Tab Menu Start -->
+                            <div class="col-lg-3 col-12">
+                                <div class="myaccount-tab-menu nav" role="tablist">
+                                    <a href="/account/info">
+                                        <i class="fa fa-user"></i>
+                                        <span th:text="#{lo.mn.tttk}">Thông tin tài khoản</span>
+                                    </a>
+                                    <a href="/account/order" class="active">
+                                        <i class="fa fa-cart-arrow-down"></i>
+                                        <span th:text="#{lo.mn.dhct}">Đơn hàng của tôi</span>
+                                    </a>
+                                    <a href="/account/address">
+                                        <i class="fa fa-map-marker"></i>
+                                        <span th:text="#{lo.mn.tabaddress}">Địa chỉ</span>
+                                    </a>
+                                    <a href="/account/voucher">
+                                        <i class="fa fa-percent"></i>
+                                        <span th:text="#{lo.mn.tabvoucher}"> Voucher của tôi</span>
+                                    </a>
+                                    <a href="/account/notification">
+                                        <i class="fa fa-bell"></i>
+                                        <span th:text="#{lo.mn.messenger}">Thông báo</span>
+                                    </a>
+                                    <a href="/account/review">
+                                        <i class="fa fa-comment"></i>
+                                        <span th:text="#{lo.mn.nxct}">Nhận xét của tôi</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- My Account Tab Menu End -->
+                            <!-- My Account Tab Content Start -->
+                            <div class="col-lg-9 col-12 mt--30 mt-lg--0">
+                                <div class="tab-content" id="myNotifyContent">
+                                    <!-- Single Tab Content Start -->
+                                    <div class="tab-pane fade show active" id="notify-method" role="tabpanel">
+                                        <div class="product-review myaccount-content">
+                                            <div class="d-flex justify-content-between align-items-center address-content mb-2">
+                                                <a href="/account/order"><i style="font-size: 20px;"
+                                                                            class="fas fa-chevron-circle-left"></i></a>
+                                            </div>
+                                            <div class="product-details mt--20">
+                                                <div class="card-body order-body">
+                                                    <div class="row ">
+                                                        <div class="col-md-6 d-flex justify-content-start ">
+                                                            {{order.orderCode}}
+                                                        </div>
+                                                        <div class="col-md-6 d-flex justify-content-end ">
+                                                            <span class="fw-normal mb-0">Trạng thái đơn hàng |
+                                                                <strong class="text-primary"
+                                                                    ng-if="order.status === 'pending_confirmation'">Chờ
+                                                                    Xác Nhận</strong>
+                                                                <strong class="text-primary"
+                                                                    ng-if="order.status === 'pending'">Chờ Bàn
+                                                                    Giao</strong>
+                                                                <strong class="text-primary"
+                                                                    ng-if="order.status === 'transporting'">Đang
+                                                                    Giao</strong>
+                                                                <strong class="text-primary"
+                                                                    ng-if="order.status === 'return_transporting'">Đang
+                                                                    Hoàn Hàng</strong>
+                                                                <strong class="text-primary"
+                                                                    ng-if="order.status === 'waiting_to_return'">Chờ
+                                                                    Xác Nhận Giao Lại</strong>
+                                                                <strong class="text-primary"
+                                                                    ng-if="order.status === 'completed'">Hoàn
+                                                                    Tất</strong>
+                                                                <strong class="text-primary"
+                                                                    ng-if="order.status === 'cancel'">Đã
+                                                                    Hủy</strong>
+                                                                <strong class="text-primary"
+                                                                    ng-if="order.status === 'lost_damage'">Hàng
+                                                                    Thất Lạc - Hư Hỏng</strong>
+                                                                <strong class="text-primary"
+                                                                    ng-if="order.status === 'received'">Đã Nhận
+                                                                    Hàng</strong>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <hr class="order-hr">
+                                                    <div ng-repeat="orderDetail  in orderDetails[order.orderCode]"
+                                                         class="row order-item align-items-center">
+                                                         <div class="col-md-2">
+                                                            <a
+                                                                ng-click="getProductDetail(orderDetail.productDetail.productDetailId)">
+                                                                <img ng-src="{{orderDetail.productDetail.image}}"
+                                                                    style="width: 80px; height: 80px;"
+                                                                    class="img-fluid"
+                                                                    alt="Sản phẩm không có ảnh"></a>
+                                                        </div>
+                                                        <div
+                                                            class="col-md-7 order-name d-flex justify-content-left">
+                                                            <div>
+                                                                <p class="fw-normal mb-0">
+                                                                    <a
+                                                                        ng-click="getProductDetail(orderDetail.productDetail.productDetailId)">{{orderDetail.productName
+                                                                        }}</a>
+                                                                </p>
+                                                                <p>x{{ orderDetail.quantity }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 d-flex justify-content-end">
+                                                            <div class="order-price">
+                                                                <p class="fw-normal mb-0">
+                                                                    <span
+                                                                        ng-if="orderDetail.productDetail.price !== orderDetail.productDetail.priceDiscount">
+                                                                        <del class="order-price-origin">{{
+                                                                            orderDetail.productDetail.price |
+                                                                            number:'0' }} đ</del>
+                                                                    </span>
+                                                                    {{ orderDetail.productDetail.priceDiscount |
+                                                                    number:'0' }} đ
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="row order-item">
+                                                        <div
+                                                                class="col-md-12 d-flex justify-content-end align-items-center">
+                                                            <small class="text-muted font-weight-bold">Phí ship: {{
+                                                                order.codAmount | number:'0' }}<sup>đ</sup></small>
+                                                        </div>
+                                                    </div> -->
+                                                    <hr class="order-hr">
+                                                    <!-- <div class="row">
+                                                        <div class="col-md-12 d-flex justify-content-end">
+                                                            <div style="color: red;;">
+                                                                Tổng tiền: <span class="lead fw-normal mb-0">{{ calculateTotalAmount(order) | number:'0' }}<sup>đ</sup></span>
+                                                            </div>
+                                                        </div>
+                                                    </div> -->
+                                                    <div class="col-12">
+                                                        <!-- Cột thứ nhất (chiếm 70%) -->
+                                                        <table class="table table-borderless">
+                                                            <tr>
+                                                                <td colspan="2" style="font-size: 16px;"><strong>Chi tiết đơn:</strong></td>
+                                                            </tr>
+                                                            <tr ng-if="order.status !== 'cancel' && order.status !== 'pending_confirmation'">
+                                                                <td style="width: 27%;">Mã vận đơn:</td>
+                                                                <td><strong>{{ order.orderCodeGHN }}</strong></td>
+                                                            </tr>                                                                                                                    
+                                                            <tr ng-if="order.status === 'cancel'">
+                                                                <td style="width: 27%;">Hủy bởi:</td>
+                                                                <td ><strong>{{ order.confirmed_By ? 'Người bán' : 'Người mua' }}</strong></td>
+                                                            </tr>
+                                                            <tr ng-if="order.status === 'cancel'">
+                                                                <td style="width: 27%;">Lý do:</td>
+                                                                <td ><strong>{{order.note}}</strong></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="width: 27%;">Ngày đặt hàng:</td>
+                                                                <td ><strong>{{ order.create_Date | date:' HH:mm
+                                                                    dd/MM/yyyy ' }}</strong></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="width: 27%;">Phương thức thanh toán:</td>
+                                                                <td ><strong>{{order.invoices.paymentMethod}}</strong></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="width: 27%;">Ngày nhận hàng dự kiến:</td>
+                                                                <td ><strong>{{order.expected_delivery_time | date:' dd/MM/yyyy '}}</strong></td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <!-- <div class="row ">
+                                                        <div
+                                                                class="col-md-6 d-flex justify-content-start align-items-center">
+                                                            <small class="text-muted font-weight-bold">Ngày đặt
+                                                                hàng: {{ order.create_Date | date:' HH:mm
+                                                                dd/MM/yyyy ' }}</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12 reason-cancel d-flex justify-content-start ">
+                                                            <p class="mt-2 mb-2">Lý do: {{order.note}}</p>
+                                                        </div>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Single Tab Content End -->
+                                </div>
+                                <!-- My Account Tab Content End -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+</html>

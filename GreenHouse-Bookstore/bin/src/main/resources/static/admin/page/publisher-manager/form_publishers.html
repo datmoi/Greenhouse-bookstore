@@ -1,0 +1,93 @@
+<div class="container-fluid" ng-controller="PublishersController">
+  <div class="row justify-content-center">
+    <div class="col-12">
+        <div class="card-header mb-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="card-title">Thông Tin Nhà Xuất Bản</h4>
+                </div>
+                <div class="col-md-6">
+                    <form class="form-inline mr-auto  text-muted  d-flex justify-content-end">
+                        <a type="button" class="btn btn-success " href="#!/publisher-table">
+                            <i class="fa fa-list"> </i> Danh Sách Nhà Xuất Bản
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow mb-4">
+
+            <div class="card-body">
+                <form enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-row">
+                                <div class="col-md-5 mb-3">
+                                    <label for="publisherId">ID Nhà Xuất Bản(*)</label>
+                                    <input type="text" class="form-control" placeholder="Nhập mã nhà xuất bản"
+                                           id="publisherId"
+                                           name="publisherId" ng-model="editingPublisher.publisherId"
+                                           ng-disabled="isEditing"/>
+                                    <small class="error-label text-danger"
+                      ng-show="errorMessages.publisherId">{{errorMessages.publisherId}}</small>
+                  </div>
+                  <div class="col-md-5 mb-3">
+                    <label for="publisherName">Tên Nhà Xuất Bản(*)</label>
+                    <input type="text" class="form-control" placeholder="Nhập tên nhà xuất bản" id="publisherName"
+                      name="publisherName" ng-model="editingPublisher.publisherName" />
+                    <small class="error-label text-danger"
+                      ng-show="errorMessages.publisherName">{{errorMessages.publisherName}}</small>
+                  </div>
+                  <div class="col-md-5 mb-3">
+                    <label for="address">Địa Chỉ(*)</label>
+                    <input type="text" class="form-control" placeholder="Nhập địa chỉ" id="address" name="address"
+                      ng-model="editingPublisher.address" />
+                    <small class="error-label text-danger"
+                      ng-show="errorMessages.address">{{errorMessages.address}}</small>
+                  </div>
+                  <div class="col-md-5 mb-3">
+                    <label for="email">Email(*)</label>
+                    <input type="text" class="form-control" placeholder="Nhập email" id="email" name="email"
+                      ng-model="editingPublisher.email" />
+                    <small class="error-label text-danger" ng-show="errorMessages.email">{{errorMessages.email}}</small>
+                  </div>
+                  <div class="col-md-5 mb-3">
+                    <label for="description">Mô Tả</label>
+                    <textarea class="form-control" placeholder="Nhập mô tả" id="description" name="description"
+                      ng-model="editingPublisher.description"></textarea>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-primary mr-sm-2"
+                  ng-click="savePublisher(editingPublisher.publisherName)">
+                  {{ isEditing ? 'Lưu Sửa Đổi' : 'Thêm Nhà Xuất Bản' }}
+                </button>
+                <button type="button" class="btn btn-primary" ng-click="resetForm()">Làm Mới</button>
+              </div>
+              <div class="col-md-2 ">
+                <div class="form-label h5 text-center">
+                  <label for="price" class="form-label h6"><span class="text-danger"></span> Ảnh đại diện(*)</label>
+                </div>
+                <div class="row d-flex justify-content-center">
+                  <img class="img-fluid w-100 h-100"
+                       ng-src="{{editingPublisher.image || '/admin/assets/images/default.jpg' }}" alt="Ảnh đại diện"
+                       id="uploadedImage" name="image"/>
+                </div>
+
+                <div class="row d-flex justify-content-center">
+                  <label class="text-center mt-2 btn btn-outline-secondary">
+                    <i class="fa fa-upload"></i>
+                    Tải ảnh lên
+                    <input type="file" name="file" style="object-fit: contain;" id="fileInput"
+                           ng-model="editingAccounts.image" onchange="displayImage(event)" hidden
+                           accept=".png,.jpg,.jpeg"/>
+                  </label>
+                </div>
+
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

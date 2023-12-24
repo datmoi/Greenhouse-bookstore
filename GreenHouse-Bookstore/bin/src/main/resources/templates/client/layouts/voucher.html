@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{client/main-layout.html :: layout (~{::title}, ~{::#layout})}">
+
+<head>
+    <title>Voucher</title>
+</head>
+<main id="layout" ng-controller="voucherController">
+    <div class="site-wrapper">
+        <div class="site-banner center_center">
+            <a>
+                <img src="/client/image/bg-images/MaGiamGiaT923_BannerWeb_1920x600.jpg" alt="tophead">
+            </a>
+        </div>
+        <div class="col-main">
+            <div class="container">
+                <div class="contrainer-inner center_center">
+                    <div class="site-banner center_center">
+                        <!-- Nội dung bạn muốn bọc -->
+                        <div class="banner-home-inner ">
+                            <a class="">
+                                <img src="/client/image/bg-images/MaGiamGiaT923_LDP_Icon1.png" alt="">
+                            </a>
+                        </div>
+                        <div class="banner-home-inner ">
+                            <a class="">
+                                <img src="/client/image/bg-images/MaGiamGiaT923_LDP_Icon2.png" alt="">
+                            </a>
+                        </div>
+                        <div class="banner-home-inner ">
+                            <a class="">
+                                <img src="/client/image/bg-images/MaGiamGiaT923_LDP_Icon3.png" alt="">
+                            </a>
+                        </div>
+                        <div class="banner-home-inner ">
+                            <a class="">
+                                <img src="/client/image/bg-images/MaGiamGiaT923_LDP_Icon4.png" alt="">
+                            </a>
+                        </div>
+                        <div class="banner-home-inner ">
+                            <a class="">
+                                <img src="/client/image/bg-images/MaGiamGiaT923_LDP_Icon5.png" alt="">
+                            </a>
+                        </div>
+                        <!-- Kết thúc nội dung bạn muốn bọc -->
+                    </div>
+                </div>
+            </div>
+            <!-- BẮT NHANH GIẢM SÂU ƯU ĐÃI ÁP DỤNG TOÀN SÀN START-->
+            <div class="container">
+                <div class="row center_center">
+                    <div class="col-sx-12">
+                        <div class="site-banner ">
+                            <div class="banner-home-inner ">
+                                <a class="">
+                                    <img src="/client/image/bg-images/magiamgiat923_ldp_tagname2.png" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row center_center">
+                    <div class="col-md-4 col-sm-12 col-xs-12"
+                         ng-repeat="voucher in listVoucher.listVouchersProduct track by $index">
+                        <div class="coupon-container">
+                            <!-- Phần trái -->
+                            <div class="left-part">
+                                <div class="coupon-info">
+                                    <div class="coupon-title">{{ listVoucher.listVouchersProduct[$index].voucherName }}
+                                    </div>
+                                    <div class="coupon-price">Đơn hàng từ <span style="font-weight: bolder;">{{
+                                            listVoucher.listVouchersProduct[$index].minimumPurchaseAmount | number:0
+                                            }}₫</span></div>
+                                    <div class="coupon-code-label">Lưu ngay</div>
+                                </div>
+                                <div class="progress">
+                                    <span class="progress-label"> Còn {{
+                                        listVoucher.listVouchersProduct[$index].totalQuantity }}</span>
+                                </div>
+                            </div>
+                            <div class="coupon-divider">
+                                <div class="head-coupon-divider"></div>
+                                <div class="body-coupon-divider"></div>
+                                <div class="foot-coupon-divider"></div>
+                            </div>
+                            <!-- Phần phải -->
+                            <div class="right-part">
+                                <div class="coupon-expiry">{{ listVoucher.listVouchersProduct[$index].endDate |
+                                    date:'dd/MM/yyyy' }}
+                                </div>
+                                <div class="coupon-code">{{ listVoucher.listVouchersProduct[$index].code }}</div>
+                                <div class="button-box">
+                                    <button type="button" ng-click="Create(listVoucher.listVouchersProduct[$index])"
+                                            class="btn-copy-coupon-code">Lưu
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- BẮT NHANH GIẢM SÂU ƯU ĐÃI ÁP DỤNG TOÀN SÀN END-->
+            <!-- ƯU ĐÃI FREESHIP SIÊU SỊN START -->
+            <div class="container">
+                <div class="row center_center">
+                    <div class="col-sx-12">
+                        <div class="site-banner ">
+                            <div class="banner-home-inner ">
+                                <a class="">
+                                    <img src="/client/image/bg-images/magiamgiat923_ldp_tagname3.png" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row center_center">
+                    <div class="col-md-4 col-sm-12 col-xs-12"
+                         ng-repeat="voucher in listVoucher.listVouchersShip track by $index">
+                        <div class="coupon-container">
+                            <!-- Phần trái -->
+                            <div class="left-part">
+                                <div class="coupon-info">
+                                    <div class="coupon-title">{{ listVoucher.listVouchersShip[$index].voucherName }}
+                                    </div>
+                                    <div class="coupon-price">Đơn hàng từ <span style="font-weight: bolder;">{{
+                                            listVoucher.listVouchersShip[$index].minimumPurchaseAmount | number:0
+                                            }}₫</span></div>
+                                    <div class="coupon-code-label">Lưu ngay</div>
+                                </div>
+                                <div class="progress">
+                                    <span class="progress-label"> Còn {{
+                                        listVoucher.listVouchersShip[$index].totalQuantity }}</span>
+                                </div>
+                            </div>
+                            <div class="coupon-divider">
+                                <div class="head-coupon-divider"></div>
+                                <div class="body-coupon-divider"></div>
+                                <div class="foot-coupon-divider"></div>
+                            </div>
+                            <!-- Phần phải -->
+                            <div class="right-part">
+                                <div class="coupon-expiry">{{ listVoucher.listVouchersShip[$index].endDate |
+                                    date:'dd/MM/yyyy' }}
+                                </div>
+                                <div class="coupon-code">{{ listVoucher.listVouchersShip[$index].code }}</div>
+                                <div class="button-box">
+                                    <button type="button" ng-click="Create(listVoucher.listVouchersShip[$index])"
+                                            class="btn-copy-coupon-code">Lưu
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--ƯU ĐÃI FREESHIP SIÊU SỊN END -->
+            <!-- ƯU ĐÃI TỪ CÁC NHÀ CUNG CẤP NỔI BẬT START -->
+            <div class="conetainer">
+                <section class="section-margin">
+                    <div class="container">
+                        <div class="provider-slider sb-slick-slider slider-border-single-row" data-slick-setting='{
+                            "autoplay": true,
+                            "autoplaySpeed": 2000,
+                            "slidesToShow": 2,
+                            "dots":true
+                        }' data-slick-responsive='[
+                            {"breakpoint":1200, "settings": {"slidesToShow": 2} },
+                            {"breakpoint":992, "settings": {"slidesToShow":2} },
+                            {"breakpoint":768, "settings": {"slidesToShow": 2} },
+                            {"breakpoint":480, "settings": {"slidesToShow": 2} },
+                            {"breakpoint":320, "settings": {"slidesToShow": 2} }
+                        ]'>
+                            <div class="single-slide">
+                                <div class="provider-card">
+                                    <div class="provider-card--body">
+                                        <div class="card-image">
+                                            <a href="product-details.html" class="hover-image">
+                                                <img src="/client/image/bg-images/magiamgiat923_ldp_tagname6.png"
+                                                     alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="single-slide">
+                                <div class="provider-card">
+                                    <div class="provider-card--body">
+                                        <div class="card-image">
+                                            <a href="product-details.html" class="hover-image">
+                                                <img src="/client/image/bg-images/magiamgiat923_ldp_tagname6.png"
+                                                     alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="single-slide">
+                                <div class="provider-card">
+                                    <div class="provider-card--body">
+                                        <div class="card-image">
+                                            <a href="product-details.html" class="hover-image">
+                                                <img src="/client/image/bg-images/magiamgiat923_ldp_tagname6.png"
+                                                     alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="single-slide">
+                                <div class="provider-card">
+                                    <div class="provider-card--body">
+                                        <div class="card-image">
+                                            <a href="product-details.html" class="hover-image">
+                                                <img src="/client/image/bg-images/magiamgiat923_ldp_tagname6.png"
+                                                     alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="single-slide">
+                                <div class="provider-card">
+                                    <div class="provider-card--body">
+                                        <div class="card-image">
+                                            <a href="product-details.html" class="hover-image">
+                                                <img src="/client/image/bg-images/magiamgiat923_ldp_tagname6.png"
+                                                     alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="single-slide">
+                                <div class="provider-card">
+                                    <div class="provider-card--body">
+                                        <div class="card-image">
+                                            <a href="product-details.html" class="hover-image">
+                                                <img src="/client/image/bg-images/magiamgiat923_ldp_tagname6.png"
+                                                     alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- ƯU ĐÃI TỪ CÁC NHÀ CUNG CẤP NỔI BẬT END -->
+
+            <!-- ƯU ĐÃI NGÀNH HÀNG HOT START -->
+            <div class="container">
+                <div class="row center_center">
+                    <div class="col-sx-12">
+                        <div class="site-banner ">
+                            <div class="banner-home-inner ">
+                                <a class="">
+                                    <img src="/client/image/bg-images/magiamgiat923_ldp_tagname6.png" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row center_center">
+                    <div class="row center_center">
+                        <div class="col-md-4 col-sm-12 col-xs-12"
+                             ng-repeat="voucher in listVoucher.listVouchersTypeProduct track by $index">
+                            <div class="coupon-container">
+                                <!-- Phần trái -->
+                                <div class="left-part">
+                                    <div class="coupon-info">
+                                        <div class="coupon-title">{{
+                                            listVoucher.listVouchersTypeProduct[$index].voucherName }}
+                                        </div>
+                                        <div class="coupon-price">Đơn hàng từ <span style="font-weight: bolder;">{{
+                                                listVoucher.listVouchersTypeProduct[$index].minimumPurchaseAmount |
+                                                number:0
+                                                }}₫</span></div>
+                                        <div class="coupon-code-label">Lưu ngay</div>
+                                    </div>
+                                    <div class="progress">
+                                        <span class="progress-label"> Còn {{
+                                            listVoucher.listVouchersTypeProduct[$index].totalQuantity }}</span>
+                                    </div>
+                                </div>
+                                <div class="coupon-divider">
+                                    <div class="head-coupon-divider"></div>
+                                    <div class="body-coupon-divider"></div>
+                                    <div class="foot-coupon-divider"></div>
+                                </div>
+                                <!-- Phần phải -->
+                                <div class="right-part">
+                                    <div class="coupon-expiry">{{ listVoucher.listVouchersTypeProduct[$index].endDate |
+                                        date:'dd/MM/yyyy' }}
+                                    </div>
+                                    <div class="coupon-code">{{ listVoucher.listVouchersTypeProduct[$index].code }}
+                                    </div>
+                                    <div class="button-box">
+                                        <button type="button"
+                                                ng-click="Create(listVoucher.listVouchersTypeProduct[$index])"
+                                                class="btn-copy-coupon-code">Lưu
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ƯU ĐÃI NGÀNH HÀNG HOT END -->
+            <!-- TOP XU HƯỚNG MUA SẮM START -->
+            <div class="container">
+                <div class="row center_center">
+                    <div class="col-sx-12">
+                        <div class="site-banner ">
+                            <div class="banner-home-inner ">
+                                <a class="">
+                                    <img src="/client/image/bg-images/MaGiamGiaT923_LDP_BannerCongThuc_1200x400.jpg"
+                                         alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- TOP XU HƯỚNG MUA SẮM END -->
+        </div>
+    </div>
+</main>
+
+</html>

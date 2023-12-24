@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{client/main-layout.html :: layout (~{::title}, ~{::#layout})}">
+
+<head>
+    <title>Tài khoản</title>
+</head>
+<main id="layout">
+    <div class="site-wrapper profile-account" id="top" ng-controller="accountController">
+        <section class="breadcrumb-section">
+            <div class="container">
+                <div class="breadcrumb-contents">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#!home" th:text="#{lo.mn.homecon}">Trang chủ</a></li>
+                            <li class="breadcrumb-item active" th:text="#{lo.mn.account}">Tài khoản</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </section>
+        <div class="page-section inner-page-sec-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <!-- My Account Tab Menu Start -->
+                            <div class="col-lg-3 col-12">
+                                <div class="myaccount-tab-menu nav" role="tablist">
+                                    <a href="/account/info">
+                                        <i class="fa fa-user"></i>
+                                        <span th:text="#{lo.mn.tttk}">Thông tin tài khoản</span>
+                                    </a>
+                                    <a href="/account/order">
+                                        <i class="fa fa-cart-arrow-down"></i>
+                                        <span th:text="#{lo.mn.dhct}"> Đơn hàng của tôi</span>
+                                    </a>
+                                    <a href="/account/address">
+                                        <i class="fa fa-map-marker"></i>
+                                        <span th:text="#{lo.mn.tabaddress}">Địa chỉ</span>
+                                    </a>
+                                    <a href="/account/voucher">
+                                        <i class="fa fa-percent"></i>
+                                        <span th:text="#{lo.mn.tabvoucher}">Voucher của tôi</span>
+                                    </a>
+                                    <a href="/account/notification">
+                                        <i class="fa fa-bell"></i>
+                                        <span th:text="#{lo.mn.messenger}">Thông báo</span>
+                                    </a>
+                                    <a href="/account/review">
+                                        <i class="fa fa-comment"></i>
+                                        <span th:text="#{lo.mn.nxct}">Nhận xét của tôi</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- My Account Tab Menu End -->
+                            <!-- My Account Tab Content Start -->
+                            <div class="col-lg-9 col-12 mt--30 mt-lg--0">
+                                <div class="tab-content" id="myaccountContent">
+                                    <!-- Single Tab Content Start -->
+                                    <div class="tab-pane fade" id="orders" role="tabpanel">
+                                        <div class="myaccount-content">
+                                            <h3 th:text="#{lo.mn.dhctcon}">Đơn hàng của tôi</h3>
+                                            <div class="row">
+                                                <div class="col-md-12 d-flex justify-content-center">
+                                                    <div class="btn-group order-status-buttons" role="group">
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary order-status-button active"
+                                                            data-status="all" th:text="#{lo.mn.tatca}">Tất cả
+                                                        </button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary order-status-button"
+                                                            data-status="pending" th:text="#{lo.mn.ctt}">Chờ thanh
+                                                            toán
+                                                        </button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary order-status-button"
+                                                            data-status="on-hold" th:text="#{lo.mn.dgcho}">Đang chờ
+                                                        </button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary order-status-button"
+                                                            data-status="approved" th:text="#{lo.mn.daduyet}">Đã
+                                                            duyệt
+                                                        </button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary order-status-button"
+                                                            data-status="completed" th:text="#{lo.mn.success}">Hoàn
+                                                            thành
+                                                        </button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary order-status-button"
+                                                            data-status="cancelled" th:text="#{lo.mn.huy}">Bị hủy
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="myaccount-table table-responsive text-center">
+                                                <table class="table table-hover">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th>Mã đơn hàng</th>
+                                                            <th>Ngày mua</th>
+                                                            <th>Người nhận</th>
+                                                            <th>Tổng Tiền</th>
+                                                            <th>Trạng thái</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>Aug 22, 2018</td>
+                                                            <td>Mostarizing Oil</td>
+                                                            <td>$45</td>
+                                                            <td>Pending</td>
+                                                            <td><a href="cart.html" class="btn">Xem chi tiết...</a></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>Aug 22, 2018</td>
+                                                            <td>Mostarizing Oil</td>
+                                                            <td>$45</td>
+                                                            <td>Pending</td>
+                                                            <td><a href="cart.html" class="btn">Xem chi tiết...</a></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>Aug 22, 2018</td>
+                                                            <td>Mostarizing Oil</td>
+                                                            <td>$45</td>
+                                                            <td>Pending</td>
+                                                            <td><a href="cart.html" class="btn">Xem chi tiết...</a></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Single Tab Content End -->
+                                    <!-- Single Tab Content Start -->
+                                    <div class="tab-pane fade" id="download" role="tabpanel">
+                                        <div class="myaccount-content">
+                                            <h3 th:text="#{lo.mn.vouchercon}">Voucher của tôi</h3>
+                                            <div class="myaccount-table table-responsive text-center">
+                                                <div class="container">
+                                                    <div class="row center_center">
+                                                        <div class="col-md-6" ng-repeat="uservoucher in uservoucher">
+                                                            <div class="voucher-container">
+                                                                <div class="left-part">
+                                                                    <div class="coupon-info">
+                                                                        <div class="coupon-title">
+                                                                            {{uservoucher.voucher.voucherName}}
+                                                                        </div>
+                                                                        <div class="coupon-code-label">
+                                                                            {{uservoucher.voucher.description}}
+                                                                        </div>
+                                                                        <div class="coupon-code-label">NHẬP MÃ NGAY
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="coupon-divider">
+                                                                    <div class="head-coupon-divider"></div>
+                                                                    <div class="body-coupon-divider"></div>
+                                                                    <div class="foot-coupon-divider"></div>
+                                                                </div>
+                                                                <div class="right-part">
+                                                                    <div class="coupon-expiry">
+                                                                        {{uservoucher.voucher.startDate |
+                                                                        date:'MM/dd/yyyy'}}
+                                                                    </div>
+                                                                    <div class="coupon-expiry">-
+                                                                        {{uservoucher.voucher.endDate |
+                                                                        date:'MM/dd/yyyy'}}
+                                                                    </div>
+                                                                    <div class="coupon-code">
+                                                                        {{uservoucher.voucher.code}}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Single Tab Content End -->
+                                    <!-- Single Tab Content Start -->
+                                    <div class="tab-pane fade" id="payment-method" role="tabpanel">
+                                        <div class="myaccount-content">
+                                            <h3 th:text="#{lo.mn.mess}">Thông báo</h3>
+                                            <ul class="list-group">
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-start remove-bg">
+                                                    <div>
+                                                        <h5 class="mb-1 text-uppercase"><strong>Đơn hàng của quý khách
+                                                                đã bị
+                                                                hủy</strong></h5>
+                                                        <p class="mb-1">Đơn hàng 104532572 đã bị hủy. Hẹn gặp lại Quý
+                                                            khách
+                                                            trong các đơn hàng tiếp theo.</p>
+                                                        <small class="text-muted">Ngày: 25-08-2023</small><br>
+                                                        <small class="text-muted">Giờ: 14:30</small>
+                                                    </div>
+                                                    <span class="badge bg-primary rounded-pill">Mới</span>
+                                                </li>
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-start remove-bg">
+                                                    <div>
+                                                        <h5 class="mb-1 text-uppercase"><strong>Đơn hàng của quý khách
+                                                                đã bị
+                                                                hủy</strong></h5>
+                                                        <p class="mb-1">Đơn hàng 104532572 đã bị hủy. Hẹn gặp lại Quý
+                                                            khách
+                                                            trong các đơn hàng tiếp theo.</p>
+                                                        <small class="text-muted">Ngày: 25-08-2023</small><br>
+                                                        <small class="text-muted">Giờ: 14:30</small>
+                                                    </div>
+                                                    <span class="badge bg-primary rounded-pill">Mới</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- Single Tab Content End -->
+                                    <!-- Single Tab Content Start -->
+                                    <div class="tab-pane fade " id="address-edit" role="tabpanel">
+                                        <div class="myaccount-content">
+                                            <div
+                                                class="d-flex justify-content-between align-items-center address-content">
+                                                <h4 class="text-13 mb-2 fs-3" th:text="#{lo.mn.addresscon}">Địa chỉ
+                                                    thanh toán</h4>
+                                                <button class="btn btn-edit-address float-right shadow-none mb-2"
+                                                    data-bs-toggle="modal" data-bs-target="#createAddressModal"
+                                                    ng-click="addModel()" th:text="#{lo.mn.themmoi}"><i
+                                                        class="fas fa-plus pr-1"></i>Thêm địa
+                                                    chỉ
+                                                    mới
+                                                </button>
+                                            </div>
+                                            <div class="profile-address remove-bg" ng-repeat="address in listAddress">
+                                                <div class="row border-bottom mt-2">
+                                                    <div class="col-12 col-md-8">
+                                                        <div class="d-flex justify-content-start">
+                                                            <h6>{{address.fullname}} |&nbsp;</h6>
+                                                            <p>{{address.phone}} </p>
+                                                        </div>
+                                                        <div class=" d-flex justify-content-start">
+                                                            <p>{{address.address}}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-4">
+                                                        <div
+                                                            class=" d-flex justify-content-end align-items-center mt-1">
+                                                            <a class="text-danger edit-address"
+                                                                ng-click="editAddress(address.id)"
+                                                                th:text="#{lo.mn.mess}">Chỉnh Sửa</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Single Tab Content End -->
+                                    <!-- Single Tab Content Start -->
+                                    <div class="tab-pane fade" id="account-info" role="tabpanel">
+
+                                        <div class="myaccount-content">
+                                            <h3 th:text="#{lo.mn.tttkcon}">Thông tin tài khoản</h3>
+                                            <form>
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <div class="mb-3">
+                                                            <label for="lastname" class="form-label"
+                                                                th:text="#{lo.mn.hotentk}">Họ và tên </label>
+                                                            <input type="text" class="form-control bg-transparent"
+                                                                id="lastname" name="lastname" required
+                                                                placeholder="Nhập họ và tên"
+                                                                ng-model="account.fullname">
+                                                            <small class="error-label text-danger"
+                                                                ng-show="errorMessages.fullname">{{errorMessages.fullname}}</small>
+
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="telephone" class="form-label"
+                                                                th:text="#{lo.mn.tabtkphone}">Số điện thoại
+                                                            </label>
+                                                            <input type="tel" class="form-control bg-transparent"
+                                                                id="telephone" name="telephone"
+                                                                placeholder="Nhập số điện thoại"
+                                                                ng-model="account.phone">
+                                                            <small class="error-label text-danger"
+                                                                ng-show="errorMessages.phone">{{errorMessages.phone}}</small>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="email" class="form-label">Email
+                                                                (*)</label></label>
+                                                            <input type="email" class="form-control bg-transparent"
+                                                                id="email" name="email" placeholder="Nhập email"
+                                                                ng-model="account.email">
+                                                            <small class="error-label text-danger"
+                                                                ng-show="errorMessages.email">{{errorMessages.email}}</small>
+
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <p class="mb-2" th:text="#{lo.mn.gender}">Giới Tính</p>
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="radio" name="role"
+                                                                    id="male" value="true" ng-model="account.gender"
+                                                                    ng-value="true" ng-checked="true">
+                                                                <label class="form-check-label" for="male"
+                                                                    th:text="#{lo.mn.nam}">Nam</label>
+                                                            </div>
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="radio" name="role"
+                                                                    id="female" value="false" ng-model="account.gender"
+                                                                    ng-value="false">
+                                                                <label class="form-check-label" for="female"
+                                                                    th:text="#{lo.mn.nu}">Nữ</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label for="birthday" class="form-label"
+                                                                th:text="#{lo.mn.birthday}">Ngày sinh</label>
+                                                            <input type="date" class="form-control bg-transparent"
+                                                                id="birthday" name="birthday"
+                                                                ng-model="account.birthday"
+                                                                ng-value="formatDate(account.birthday)">
+                                                            <small class="error-label text-danger"
+                                                                ng-show="errorMessages.birthday">{{errorMessages.birthday}}</small>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="Upload">
+                                                            <div class="form-label text-center">
+                                                                <label for="img" class="form-label"
+                                                                    th:text="#{lo.mn.avt}">Ảnh đại diện</label>
+                                                            </div>
+                                                            <div class="d-flex justify-content-center">
+                                                                <img class="object-fit border border-light"
+                                                                    ng-src="{{account.image}}" alt="" id="uploadedImage"
+                                                                    name="image"
+                                                                    style="max-height: 250px; height: 130px; width: 150px;">
+
+                                                            </div>
+
+                                                            <div class="d-flex justify-content-center ">
+                                                                <label
+                                                                    class="text-center mt-2 btn btn-outline-dark btn-sm"
+                                                                    th:text="#{lo.mn.tai}">
+                                                                    <i class="fa fa-upload"></i>
+                                                                    Tải ảnh lên
+                                                                    <input type="file" name="file"
+                                                                        style="object-fit: contain;" id="fileInput"
+                                                                        ng-model="account.image"
+                                                                        onchange="displayImage(event)" hidden
+                                                                        accept=".png,.jpg,.jpeg" />
+                                                                </label>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-center">
+                                                    <button type="button" class="btnsaveAccount"
+                                                        ng-click="saveAccount()" th:text="#{lo.mn.save}">Lưu thay
+                                                        đổi
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                    <!-- Single Tab Content End -->
+                                </div>
+                                <!-- My Account Tab Content End -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Address Start -->
+            <div class="modal fade" id="createAddressModal" tabindex="-1" aria-labelledby="createAddressModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog  modal-lg modal-dialog-scrollable ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-16 ml--10" th:text="#{lo.mn.tao }">Tạo địa chỉ </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body ">
+                            <div class="container">
+                                <form method="post" class="position-relative">
+                                    <div class="row">
+                                        <input type="text" style="visibility: hidden;" ng-model="address.id">
+                                        <div class="form-group col-md-6">
+                                            <label for="lastname" class="text-bold text-dark"
+                                                th:text="#{lo.mn.full}">*Họ
+                                                tên</label>
+                                            <input type="text" class="form-control" name="fullname" id="fullname"
+                                                aria-describedby="fullnameHelp" ng-model="address.fullname"
+                                                ng-required="reqFullname">
+                                            <span class="text-danger">{{errors.fullname}}</span>
+                                        </div>
+                                        <div class="form-group col-md-6 mb-2">
+                                            <label for="phone" class="text-bold text-dark"
+                                                th:text="#{lo.mn.phoneadd}">*Số
+                                                điện thoại</label>
+                                            <input type="text" class="form-control" name="phone" id="phone"
+                                                aria-describedby="fullnameHelp" ng-model="address.phone" maxlength="10"
+                                                ng-required="reqPhone" ng-attr-phone="reqPhone">
+                                            <span class="text-danger">{{errors.phone}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="form-group col-12 col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-bold text-dark" th:text="#{lo.mn.tinh }">*Tỉnh/Thành
+                                                    phố</label>
+                                                <select class="form-control" title="Chọn Tỉnh" name="province"
+                                                    id="province" ng-model="selectedProvinceCode"
+                                                    ng-options="y.code as y.name for y in listProvince"
+                                                    ng-change="getListDistrict()" ng-required="reqProvince"></select>
+                                                <span class="text-danger">{{errors.province}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-12 col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-bold text-dark"
+                                                    th:text="#{lo.mn.quan}">*Huyện/Quận</label>
+                                                <select class="form-control" title="Chọn Huyện"
+                                                    ng-model="selectedDistrictCode"
+                                                    ng-options="y.code as y.name for y in listDistrict"
+                                                    ng-change="getListWard()" name="district" id="district"
+                                                    ng-required="reqDistrict"></select>
+                                                <span class="text-danger">{{errors.district}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-12 col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-bold text-dark"
+                                                    th:text="#{lo.mn.xa}">*Xã/Phường</label>
+                                                <select class="form-control" title="Chọn Xã" ng-model="selectedWardCode"
+                                                    ng-options="y.code as y.name for y in listWard" name="ward"
+                                                    id="ward" ng-required="reqWard" ng-change="refeshList()"></select>
+                                                <span class="text-danger">{{errors.ward}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <label class="text-bold text-dark" th:text="#{lo.mn.cuthe}">*Địa chỉ cụ
+                                                thể</label>
+                                            <textarea class="form-control " placeholder="Địa chỉ cụ thể"
+                                                ng-model="address.adr" name="adr" id="adr"
+                                                ng-required="reqAdr"></textarea>
+                                            <span class="text-danger">{{errors.adr}}</span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-secondary " ng-click="resetAddress()"
+                                data-dismiss="modal" th:text="#{lo.mn.lamnew}">Làm mới
+                            </button>
+                            <button type="button" class="btn btn-primary" ng-click="saveAddress()"
+                                ng-show="isAddingAddress" th:text="#{lo.mn.saveadd}">Thêm
+                                địa chỉ
+                            </button>
+                            <button type="button" class="btn btn-primary" ng-show="isEditingAddress"
+                                ng-click="saveAddress()" th:text="#{lo.mn.capnhat}">Cập nhật
+                            </button>
+                            <button type="button" class="btn btn-danger" ng-click="showConfirmAddress(address.id)"
+                                ng-show="listAddress.length > 1 && isEditingAddress" th:text="#{lo.mn.xoa}">Xóa
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Address End -->
+            <!-- Model Delete Address -->
+            <div class="modal" id="addressDelete" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered ">
+                    <div class="modal-content shadow border-1 rounded">
+                        <div class="modal-body text-center ">
+                            <i class="far fa-question-circle text-warning" style='font-size: 60px;'></i>
+                            <p class='py-1' th:text="#{lo.mn.deo}">Bạn có chắc chắn xóa địa chỉ này ?</p>
+                            <div class='d-flex justify-content-center'>
+                                <button class='btn btn-outline-primary mr--20' ng-click="deleteAddress()"
+                                    th:text="#{lo.mn.coadd}">Có
+                                </button>
+                                <button class='btn btn-outline-dark mr-3' data-bs-dismiss="modal" aria-label="Close"
+                                    th:text="#{lo.mn.trolaiadd}">Trở
+                                    lại
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Model Delete Address End -->
+
+            <div class="modal fade" id="message" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <!-- Modal body -->
+                        <div class="modal-body text-center">
+                            <i class="far fa-check-circle text-success mb-1" style="font-size: 50px;"></i>
+                            <p>{{ modalContent }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <script th:src="@{/client/js/my-account.js}"></script> -->
+</main>
+
+</html>

@@ -1,0 +1,426 @@
+<div class="container-fluid" ng-controller="ProductController">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="page-title mb-0">Thông Tin Sản Phẩm</h4>
+
+                        <a type="button" class="btn btn-success" href="#!/product-table">
+                            <i class="fa fa-list"> </i> Danh Sách Sản Phẩm
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card shadow mb-4">
+
+                <div class="card-body">
+                    <form enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="productId">Mã Sản Phẩm(*)</label>
+                                        <input type="text" class="form-control" ng-model="product.productId"
+                                            placeholder="Mã sản phẩm tự động" ng-disabled="isEditing">
+                                    </div>
+                                    <div class="col-md-8 mb-3">
+                                        <label for="productName">Tên Sản Phẩm(*)</label>
+                                        <input type="text" class="form-control" ng-model="product.productName"
+                                            ng-change="hideError('productName')" placeholder="Nhập tên sản phẩm">
+                                        <small class="text-danger" ng-show="errors.productName">{{ errors.productName
+                                            }}</small>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="brand">Thương Hiệu(*)</label>
+                                        <select class="form-control" id="brand" name="brand" ng-model="product.brand"
+                                            ng-change="hideError('brandName')"
+                                            ng-options="brand as brand.brandName for brand in brands track by brand.brandName">
+                                            <option value="">Chọn thương hiệu</option>
+                                        </select>
+                                        <small class="text-danger" ng-show="errors.brandName">{{ errors.brandName
+                                            }}</small>
+
+                                    </div>
+
+
+                                    <div class="col-md-4 mb-3">
+                                        <label for="category">Tên Danh Mục(*)</label>
+                                        <select class="form-control" id="category" ng-model="productCategory.category"
+                                            ng-change="onCategoryChange()"
+                                            ng-options="category as category.categoryName for category in categories track by category.categoryId">
+                                            <option value="">Chọn tên danh mục</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="manufactureDate">Ngày Sản Xuất(*)</label>
+                                        <input class="form-control" id="manufactureDate" type="date"
+                                            ng-change="hideError('manufactureDate')" ng-model="product.manufactureDate">
+                                        <small class="text-danger" ng-show="errors.manufactureDate">{{
+                                            errors.manufactureDate }}</small>
+
+                                    </div>
+
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="length">Chiều dài(*) CM</label>
+                                        <input type="number" class="form-control" ng-model="productDetail.length"
+                                            name="length" min="10" required max="10000" ng-change="hideError('length')"
+                                            placeholder="Nhập chiều dài sản phẩm">
+                                        <small class="text-danger" ng-show="errors.length">{{ errors.length }}</small>
+
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="height">Chiều cao(*) CM</label>
+                                        <input type="number" class="form-control" ng-model="productDetail.height"
+                                            name="height" min="10" required max="10000" ng-change="hideError('height')"
+                                            placeholder="Nhập chiều cao sản phẩm">
+                                        <small class="text-danger" ng-show="errors.height">{{ errors.height }}</small>
+
+                                    </div>
+
+                                    <div class="col-md-4 mb-3">
+                                        <label for="width">chiều rộng(*) CM</label>
+                                        <input type number class="form-control" ng-model="productDetail.width" min="10"
+                                            max="10000" required ng-change="hideError('width')" name="width"
+                                            placeholder="Nhập chiều rộng sản phẩm">
+                                        <small class="text-danger" ng-show="errors.width">{{
+                                            errors.width }}</small>
+
+                                    </div>
+
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="price">Giá Sản Phẩm(*)</label>
+                                        <input type="number" class="form-control" ng-model="productDetail.price"
+                                            name="price" min="1000" required max="100000000"
+                                            ng-change="hideError('price')" placeholder="Nhập giá sản phẩm">
+                                        <small class="text-danger" ng-show="errors.price">{{ errors.price }}</small>
+
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="weight">Khối Lượng Sản Phẩm(*)</label>
+                                        <input type="number" class="form-control" ng-model="productDetail.weight"
+                                            name="weight" min="10" required max="10000" ng-change="hideError('weight')"
+                                            placeholder="Nhập khối lượng sản phẩm">
+                                        <small class="text-danger" ng-show="errors.weight">{{ errors.weight }}</small>
+
+                                    </div>
+
+                                    <div class="col-md-4 mb-3">
+                                        <label for="quantityInStock">Số lượng Sản Phẩm(*)</label>
+                                        <input type number class="form-control" ng-model="productDetail.quantityInStock"
+                                            min="1" max="1000" required ng-change="hideError('quantityInStock')"
+                                            name="quantityInStock" placeholder="Nhập tên sản phẩm">
+                                        <small class="text-danger" ng-show="errors.quantityInStock">{{
+                                            errors.quantityInStock }}</small>
+
+                                    </div>
+
+                                    <div class="col-md-4 mb-3" ng-show="showAuthorSelect">
+                                        <label for="publisher">Nhà Xuất Bản(*)</label>
+                                        <select class="form-control" id="publisher" name="publisher"
+                                                ng-model="product.publisher"
+                                                ng-options="publisher as publisher.publisherName for publisher in publishers track by publisher.publisherName">
+                                            <option value="">Chọn nhà xuất bản</option>
+                                        </select>
+
+
+                                    </div>
+
+                                    <div class="col-md-4 mb-3" ng-show="showAuthorSelect">
+                                        <label for="author">Tên Tác Giả(*)</label>
+                                        <div class="input-group">
+                                            <select class="form-control" id="author" ng-model="bookAuthor.author"
+                                                ng-options="author as author.authorName for author in authors track by author.authorId">
+                                                <option value="">Chọn tên tác giả</option>
+                                            </select>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary" type="button"
+                                                    data-toggle="modal" ng-click="openAddAuthorModal()"
+                                                    data-target="#addAuthorModal">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="addAuthorModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="addAuthorModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-l" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="addAuthorModalLabel">Thêm Tác Giả</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="card-body">
+                                                        <form enctype="multipart/form-data">
+                                                            <div class="row">
+                                                                <label for="authorName">Tên Tác Giả(*)</label>
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="Nhập tên tác giả" id="authorName"
+                                                                    name="authorName"
+                                                                    ng-model="editingAuthor.authorName" />
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                        ng-click="loadAuthors()">Đóng
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                                        ng-click="saveAuthor(editingAuthor.authorName)">Lưu
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-8 mb-3">
+                                        <label for="proAtribute">Tên Thuộc Tính</label>
+                                        <div ng-repeat="proAtribute in productAttributes">
+                                            <label class="attribute-row">
+                                                <div class="attribute-select">
+                                                    <select class="form-control" ng-model="proAtribute.isSelected"
+                                                        ng-options="attribute as attribute.nameAtributes for attribute in productAttributes track by attribute.atributeId"
+                                                        ng-show="$index === 0 || productAttributes[$index - 1].isSelected">
+                                                        <option value="">-- Chọn thuộc tính --</option>
+                                                    </select>
+
+                                                </div>
+                                                <div class="attribute-input">
+                                                    <input class="form-control" type="text" ng-model="proAtribute.value"
+                                                        ng-change="hideAttributeError($index)"
+                                                        placeholder="Nhập giá trị " ng-show="proAtribute.isSelected"
+                                                        ng-if="proAtribute.isSelected">
+                                                    <i class="fas fa-times-circle delete-icon"
+                                                        ng-show="proAtribute.isSelected"
+                                                        ng-click="deleteAttribute($index)"></i>
+                                                </div>
+                                                <small class="text-danger">{{ attributeErrors[$index].value }}</small>
+
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="description">Mô tả</label>
+                                    <textarea id="description" class="form-control" ng-model="product.description"
+                                        placeholder="Viết mô tả...." rows="6"></textarea>
+
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-4 ">
+                                <div class="form-group mb-3">
+                                    <label for="createAt">Ngày nhập:
+                                        <p>{{product.createAt | date:'dd/MM/yyyy HH:mm:ss'}} </p>
+                                    </label>
+                                </div>
+
+                                <div class="form-group mb-3 text-center">
+                                    <img class="img-responsive"
+                                         ng-src="{{productDetail.image || '/admin/assets/images/default.jpg'}}"
+                                         alt="Uploaded Image" id="uploadedImage" name="image"
+                                         style="max-height: 250px; width: 60%; border-radius: 5%;">
+                                </div>
+                                <div class="form-group mb-3 text-center">
+                                    <label class="btn btn-dark text-white">
+                                        <i class="fa fa-upload"></i>
+                                        Tải ảnh chính
+                                        <input type="file" hidden name="image" style="object-fit: contain;"
+                                            id="fileInput" ng-model="productDetail.image" onchange="displayImage(event)"
+                                            accept=".png, .jpg, .jpeg" />
+                                    </label>
+
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="images">Hình ảnh bổ sung:</label>
+                                    <div class="row col-12">
+                                        <label class="custom-file-upload">
+                                            <input type="file" hidden accept="image/*" multiple name="image"
+                                                onchange="angular.element(this).scope().onImageSelect(event)">
+                                            <div class="upload-icon">
+                                                <i class='bx bx-camera'></i>
+                                            </div>
+                                            <p>Chọn ảnh</p>
+                                        </label>
+                                        <div class="col-4 text-center mb-3" ng-repeat="i in [0, 1, 2, 3, 4]">
+                                            <label for="" class="detail-img-label">
+                                                <div class="image-container">
+                                                    <img ng-src="{{selectedImages[i] ? selectedImages[i].image : '/admin/assets/images/default.jpg'}}"
+                                                         class="img-fluid detail-img">
+                                                    <button type="button" class="delete-btn" ng-click="deleteImage(i)"
+                                                        ng-if="selectedImages[i]">
+                                                        <i class='bx bx-x'></i>
+                                                    </button>
+                                                </div>
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <button type="button" class="btn btn-primary" ng-click="saveProduct()">
+                                Lưu
+                            </button>
+                            <button type="button" class="btn btn-primary" ng-click="resetForm()">Làm Mới</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Thêm phần tử HTML này nơi bạn muốn hiển thị hiệu ứng loading -->
+                <div id="loadingOverlay" class="loading-overlay">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<style>
+    /* CSS chung */
+
+    .row.col-12 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-bottom: 10px;
+    }
+
+    .col-4 {
+        width: 20%;
+        margin-bottom: 10px;
+    }
+
+    .custom-file-upload {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100px;
+        height: 100px;
+        background: #fff;
+        border: 1px dashed #ccc;
+        padding: 15px 20px;
+        margin-left: 20px;
+        margin-right: 30px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .custom-file-upload input {
+        display: none;
+    }
+
+    .upload-icon {
+        font-size: 24px;
+        color: #c2bfbf;
+        margin-bottom: 10px;
+    }
+
+    .custom-file-upload p {
+        font-size: 0.8rem;
+        color: #c2bfbf;
+    }
+
+    .detail-img-label,
+    .empty {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        border: 1px dashed #ccc;
+        text-align: center;
+        vertical-align: top;
+        line-height: 100px;
+        margin-left: -10px;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .detail-img-label .delete-btn {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 20px;
+        height: 20px;
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 50%;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .detail-img-label:hover .delete-btn {
+        display: flex;
+    }
+
+    /* Truy vấn phương tiện cho chế độ mobile */
+    @media only screen and (max-width: 600px) {
+        .col-4 {
+            width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .custom-file-upload {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+
+    .empty-icon {
+        font-size: 24px;
+        color: #c2bfbf;
+    }
+
+    .attribute-row {
+        display: flex;
+        align-items: baseline;
+    }
+
+    .attribute-select {
+        flex: 1;
+        margin-right: 20px;
+    }
+
+    .attribute-input {
+        flex: 1;
+        position: relative;
+    }
+
+    .delete-icon {
+        color: #f00;
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+
+
+</style>

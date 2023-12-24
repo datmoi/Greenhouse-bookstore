@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Thông tin thanh toán hóa đơn</title>
+    <!-- Liên kết tới Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <!-- Sử dụng container để bao bọc nội dung và text-center để căn giữa -->
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card custom-card w-100">
+                    <div class="card-title">
+                        <h3 class="mt-5 ml-3 custom-title">Thông tin hóa đơn của khách hàng</h3>
+                    </div>
+                    <div class="card custom-inner-card">
+                        <!-- Sử dụng lớp float-left để đặt bên trái -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h5 class="mb-4 mt-3">Mã hóa đơn: HD0010 </h5>
+                                </div>
+                                <div class="container">
+                                    <div class="card">
+                                        <div class="col-12">
+                                            <table class="table table-borderless table-hover order-borderlesss">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Hình ảnh</th>
+                                                        <th scope="col">Tên sản phẩm</th>
+                                                        <th scope="col">Danh mục</th>
+                                                        <th scope="col">Đơn giá</th>
+                                                        <th scope="col">Số lượng</th>
+                                                        <th scope="col">Thành tiền</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><img src="product1.jpg" alt="Sản phẩm 1" width="80"></td>
+                                                        <td>Sản phẩm 1</td>
+                                                        <td>Danh mục A</td>
+                                                        <td>100,000 VND</td>
+                                                        <td>2</td>
+                                                        <td>200,000 VND</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><img src="product2.jpg" alt="Sản phẩm 2" width="80"></td>
+                                                        <td>Sản phẩm 2</td>
+                                                        <td>Danh mục B</td>
+                                                        <td>150,000 VND</td>
+                                                        <td>3</td>
+                                                        <td>450,000 VND</td>
+                                                    </tr>
+                                                    <!-- Thêm các hàng sản phẩm khác tại đây -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                        <div class="col-8">
+                                            <!-- Cột thứ nhất (chiếm 70%) -->
+                                            <table class="table table-borderless">
+                                                <tr>
+                                                    <td colspan="2"><strong>Chi tiết đơn hàng:</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 27%;">Họ và tên người nhận:</td>
+                                                    <td><strong>Tên người nhận ở đây</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 27%;">Số điện thoại:</td>
+                                                    <td><strong>Số điện thoại ở đây</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 27%;">Email:</td>
+                                                    <td><strong>Email ở đây</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 27%;">Địa chỉ:</td>
+                                                    <td><strong>Địa chỉ ở đây</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 27%;">Ngày đặt hàng:</td>
+                                                    <td><strong>Ngày đặt hàng ở đây</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 25%; color:orangered;"><strong>Trạng thái đơn hàng:</strong></td>
+                                                    <td style="color:rgb(41, 222, 0);"><strong>Trạng thái đơn hàng ở đây</strong></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="col-4">
+                                            <!-- Cột thứ hai (chiếm 30%) -->
+                                            <table class="table table-borderless">
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2"><strong>Tổng: </strong><span class="order-money">12.000.000</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2"><strong>(+) Phí ship:</strong> 0 VND</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2"><strong>(-) Giảm giá:</strong> 20 VND</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        
+                                    </div>
+                                    <hr class="order-hr mb-4 mt-0">
+                                    <div class="row text-center">
+                                        <div class="col-2">
+                                            <button class="btn-back btn-warning">Trờ về</button>
+                                        </div>
+                                        <div class="col-5">&nbsp;</div>
+                                        <div class="col-5">
+                                            <h4 ><strong>Tổng tiền: <span class="order-money">12.000.000</span></strong></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* styles.css */
+        .custom-card {
+            background-color: rgba(2, 139, 13, 0.611);
+            float: left;
+        }
+
+        .custom-title {
+            color: #fff;
+            float: left;
+        }
+
+        .custom-inner-card {
+            float: left;
+            margin: 20px;
+        }
+
+        .card-body {
+            float: left;
+        }
+
+        .order-borderlesss{
+            padding: 10px;
+        }
+        /* Tạo đường border-bottom đậm hơn cho thread */
+        .order-borderlesss thead th {
+            border-bottom: 3px solid #000;
+        }
+
+        /* Tạo đường border-bottom đậm hơn cho dòng cuối cùng trong tbody */
+        .order-borderlesss tbody tr:last-child td {
+            border-bottom: 3px solid #000;
+        }
+        .order-hr{
+            border: 2px solid #000;
+        }
+        .btn-back{
+            border-radius: 5px;
+            width: 70%;
+            font-weight: bold;
+        }
+        .order-money{
+            color: red;
+        }
+    </style>
+    <!-- Liên kết tới Bootstrap JS và các tệp JavaScript của bạn -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

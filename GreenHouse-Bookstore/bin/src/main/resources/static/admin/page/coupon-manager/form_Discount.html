@@ -1,0 +1,77 @@
+<div class="container-fluid" ng-controller="DiscountController">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="card-title mb-0">Thông Tin Giảm Giá</h4>
+
+                        <a type="button" class="btn btn-success" href="#!/discount-table">
+                            <i class="fa fa-list"> </i> Danh Sách Giảm Giá
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="discountId">Mã Giảm Giá(*)</label>
+                                    <input type="text" ng-model="editingDiscount.discountId" class="form-control"
+                                           id="discountId" name="discountId" ng-disabled="isEditing"
+                                           placeholder="Mã giảm giá tự động">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="startDate">Ngày bắt đầu(*)</label>
+                                    <input class="form-control" type="date" ng-model="editingDiscount.startDate"
+                                           ng-change="hideError('startDate')" name="startDate">
+                                    <small class="text-danger" ng-show="errors.startDate">{{ errors.startDate }}</small>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="endDate">Ngày kết thúc(*)</label>
+                                    <input class="form-control" type="date" ng-model="editingDiscount.endDate"
+                                           ng-change="hideError('endDate')" name="endDate">
+                                    <small class="text-danger" ng-show="errors.endDate">{{ errors.endDate }}</small>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="value">Giá Trị Giảm Giá(*)</label>
+                                    <input class="form-control" type="number" ng-model="editingDiscount.value"
+                                           name="value" ng-change="hideError('value')"
+                                           placeholder="Nhập giá tiền">
+                                    <small class="text-danger" ng-show="errors.value">{{ errors.value }}</small>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="quantity">Tổng Số Lượng(*)</label>
+                                    <input class="form-control" type="number" ng-model="editingDiscount.quantity"
+                                           name="quantity" ng-change="hideError('quantity')"
+                                           placeholder="Nhập số lượng">
+                                    <small class="text-danger" ng-show="errors.quantity">{{ errors.quantity }}</small>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary" ng-click="saveDiscount()">
+                                <i class="fa fa-save"> </i> {{ isEditing ? ' Lưu Sửa Đổi' : ' Thêm Giảm Giá' }}
+                            </button>
+                            <button type="button" class="btn btn-primary" ng-click="resetForm()"><i
+                                    class="fa fa-undo"> </i> Làm Mới
+                            </button>
+                        </div>
+          </div>
+        </div>
+
+      </div> <!-- / .card -->
+
+    </div> <!-- .col-12 -->
+  </div> <!-- .row -->
+
+
+
+
+
+</div> <!-- .container-fluid -->

@@ -1,0 +1,122 @@
+<style>
+    .truncate-cell {
+        max-width: 100px;
+        /* Độ rộng tối đa của cột */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .btn-find {
+        border: none;
+        border-radius: 3px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .btn-find:hover {
+        background-color: #62ab00;
+    }
+</style>
+
+<div class="container-fluid" ng-controller="BestSellerController">
+    <div class="row justify-content-center">
+        <div class="col-md-12 ">
+            <div class="card ">
+                <h5 class="mb-3 mt-3 ml-3 ">Danh Sách Sản Phẩm Bán Chạy</h5>
+            </div>
+        </div>
+        <div class="col-12 my-4">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <div class="toolbar row mb-3">
+                                <div class="col-md-6">
+                                    <form class="form-inline mr-auto border text-muted">
+                                        <input class="form-control input" type="search" placeholder="Tìm kiếm..."
+                                               ng-model="searchText" ng-change="searchData()">
+                                    </form>
+                                </div>
+                                <div class="col-md-6 ml-auto">
+                                    <div class="dropdown float-right">
+                                        <button class="btn btn-default border-1 float-right ml-3 dropdown-toggle"
+                                                type="button" id="btnnhaphang" data-toggle="dropdown"
+                                                aria-haspopup="true"
+                                                aria-expanded="false">
+                                            Tất cả trạng thái
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="btnnhaphang">
+                                            <a class="dropdown-item" ng-click="printPDF()"><i
+                                                    class='bx bxs-file-export mr-1'></i>Xuất file
+                                                PDF</a>
+                                            <a class="dropdown-item" ng-click="exportToExcel()"><i
+                                                    class='bx bxs-file-export mr-1'></i>Xuất
+                                                File Excel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- table -->
+                            <table class="table table-hover table-hover-green">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">Hình Ảnh</th>
+                                        <th class="text-center">Mã sản phẩm</th>
+                                        <th class="text-center">Tên sản phẩm</th>
+                                        <th class="text-center">Số lượng tồn</th>
+                                        <th class="text-center">Số lượng đã bán</th>
+                                        <th class="text-center">Điểm đánh giá trung bình</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        ng-repeat="item in bestsellers | startFrom:(currentPage - 1) * itemsPerPage | limitTo:itemsPerPage">
+                                        <td class="text-center">{{$index + 1}}</td>
+                                        <td class="text-center"> <img ng-src="{{item[3]}}" alt="Chưa có ảnh"
+                                                style="width: 50px; height: 50px; border-radius: 10%;"></td>
+                                        <td class="text-center">{{item[0]}}</td>
+                                        <td>{{item[1]}}</td>
+                                        <td class="text-center">{{item[2]}}</td>
+                                        <td class="text-center">{{item[4]}}</td>
+                                        <td class="text-center">{{item[5]}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="toolbar">
+                                <form class="form">
+                                    <div class="form-row">
+                                        <div class="form-inline col-auto mr-auto">
+                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref1">Show</label>
+                                            <select class="mr-sm-2 form-control" id="inlineFormCustomSelectPref1"
+                                                ng-model="itemsPerPage"
+                                                ng-options="option for option in itemsPerPageOptions"
+                                                ng-change="currentPage = 1">
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-auto">
+                                            <span>Đang xem {{ calculateRange() }}</span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <ul uib-pagination ng-model="currentPage" total-items="totalItems"
+                                items-per-page="itemsPerPage" max-size="maxSize" class="pagination-sm"
+                                boundary-link-numbers="true" boundary-links="true" force-ellipses="true"
+                                previous-text="<" next-text=">" first-text="<<" last-text=">>">
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- simple table -->
+            </div> <!-- end section -->
+        </div> <!-- .col-12 -->
+        <!-- Thêm phần tử HTML này nơi bạn muốn hiển thị hiệu ứng loading -->
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+            </div>
+        </div>
+    </div> <!-- .row -->
+</div> <!-- .container-fluid -->

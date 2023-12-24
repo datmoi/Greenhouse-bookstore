@@ -1,0 +1,88 @@
+<div ng-controller="brandController" class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div class="card shadow mb-4">
+        <div class="card-header">
+          <h4 class="mb-3 mt-3 ml-3">Thông tin thương hiệu</h4>
+        </div>
+      </div>
+
+      <div class="card shadow mb-4">
+
+        <div class="card-header d-flex justify-content-end">
+          <a type="button" class="btn btn-success" href="#!/brand-table">
+            <i class="fa fa-list"> </i> Danh sách thương hiệu
+          </a>
+        </div>
+        <div class="card-body">
+          <form enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-md-9">
+                <div class="form-group mb-3">
+                  <label for="BrandId">ID thương hiệu(*)</label>
+                  <input type="text" class="form-control" id="BrandId" placeholder="Nhập ID thương hiệu"
+                    ng-model="editingBrand.brandId" ng-disabled="isEditing" required>
+                  <small class="error-label text-danger"
+                    ng-show="errorMessages.brandId">{{errorMessages.brandId}}</small>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="brandname">Tên thương hiệu(*)</label>
+                  <input type="text" name="brandname" class="form-control" id="brandname"
+                    placeholder="Nhập tên thương hiệu" ng-model="editingBrand.brandName" required>
+                  <small class="error-label text-danger"
+                    ng-show="errorMessages.brandName">{{errorMessages.brandName}}</small>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="CountryOfOrigin">Nơi xuất xứ(*)</label>
+                  <input type="text" class="form-control" placeholder="Nhập nơi xuất xứ" id="CountryOfOrigin"
+                    ng-model="editingBrand.countryOfOrigin" required>
+                  <small class="error-label text-danger"
+                    ng-show="errorMessages.countryOfOrigin">{{errorMessages.countryOfOrigin}}</small>
+                </div>
+              </div>
+              <!-- /.col -->
+              <div class="col-md-2 ">
+                <div class="form-label h5 text-center">
+                  <label for="price" class="form-label h6"><span class="text-danger"></span> Ảnh Logo(*)</label>
+                </div>
+                <div class="row d-flex justify-content-center">
+                  <img class="img-fluid w-100 h-100"
+                    ng-src="{{ editingBrand.logo || '/admin/assets/images/default.jpg' }}" alt="Ảnh đại diện"
+                    id="uploadedImage" name="logo" />
+                </div>
+
+                <div class="row d-flex justify-content-center">
+                  <label class="text-center mt-2 btn btn-outline-secondary">
+                    <i class="fa fa-upload"></i>
+                    Tải ảnh lên
+
+                    <input type="file" name="file" style="object-fit: contain;" id="fileInput"
+                      ng-model="editingBrand.logo" onchange="displayImage(event)" hidden accept=".png,.jpg,.jpeg" />
+                  </label>
+                </div>
+
+              </div>
+
+            </div>
+            <button type="button" class="btn btn-primary" ng-click="saveBrand()">
+              <i class="fa fa-save"> </i> {{ isEditing ? 'Lưu sửa đổi' : 'Thêm mới' }}
+            </button>
+            <button type="submit" class="btn btn-info" ng-click="resetForm()"> <i class="fa fa-undo"> </i> Làm
+              mới</button>
+          </form>
+
+        </div>
+      </div> <!-- / .card -->
+  <!-- Thêm phần tử HTML này nơi bạn muốn hiển thị hiệu ứng loading -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i>
+    </div>
+</div>
+    </div> <!-- .col-12 -->
+  </div> <!-- .row -->
+
+
+</div> <!-- .container-fluid -->
+
+

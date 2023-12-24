@@ -1,0 +1,290 @@
+<div class="container-fluid" ng-controller="AuthorController">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="card-title">Danh Sách Tác Giả</h4>
+
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addAuthorModal">
+                            <i class="fa fa-plus"> </i> Thêm Tác Giả
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="addAuthorModal" tabindex="-1" role="dialog" aria-labelledby="addAuthorModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAuthorModalLabel">Thêm Tác Giả</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body">
+                        <form enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-row">
+                                        <div class="col-md-5 mb-3">
+                                            <label for="authorId">ID Tác Giả(*)</label>
+                                            <input type="text" class="form-control" placeholder="Nhập tên tác giả"
+                                                   id="authorId"
+                                                   ng-disabled="isEditing"
+                                                   name="authorId" ng-model="editingAuthor.authorId"/>
+                                        </div>
+                                        <div class="col-md-5 mb-3">
+                                            <label for="authorName">Tên Tác Giả(*)</label>
+                                            <input type="text" class="form-control" placeholder="Nhập tên tác giả"
+                                                   id="authorName" ng-change="hideError('authorName')"
+                                                   name="authorName" ng-model="editingAuthor.authorName"/>
+                                            <small class="text-danger" ng-show="errors.authorName">{{ errors.authorName
+                                                }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-5 mb-3">
+                                            <label for="nation">Quốc Tịch(*)</label>
+                                            <select class="form-control select2" id="nationSelect"
+                                                    ng-change="hideError('nationality')" name="nation"
+                                                    ng-model="editingAuthor.nation">
+                                                <option value="" disabled>Chọn quốc tịch</option>
+                                                <option ng-repeat="nationality in nationalities" value="{{nationality}}">
+                                                    {{nationality}}
+                                                </option>
+                                            </select>
+                                            <small class="text-danger" ng-show="errors.nation">{{ errors.nation }}</small>
+      
+                                        </div>
+      
+                                        <div class="col-md-5 mb-3">
+                                            <p class="mb-2">Giới Tính(*)</p>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender" id="male"
+                                                       ng-value="true" ng-change="hideError('gender')"
+                                                       ng-model="editingAuthor.gender"/>
+                                                <label class="form-check-label" for="male">Nam</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender" id="female"
+                                                       ng-value="false" ng-change="hideError('gender')"
+                                                       ng-model="editingAuthor.gender"/>
+                                                <label class="form-check-label" for="female">Nữ</label>
+                                            </div>
+                                            <small class="text-danger" ng-show="errors.gender">{{ errors.gender }}</small>
+      
+                                        </div>
+                                    </div>
+                    </div>
+                      <div class="col-md-4">
+                          <div class="col-md-6 mb-3">
+                              <img class="object-fit" ng-src="{{editingAuthor.image || '/admin/assets/images/default.jpg' }}"
+                                   alt="Uploaded Image"
+                                   id="uploadedImage" name="image" style="max-height: 250px; width: 100%; border-radius: 5%;">
+                          </div>
+                          <div class="col-md-6 mb-3">
+                              <label class="text-center mt-2 btn btn-dark w-100">
+                                  <i class="fa fa-upload"> </i>
+                                  Tải ảnh
+                                  <input type="file" name="image" hidden style="object-fit: contain;" id="fileInput"
+                                         ng-model="editingAuthor.image" onchange="displayImage(event)"
+                                         accept=".png,.jpg,.jpeg"/>
+                              </label>
+                          </div>
+                      </div>
+                                <div class="form-group mb-3">
+                                    <button type="button" class="btn btn-primary"
+                                            ng-click="saveAuthor(editingAuthor.authorName)">
+                                        <i class="fa fa-save"> </i> {{ isEditing ? 'Lưu Sửa Đổi' : 'Thêm Tác Giả' }}
+                                    </button>
+                                    <button type="button" class="btn btn-primary" ng-click="resetForm()"><i
+                                            class="fa fa-undo"> </i>
+                                        Làm
+                                        Mới
+                                    </button>
+                                </div>
+                            </div>
+                </form>
+              </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" ng-click="loadAuthors()">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="col">
+                        <div class="form-inline mb-3">
+                            <div class="input-container">
+                                <div class="input-wrapper">
+                                    <i class="fe fe-search fe-18 icon"></i>
+                                    <input class="form-control input" type="search" placeholder="Tìm kiếm..."
+                                        ng-model="searchText" ng-change="searchData()">
+                                </div>
+                            </div>
+                            <div ng-if="noResults" class="alert alert-warning">Không tìm thấy dữ liệu.</div>
+                        </div>
+                    </div>
+                    <!-- Bảng hiển thị danh sách tác giả -->
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>
+                                    <a ng-click="sortBy('authorId')" href="" style="text-decoration: none;">
+                                        Mã Tác Giả
+                                        <i class="mdi mdi-swap-vertical"></i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a ng-click="sortBy('authorName')" href="" style="text-decoration: none;">
+                                        Tên Tác Giả
+                                        <i class="mdi mdi-swap-vertical"></i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a ng-click="sortBy('gender')" href="" style="text-decoration: none;">
+                                        Giới Tính
+                                        <i class="mdi mdi-swap-vertical"></i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a ng-click="sortBy('nation')" href="" style="text-decoration: none;">
+                                        Quốc Tịch
+                                        <i class="mdi mdi-swap-vertical"></i>
+                                    </a>
+                                </th>
+                                <th>Hình Ảnh</th>
+                                <th>Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                ng-repeat="author in filteredAuthors | orderBy:orderByField:reverseSort | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
+                                <td>{{$index + 1}}</td>
+                                <td>{{author.authorId}}</td>
+                                <td>{{author.authorName}}</td>
+                                <td>{{author.gender ? 'Nam' : 'Nữ'}}</td>
+                                <td>{{author.nation}}</td>
+                                <td>
+                                    <img ng-src="{{author.image}}"
+                                        style="width: 50px; height: 50px; border-radius: 10%;">
+                                </td>
+
+                                <td>
+                                    <a ng-click="editAuthorAndRedirect(author.authorId)"><i
+                                            class="fe fe-edit fe-16"></i></a>
+                                    <a ng-show="roleName !== 'Nhân viên'" ng-click="deleteAuthor(author.authorId)">
+                                        <i class="fe fe-trash-2 fe-16"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- Thêm phần tử HTML này nơi bạn muốn hiển thị hiệu ứng loading -->
+                    <div id="loadingOverlay" class="loading-overlay">
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+                    <!-- Thanh công cụ -->
+                    <div class="toolbar">
+                        <form class="form">
+                            <div class="form-row">
+                                <div class="form-inline col-auto mr-auto">
+                                    <label class="my-1 mr-2" for="inlineFormCustomSelectPref1">Hiển thị</label>
+                                    <select class="mr-sm-2 form-control" id="inlineFormCustomSelectPref1"
+                                        ng-model="itemsPerPage" ng-options="option for option in itemsPerPageOptions"
+                                        ng-change="currentPage = 1"></select>
+                                </div>
+                                <div class="form-group col-auto">
+                                    <span>Đang xem {{ calculateRange() }}</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Phân trang -->
+                    <ul uib-pagination ng-model="currentPage" total-items="filteredAuthors.length"
+                        items-per-page="itemsPerPage" max-size="maxSize" class="pagination-sm"
+                        boundary-link-numbers="true" boundary-links="true" force-ellipses="true" previous-text="<"
+                        next-text=">" first-text="<<" last-text=">>"></ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .search-container {
+        display: flex;
+        align-items: center;
+    }
+
+    /* Định dạng cho thông báo "Không tìm thấy kết quả" */
+    .alert-warning {
+        margin: 1rem;
+
+
+    }
+</style>
+
+<style>
+    /* CSS cho hiệu ứng loading */
+    .loading-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        z-index: 1000;
+    }
+
+    .loading-spinner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .loading-spinner i {
+        font-size: 50px;
+        /* Điều chỉnh kích thước của spinner */
+        color: #3498db;
+        /* Màu sắc cho spinner */
+        animation: spin 1s linear infinite;
+    }
+
+    .loading-text {
+        text-align: center;
+        font-size: 18px;
+        margin-top: 20px;
+        color: #3498db;
+        /* Màu sắc cho văn bản */
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>

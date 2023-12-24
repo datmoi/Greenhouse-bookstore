@@ -1,0 +1,133 @@
+<div class="container-fluid" ng-controller="ProductDiscountController">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="card-title mb-0">Thông Tin Giảm Giá Sản Phẩm</h4>
+
+                        <a type="button" class="btn btn-success" href="#!/productDiscount-table">
+                            <i class="fa fa-list"> </i> Danh Sách Giảm Giá Sản Phẩm
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="id" class="form-label">Mã Giảm Giá Sản Phẩm(*)</label>
+                                <input type="text" ng-model="editingDiscount.id" class="form-control" id="id" name="id"
+                                    ng-disabled="isEditing" placeholder="Mã giảm giá sản phẩm tự động">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="discount">Phần Trăm Giảm(*)</label>
+                                <select class="form-control" id="discount" ng-model="editingDiscount.discount"
+                                    ng-change="hideError('value')"
+                                    ng-options="discount as discount.value for discount in discounts track by discount.discountId">
+                                    <option value="">Chọn phần trăm giảm</option>
+                                </select>
+                                <small class="text-danger" ng-show="errors.value">{{ errors.value
+                                    }}</small>
+                            </div>
+
+                        </div>
+                        <div class="col-md-8 mb-3">
+                            <label for="productDetails" class="btn btn-secondary" ng-click="toggleProductTable()">Chọn
+                                Sản Phẩm(*)</label>
+                            <div class="form-inline mb-3" ng-show="showProductTable">
+                                <div class="input-container">
+                                    <div class="input-wrapper">
+                                        <i class="fe fe-search fe-18 icon"></i>
+                                        <input class="form-control input" type="search" placeholder="Tìm kiếm..."
+                                            ng-model="searchText" ng-change="searchData()">
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-bordered" ng-show="showProductTable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <input type="checkbox" ng-model="selectAllOnPage"
+                                                ng-change="toggleAllOnPage()">
+                                        <th>Tên sản phẩm</th>
+
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <!-- Hiển thị lỗi chọn sản phẩm -->
+                                    <small class="text-danger" ng-show="errors.products">{{ errors.products }}</small>
+
+
+                                    <tr
+                                        ng-repeat="productDetail in filterProductDetails | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
+                                        <td>
+                                            <input type="checkbox" ng-model="productDetail.selected" />
+                                        </td>
+                                        <td>{{ productDetail.product.productName }}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <!-- Thanh công cụ -->
+                            <div class="toolbar" ng-show="showProductTable">
+                                <form class="form">
+                                    <div class="form-row">
+                                        <div class="form-inline col-auto mr-auto">
+                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref1">Hiển thị</label>
+                                            <select class="mr-sm-2 form-control" id="inlineFormCustomSelectPref1"
+                                                ng-model="itemsPerPage"
+                                                ng-options="option for option in itemsPerPageOptions"
+                                                ng-change="currentPage = 1"></select>
+                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref1"> sản
+                                                phẩm</label>
+
+                                        </div>
+                                        <div class="form-group col-auto">
+                                            <span>Đang xem {{ calculateRange() }} sản phẩm</span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- Phân trang -->
+                            <ul uib-pagination ng-model="currentPage" total-items="filterProductDetails.length"
+                                ng-show="showProductTable" items-per-page="itemsPerPage" max-size="maxSize"
+                                class="pagination-sm" boundary-link-numbers="true" boundary-links="true"
+                                force-ellipses="true" previous-text="<" next-text=">" first-text="<<" last-text=">>">
+                            </ul>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-primary" ng-click="saveDiscount()">
+                                    <i class="fa fa-save"></i> Lưu
+                                </button>
+                                <button type="button" class="btn btn-secondary" ng-click="resetForm()">
+                                    <i class="fa fa-undo"></i> Làm Mới
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div> <!-- / .card -->
+
+        </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+
+
+
+
+
+</div> <!-- .container-fluid -->

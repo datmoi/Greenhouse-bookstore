@@ -1,0 +1,338 @@
+<div class="container-fluid voucher-page" ng-controller="VouchersController">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div class="card shadow mb-4">
+        <div class="card-header">
+          <h4 class="mb-3 mt-3 ml-3">Thông tin khuyến mãi</h4>
+        </div>
+      </div>
+
+      <div class="card shadow mb-4">
+
+        <div class="card-header d-flex justify-content-end">
+          <a type="button" class="btn btn-success" href="#!/voucher-table">
+            <i class="fa fa-list"> </i> Danh sách khuyến mãi
+          </a>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="row">
+              <div class="col-md-4">
+
+                <div class="mb-3">
+                  <label for="voucherName">Tên voucher(*)</label>
+                  <input type="text" name="voucherName" class="form-control" placeholder="Nhập tên voucher"
+                    ng-model="edittingVoucher.voucherName">
+                  <small class="error-label text-danger"
+                    ng-show="errorMessages.voucherName">{{errorMessages.voucherName}}</small>
+
+                </div>
+
+                <div class="mb-3">
+                  <p class="mb-2">Hình thức khuyến mãi(*)</p>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="discounttype" id="percent"
+                      ng-model="edittingVoucher.discountType" ng-value="'Phần trăm'">
+                    <label class="form-check-label" for="percent">Phần trăm</label>
+
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="discounttype" id="discountPrice"
+                      ng-model="edittingVoucher.discountType" ng-value="'Giảm giá cố định'">
+                    <label class="form-check-label" for="discountPrice">Giảm giá cố định</label>
+
+                  </div>
+                  <div>
+                    <small class="error-label text-danger"
+                      ng-show="errorMessages.discountType">{{errorMessages.discountType}}</small>
+                  </div>
+                </div>
+
+                <div class="mb-3" ng-show="edittingVoucher.discountType === 'Phần trăm'">
+                  <label for="PublishersName">Phần trăm giảm(*)</label>
+                  <input type="text" name="discountPercentage" class="form-control" placeholder="Nhập phần trăm giảm"
+                    ng-model="edittingVoucher.discountPercentage">
+                  <small class="error-label text-danger"
+                    ng-show="errorMessages.discountPercentage">{{errorMessages.discountPercentage}}</small>
+                </div>
+
+                <div class="mb-3" ng-show="edittingVoucher.discountType === 'Giảm giá cố định'">
+                  <label for="PublishersName">Số tiền giảm cố định(*)</label>
+                  <input type="number" name="discountAmount" class="form-control"
+                    placeholder="Nhập số tiền giảm cố định" ng-model="edittingVoucher.discountAmount">
+                  <small class="error-label text-danger"
+                    ng-show="errorMessages.discountAmount">{{errorMessages.discountAmount}}</small>
+                </div>
+
+                <div class="mb-3">
+                  <p class="mb-2">Loại voucher(*)</p>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="voucherType" id="typeCategory"
+                      ng-model="edittingVoucher.voucherType" ng-value="'Loại sản phẩm'">
+                    <label class="form-check-label" for="typeCategory">Loại sản phẩm</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="voucherType" id="typeProduct"
+                      ng-model="edittingVoucher.voucherType" ng-value="'Sản phẩm'">
+                    <label class="form-check-label" for="typeProduct">Sản phẩm</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="voucherType" id="typeShip"
+                      ng-model="edittingVoucher.voucherType" ng-value="'Ship'">
+                    <label class="form-check-label" for="typeShip">Phí ship</label>
+                  </div>
+                  <div>
+                    <small class="error-label text-danger"
+                      ng-show="errorMessages.voucherType">{{errorMessages.voucherType}}</small>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <div ng-show="selectedType == 'product'">
+                    <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                      data-target="#voucherModal" ng-click="toggleSelection()">Chọn loại sản phẩm</button>
+                  </div>
+
+                  <div ng-show="selectedType == 'item'">
+                    <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                      data-target="#voucherProduct" ng-click="toggleSelection()">Chọn sản phẩm</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="PublishersName">Mã code voucher(*)</label>
+                  <input type="text" name="code" class="form-control" placeholder="Nhập mã voucher"
+                    ng-model="edittingVoucher.code" ng-disabled="isEditing">
+                  <small class="error-label text-danger" ng-show="errorMessages.code">{{errorMessages.code}}</small>
+                </div>
+                <div class="mb-3">
+                  <label for="example-number">Số tiền giảm tối đa(*)</label>
+                  <input class="form-control" type="number" name="maximumDiscountAmount" placeholder="Nhập giá tiền"
+                    ng-model="edittingVoucher.maximumDiscountAmount">
+                  <small class="error-label text-danger"
+                    ng-show="errorMessages.maximumDiscountAmount">{{errorMessages.maximumDiscountAmount}}</small>
+                </div>
+
+                <div class="mb-3">
+                  <label for="example-number">Số tiền giảm tối thiểu(*)</label>
+                  <input class="form-control" type="number" name="minimumPurchaseAmount" placeholder="Nhập giá tiền"
+                    ng-model="edittingVoucher.minimumPurchaseAmount">
+                  <small class="error-label text-danger"
+                    ng-show="errorMessages.minimumPurchaseAmount">{{errorMessages.minimumPurchaseAmount}}</small>
+                </div>
+
+           
+
+              </div>
+
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="address">Ngày bắt đầu(*)</label>
+                  <input class="form-control" type="date" name="startDate" ng-model="edittingVoucher.startDate"
+                    ng-value="formatDate(edittingVoucher.startDate)">
+                  <small class="error-label text-danger"
+                    ng-show="errorMessages.startDate">{{errorMessages.startDate}}</small>
+                </div>
+
+                <div class="mb-3">
+                  <label for="address">Ngày kết thúc(*)</label>
+                  <input class="form-control" type="date" name="endDate" ng-model="edittingVoucher.endDate"
+                    ng-value="formatDate(edittingVoucher.endDate)">
+                  <small class="error-label text-danger"
+                    ng-show="errorMessages.endDate">{{errorMessages.endDate}}</small>
+                </div>
+
+                <div class="mb-3">
+                  <label for="example-number">Tổng số lượng(*)</label>
+                  <input class="form-control" type="number" name="totalQuantity" placeholder="Nhập tổng số lượng"
+                    ng-model="edittingVoucher.totalQuantity">
+                  <small class="error-label text-danger"
+                    ng-show="errorMessages.totalQuantity">{{errorMessages.totalQuantity}}</small>
+                </div>
+
+                <div class="mb-3">
+                  <label for="description">Mô tả</label>
+                  <textarea class="form-control" ng-model="edittingVoucher.description"
+                    placeholder="Viết mô tả...."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3 p-3">
+              <button type="button" class="btn btn-primary" ng-click="saveVoucher()">
+                <i class="fa fa-save"> </i> {{ isEditing ? 'Lưu sửa đổi' : 'Thêm mới' }}
+              </button>
+              <button type="button" class="btn btn-info" ng-click="resetForm()"> <i class="fa fa-undo"> </i> Làm
+                mới</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+      <!-- / .card -->
+
+    </div> <!-- .col-12 -->
+  </div> <!-- .row -->
+
+  <div class="table-responsive modal fade" id="voucherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog  modal-supper-lg1" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel">Chọn loại sản phẩm</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 ">
+              <div class="search-box mb-3">
+                <form class="form-modal-search">
+                  <button>
+                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
+                      aria-labelledby="search">
+                      <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
+                        stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round">
+                      </path>
+                    </svg>
+                  </button>
+                  <input class="input" placeholder="Tìm kiếm sản phẩm" required="" type="text"
+                    ng-model="searchCategoryKeyword" ng-change="searchCategory(searchCategoryKeyword)">
+                  <button class="reset" type="reset" ng-click="searchCategory()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </button>
+                </form>
+                <div class="product-cart-left" ng-if="searchCategoryKeyword">
+                  <div class="item-product-cart d-flex my-2" ng-repeat="item in searchCategoryResults track by $index"
+                    ng-click="selectedCategory(item)">
+                    <!--   -->
+                    <div class="group-product-info col-md-11">
+                      <div class="info-product-cart">
+                        <h2 class="product-name-full-text" ng-model="item.categoryId">
+                          <span> {{item.categoryName}}</span>
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <h6>Loại sản phẩm đã chọn</h6>
+              <div class="selected-products">
+                <table class="table caption-top">
+                  <thead>
+                    <th>ID</th>
+                    <th>Tên loại sản phẩm</th>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="item in selectedCategories track by $index">
+                      <td>{{item.categoryId}}</td>
+                      <td>{{item.categoryName}}</td>
+                      <td> <a ng-click="removeCategory( $index)"><i class="fe fe-trash-2 fe-16"></i></a></td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="button-voucher">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal Product Voucher -->
+  <div class="table-responsive modal fade" id="voucherProduct" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-supper-lg1" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel">Chọn sản phẩm</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 ">
+              <div class="search-box mb-3">
+                <form class="form-modal-search">
+                  <button>
+                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
+                      aria-labelledby="search">
+                      <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
+                        stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round">
+                      </path>
+                    </svg>
+                  </button>
+                  <input class="input" placeholder="Tìm kiếm sản phẩm" required="" type="text"
+                    ng-model="searchProductKeyword" ng-change="searchProduct(searchProductKeyword)">
+                  <button class="reset" type="reset" ng-click="searchProduct()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </button>
+                </form>
+                <div class="product-cart-left" ng-if="searchProductKeyword">
+                  <div class="item-product-cart d-flex my-2" ng-repeat="productDetail in searchProductResults"
+                    ng-click="selectedProductDetail(productDetail)">
+
+                    <div class="group-product-info col-md-11">
+                      <div class="info-product-cart">
+                        <h2 class="product-name-full-text" ng-model="product.productId">
+                          <span>{{productDetail.product.productName}}</span>
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <h6>Sản phẩm đã chọn</h6>
+              <div class="selected-products">
+                <table class="table caption-top">
+                  <thead>
+                    <th>ID</th>
+                    <th>Tên Sản phẩm</th>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="productDetail in selectedProductDetails track by $index">
+                      <td>{{productDetail.productDetailId}}</td>
+                      <td>{{productDetail.product.productName}}</td>
+                      <td><a ng-click="removeProducts($index)"><i class="fe fe-trash-2 fe-16"></i></a></td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="button-voucher">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</div>
+<!-- .container-fluid -->

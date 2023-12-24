@@ -1,0 +1,459 @@
+<div class="container-fluid order-page" ng-controller="OrderController">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-4">
+                        <h3 class="mb-3 mt-3 ml-3 page-title">Danh Sách Đơn Hàng</h3>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="d-flex justify-content-between items-align-center mb-3 mt-3 ml-3">
+                            <div>
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-muted px-2"
+                                            ng-class="{active: selectedStatus === 'All'}"
+                                            ng-click="setListOrderByStatus('All')">
+                                            Tất Cả
+                                            <span
+                                                class="badge badge-pill bg-white border text-muted ml-2">{{countAllOrders}}</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-muted px-2"
+                                            ng-class="{active: selectedStatus === 'pending_confirmation'}"
+                                            ng-click="setListOrderByStatus('pending_confirmation')">
+                                            Chờ Xác Nhận
+                                            <span class="badge badge-pill bg-white border text-muted ml-2">
+                                                {{countOrderByStatus('pending_confirmation')}}</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-muted px-2"
+                                            ng-class="{active: selectedStatus === 'pending'}"
+                                            ng-click="setListOrderByStatus('pending')">
+                                            Chờ Bàn Giao
+                                            <span class="badge badge-pill bg-white border text-muted ml-2">
+                                                {{countOrderByStatus('pending')}}</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-muted px-2"
+                                            ng-class="{active: selectedStatus === 'transporting'}"
+                                            ng-click="setListOrderByStatus('transporting')">
+                                            Đang Giao
+                                            <span class="badge badge-pill bg-white border text-muted ml-2">
+                                                {{countOrderByStatus('transporting')}}</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-muted px-2"
+                                            ng-class="{active: selectedStatus === 'return_transporting'}"
+                                            ng-click="setListOrderByStatus('return_transporting')">
+                                            Đang Hoàn Hàng
+                                            <span class="badge badge-pill bg-white border text-muted ml-2">
+                                                {{countOrderByStatus('return_transporting')}}</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-muted px-2"
+                                            ng-class="{active: selectedStatus === 'waiting_to_return'}"
+                                            ng-click="setListOrderByStatus('waiting_to_return')">
+                                            Chờ Xác Nhận Giao Lại
+                                            <span class="badge badge-pill bg-white border text-muted ml-2">
+                                                {{countOrderByStatus('waiting_to_return')}}</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-muted px-2"
+                                            ng-class="{active: selectedStatus === 'completed'}"
+                                            ng-click="setListOrderByStatus('completed')">
+                                            Đã Giao
+                                            <span class="badge badge-pill bg-white border text-muted ml-2">
+                                                {{countOrderByStatus('completed')}}</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-muted px-2"
+                                            ng-class="{active: selectedStatus === 'received'}"
+                                            ng-click="setListOrderByStatus('received')">
+                                            Đã Nhận
+                                            <span class="badge badge-pill bg-white border text-muted ml-2">
+                                                {{countOrderByStatus('received')}}</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-muted px-2"
+                                            ng-class="{active: selectedStatus === 'cancel'}"
+                                            ng-click="setListOrderByStatus('cancel')">
+                                            Đã Hủy
+                                            <span
+                                                class="badge badge-pill bg-white border text-muted ml-2">{{countOrderByStatus('cancel')}}</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-muted px-2"
+                                            ng-class="{active: selectedStatus === 'lost_damage'}"
+                                            ng-click="setListOrderByStatus('lost_damage')">
+                                            Hàng Thất Lạc - Hư Hỏng
+                                            <span class="badge badge-pill bg-white border text-muted ml-2">
+                                                {{countOrderByStatus('lost_damage')}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <div class="toolbar row mb-3">
+                                <div class="col-md-6">
+                                    <form class="form-inline mr-auto border text-muted">
+                                        <input class="form-control input" type="search" placeholder="Tìm kiếm..."
+                                            ng-model="searchText" ng-change="searchData()">
+                                    </form>
+                                </div>
+                                <div class="col-md-6 ml-auto">
+                                    <div class="dropdown float-right">
+                                        <button class="btn btn-default border-1 float-right ml-3 dropdown-toggle"
+                                            type="button" id="btnnhaphang" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            Tất cả trạng thái
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="btnnhaphang">
+                                            <a class="dropdown-item" ng-click="printPDF()"><i
+                                                    class='bx bxs-file-export mr-1'></i>Xuất file
+                                                PDF</a>
+                                            <a class="dropdown-item" ng-click="exportToExcel()"><i
+                                                    class='bx bxs-file-export mr-1'></i>Xuất
+                                                File Excel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr role="row">
+                                        <th><a href="#">#</a></th>
+                                        <th><a href="" ng-click="sortBy('orderCode')">Mã Đơn <i
+                                                    class="mdi mdi-swap-vertical"></i></a></th>
+                                        <th><a href="" ng-click="sortBy('create_Date')">Ngày Tạo <i
+                                                    class="mdi mdi-swap-vertical"></i></a></th>
+                                        <th><a href="" ng-click="sortBy('username')">Người Đặt <i
+                                                    class="mdi mdi-swap-vertical"></i></a></th>
+                                        <th><a href="" ng-click="sortBy('toPhone')">SĐT <i
+                                                    class="mdi mdi-swap-vertical"></i></a></th>
+                                        <th><a href="" ng-click="sortBy('toAddress')">Địa Chỉ Giao Hàng <i
+                                                    class="mdi mdi-swap-vertical"></i></a></th>
+                                        <th><a href="" ng-click="sortBy('codAmount')"> Phí vận chuyển <i
+                                                    class="mdi mdi-swap-vertical"></i></a></th>
+                                        <th><a href="#">Thanh Toán Bằng</a></th>
+                                        <th><a href="#">Trạng Thái</a></th>
+                                        <th><a href="#">Thao Tác</a></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        ng-repeat="item in filteredOrders | orderBy:sortField:reverseSort | startFrom:(currentPage - 1) * itemsPerPage | limitTo:itemsPerPage">
+                                        <td>{{($index + 1)}}</td>
+                                        <td>{{item.orderCode}}</td>
+                                        <td>{{item.create_Date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                        <td class="ellipsis" style="max-width: 100px;">{{item.username}}</td>
+                                        <td>{{item.toPhone}}</td>
+                                        <td class="ellipsis" style="max-width: 200px;">{{item.toAddress}}</td>
+                                        <td>{{item.codAmount |number:'0'}}VND</td>
+                                        <td>{{item.invoices.paymentMethod == 'cod' ? 'Thanh toán khi nhận hàng' :
+                                            item.invoices.paymentMethod}}
+                                        </td>
+                                        <td>
+                                            <strong class="text-success" ng-if="item.status === 'pending_confirmation'">
+                                                <span class="online_animation bg-success"></span>
+                                                Chờ Xác Nhận
+                                            </strong>
+                                            <strong class="text-secondary" ng-if="item.status === 'pending'">
+                                                <span class="online_animation bg-secondary"></span>
+                                                Chờ Bàn Giao
+                                            </strong>
+                                            <strong class="text-warning" ng-if="item.status === 'transporting'">
+                                                <span class="online_animation bg-warning"></span>
+                                                Đang Giao
+                                            </strong>
+                                            <strong class="text-danger" ng-if="item.status === 'return_transporting'">
+                                                <span class="online_animation bg-danger"></span>
+                                                Đang Hoàn Hàng
+                                            </strong>
+                                            <strong class="text-info" ng-if="item.status === 'waiting_to_return'">
+                                                <span class="online_animation bg-info"></span>
+                                                Chờ Xác Nhận Giao Lại
+                                            </strong>
+                                            <strong class="text-primary" ng-if="item.status === 'completed'">
+                                                <span class="online_animation bg-primary"></span>
+                                                Hoàn Tất
+                                            </strong>
+                                            <strong class="text-default1" ng-if="item.status === 'received'">
+                                                <span class="online_animation bg-default1"></span>
+                                                Đã Nhận
+                                            </strong>
+                                            <strong class="text-danger" ng-if="item.status === 'cancel'">
+                                                <span class="online_animation bg-danger"></span>
+                                                Đã Hủy
+                                            </strong>
+                                            <strong class="text-danger" ng-if="item.status === 'lost_damage'">
+                                                <span class="online_animation bg-danger"></span>
+                                                Hàng Thất Lạc - Hư Hỏng
+                                            </strong>
+                                        </td>
+                                        <td>
+                                            <a class="mr-1" data-toggle="modal" data-target=".order-detail-modal-lg"
+                                                ng-click="getOrderInfo(item.orderCode)">
+                                                <i class="fe fe-eye fe-16"></i></a>
+                                            <a data-target=".order-cancel" data-toggle="modal"
+                                                ng-click="showCancelModal(item)"
+                                                ng-show="item.status === 'pending_confirmation' || item.status==='pending'">
+                                                <i class="fe fe-slash fe-16"></i>
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="toolbar">
+                                <form class="form">
+                                    <div class="form-row">
+                                        <div class="form-inline col-auto mr-auto">
+                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref1">Show</label>
+                                            <select class="mr-sm-2 form-control" id="inlineFormCustomSelectPref1"
+                                                ng-model="itemsPerPage"
+                                                ng-options="option for option in itemsPerPageOptions"
+                                                ng-change="currentPage = 1">
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-auto">
+                                            <span>Đang xem {{ calculateRange() }}</span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <ul uib-pagination ng-model="currentPage" total-items="totalItems"
+                                items-per-page="itemsPerPage" max-size="maxSize" class="pagination-sm"
+                                boundary-link-numbers="true" boundary-links="true" force-ellipses="true"
+                                previous-text="<" next-text=">" first-text="<<" last-text=">>">
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div> <!-- .row -->
+    <!-- MODEL order-detail -->
+    <div class="modal fade order-detail-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h6 class="modal-title" style="font-size: 18px;"><i class="fe fe-file-text fe-18"></i> Chi tiết đơn
+                        hàng
+                        {{selectedOrder.orderCode}}
+                    </h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body row text-left">
+
+                    <div class="col-md-6">
+                        <div class="full invoice_blog">
+                            <h4>Thông tin khách hàng</h4>
+                            <p class="ml-2">
+                                <strong>Tên tài khoản:</strong>
+                                <strong class="strong-order-detail"> {{selectedOrder.username}}</strong> <br>
+                                <strong>Họ tên người nhận : </strong>
+                                <strong class="strong-order-detail"> {{selectedOrder.toName}}</strong> <br>
+                                <strong>Số điện thoại : </strong>
+                                <strong class="strong-order-detail">{{selectedOrder.toPhone}}</strong> <br>
+                                <strong>Địa chỉ : </strong> <strong
+                                    class="strong-order-detail">{{selectedOrder.toAddress}}</strong><br>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="full invoice_blog">
+                            <h4>Thông tin đơn hàng </h4>
+                            <p class="ml-2">
+                                <strong>Mã đơn hàng : </strong>
+                                <strong class="strong-order-detail">{{selectedOrder.orderCode}}</strong><br>
+                                <strong>Ngày tạo đơn :
+                                </strong> <strong class="strong-order-detail">{{selectedOrder.create_Date |
+                                    date:'dd/MM/yyyy HH:mm'}}</strong><br>
+                                <strong>Trạng Thái: <strong>{{selectedOrder.invoices.paymentMethod == 'cod' ? 'Thanh
+                                        toán khi nhận hàng' : selectedOrder.invoices.paymentMethod}}</strong> </strong>
+                                <br>
+                                <strong>Tình trạng:</strong>
+                                <strong class="text-success" ng-if="selectedOrder.status === 'pending_confirmation'">
+                                    <span class="online_animation bg-success"></span>
+                                    Chờ Xác Nhận
+                                </strong>
+                                <strong class="text-secondary" ng-if="selectedOrder.status === 'pending'">
+                                    <span class="online_animation bg-secondary"></span>
+                                    Chờ Bàn Giao
+                                </strong>
+                                <strong class="text-warning" ng-if="selectedOrder.status === 'transporting'">
+                                    <span class="online_animation bg-warning"></span>
+                                    Đang Giao
+                                </strong>
+                                <strong class="text-danger" ng-if="selectedOrder.status === 'return_transporting'">
+                                    <span class="online_animation bg-danger"></span>
+                                    Đang Hoàn Hàng
+                                </strong>
+                                <strong class="text-info" ng-if="selectedOrder.status === 'waiting_to_return'">
+                                    <span class="online_animation bg-info"></span>
+                                    Chờ Xác Nhận Giao Lại
+                                </strong>
+                                <strong class="text-primary" ng-if="selectedOrder.status === 'completed'">
+                                    <span class="online_animation bg-primary"></span>
+                                    Hoàn Tất
+                                </strong>
+                                <strong class="text-danger" ng-if="selectedOrder.status === 'cancel'">
+                                    <span class="online_animation bg-danger"></span>
+                                    Đã Hủy
+                                </strong>
+                                <strong class="text-danger" ng-if="selectedOrder.status === 'lost_damage'">
+                                    <span class="online_animation bg-danger"></span>
+                                    Hàng Thất Lạc - Hư Hỏng
+                                </strong>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <span ng-if="selectedOrder.confirmed_By"
+                            style="border-bottom: 1px dashed rgb(41, 41, 41);color: rgb(42, 165, 87);"> Duyệt Bởi:
+                            {{selectedOrder.confirmed_By}}</span>
+                    </div>
+                    <div class="col-md-12 mt-2">
+
+                        <div class="table table-responsive table-striped table-hover ">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th>Sản phẩm</th>
+                                            <th>Trọng lượng</th>
+                                            <th>Kích thước</th>
+                                            <th>Số lượng </th>
+                                            <th>Đơn giá</th>
+                                            <th>Thành tiền</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="detail in selectedOrderDetails" class="text-center">
+                                            <td class="align-middle">
+                                                <div class="img-container-td">
+                                                    <img ng-src="{{detail.productDetail.image}}" alt="Chưa có ảnh"
+                                                        class="img-boder-td">
+                                                    <span class="text-left text-wrap td-span">
+                                                        {{detail.productName}}
+                                                        <br>
+                                                    </span>
+                                                </div>
+
+                                            </td>
+                                            <td class="align-middle">
+                                                {{detail.weight}}
+                                            </td>
+                                            <td class="align-middle">
+                                                {{detail.length}} x {{detail.width}} x {{detail.height}}
+                                            </td>
+                                            <td class="align-middle">
+                                                {{detail.quantity}}
+                                            </td>
+                                            <td class="align-middle">
+                                                {{detail.price | number:'0'}} VND
+                                            </td>
+                                            <td class="align-middle">
+                                                {{(detail.price * detail.quantity) | number:'0'}} VND
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- ... -->
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12 text-right">
+                        <hr>
+                        <h6>
+                            Phí vận chuyển:
+                            <strong class="text-danger">
+                                {{selectedOrder.codAmount | number:'0'}} VND
+                            </strong>
+                        </h6>
+                        <h6>
+                            TỔNG TIỀN:
+                            <strong class="text-danger">
+                                {{totalOrderAmount | number:'0'}} VND
+                            </strong>
+                        </h6>
+                    </div>
+                </div>
+                <div class="modal-footer" ng-show="selectedOrder.status === 'pending_confirmation'">
+                    <a class="btn btn-primary" ng-click="acceptOrder(selectedOrder)">
+                        <i class="fa fa-shopping-cart fe-16 mr-2"></i>Duyệt Đơn</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End  MODEL order-detail-->
+    <!-- Modal Cancel -->
+    <div class="modal fade order-cancel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true" id="order-cancel">
+        <div class="modal-dialog text-left">
+            <div class="modal-content pb-3">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-white" id="exampleModalLabel">
+                        THÔNG BÁO - ĐƠN HÀNG <u>{{cacelOrder.orderCode}}</u>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label h6 text-uppercase text-danger">
+                                Email khách hàng :</label>
+                            <input ng-model="cancelOrder.email" type="text" name="email" class="form-control"
+                                id="recipient-name" placeholder="Nhập email khách hàng..." disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label h6 text-uppercase text-danger">Nội
+                                dung (LÝ DO HỦY ĐƠN):</label>
+                            <textarea ng-model="cancelOrder.noteCancel" name="message" class="form-control" required
+                                style="height: 200px;" placeholder="Nhập nội dung ...."></textarea>
+                            <span class="text-danger" ng-show="errorsNoteCancel">*{{errorsNoteCancel}}</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" ng-click="confirmCancel()">
+                            Xác nhận
+                        </button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="clearCancel()">
+                            Hủy bỏ
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+        </div>
+    </div>
+    <!-- Modal Cancel -->
+</div> <!-- .container-fluid -->

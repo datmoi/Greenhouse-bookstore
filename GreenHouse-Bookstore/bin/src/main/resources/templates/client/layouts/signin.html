@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{client/main-layout.html :: layout (~{::title}, ~{::#layout})}">
+
+<head>
+  <title>Đăng ký</title>
+</head>
+<main id="layout" ng-controller="singinController">
+    <div class="loader-container" ng-show="isLoading">
+        <div class="loader">
+            <div>
+                <ul>
+                    <li>
+                        <svg fill="currentColor" viewBox="0 0 90 120">
+                            <path
+                                    d="M90,0 L90,120 L11,120 C4.92486775,120 0,115.075132 0,109 L0,11 C0,4.92486775 4.92486775,0 11,0 L90,0 Z M71.5,81 L18.5,81 C17.1192881,81 16,82.1192881 16,83.5 C16,84.8254834 17.0315359,85.9100387 18.3356243,85.9946823 L18.5,86 L71.5,86 C72.8807119,86 74,84.8807119 74,83.5 C74,82.1745166 72.9684641,81.0899613 71.6643757,81.0053177 L71.5,81 Z M71.5,57 L18.5,57 C17.1192881,57 16,58.1192881 16,59.5 C16,60.8254834 17.0315359,61.9100387 18.3356243,61.9946823 L18.5,62 L71.5,62 C72.8807119,62 74,60.8807119 74,59.5 C74,58.1192881 72.8807119,57 71.5,57 Z M71.5,33 L18.5,33 C17.1192881,33 16,34.1192881 16,35.5 C16,36.8254834 17.0315359,37.9100387 18.3356243,37.9946823 L18.5,38 L71.5,38 C72.8807119,38 74,36.8807119 74,35.5 C74,34.1192881 72.8807119,33 71.5,33 Z">
+                            </path>
+                        </svg>
+                    </li>
+                    <li>
+                        <svg fill="currentColor" viewBox="0 0 90 120">
+                            <path
+                                    d="M90,0 L90,120 L11,120 C4.92486775,120 0,115.075132 0,109 L0,11 C0,4.92486775 4.92486775,0 11,0 L90,0 Z M71.5,81 L18.5,81 C17.1192881,81 16,82.1192881 16,83.5 C16,84.8254834 17.0315359,85.9100387 18.3356243,85.9946823 L18.5,86 L71.5,86 C72.8807119,86 74,84.8807119 74,83.5 C74,82.1745166 72.9684641,81.0899613 71.6643757,81.0053177 L71.5,81 Z M71.5,57 L18.5,57 C17.1192881,57 16,58.1192881 16,59.5 C16,60.8254834 17.0315359,61.9100387 18.3356243,61.9946823 L18.5,62 L71.5,62 C72.8807119,62 74,60.8807119 74,59.5 C74,58.1192881 72.8807119,57 71.5,57 Z M71.5,33 L18.5,33 C17.1192881,33 16,34.1192881 16,35.5 C16,36.8254834 17.0315359,37.9100387 18.3356243,37.9946823 L18.5,38 L71.5,38 C72.8807119,38 74,36.8807119 74,35.5 C74,34.1192881 72.8807119,33 71.5,33 Z">
+                            </path>
+                        </svg>
+                    </li>
+                    <li>
+                        <svg fill="currentColor" viewBox="0 0 90 120">
+                            <path
+                                    d="M90,0 L90,120 L11,120 C4.92486775,120 0,115.075132 0,109 L0,11 C0,4.92486775 4.92486775,0 11,0 L90,0 Z M71.5,81 L18.5,81 C17.1192881,81 16,82.1192881 16,83.5 C16,84.8254834 17.0315359,85.9100387 18.3356243,85.9946823 L18.5,86 L71.5,86 C72.8807119,86 74,84.8807119 74,83.5 C74,82.1745166 72.9684641,81.0899613 71.6643757,81.0053177 L71.5,81 Z M71.5,57 L18.5,57 C17.1192881,57 16,58.1192881 16,59.5 C16,60.8254834 17.0315359,61.9100387 18.3356243,61.9946823 L18.5,62 L71.5,62 C72.8807119,62 74,60.8807119 74,59.5 C74,58.1192881 72.8807119,57 71.5,57 Z M71.5,33 L18.5,33 C17.1192881,33 16,34.1192881 16,35.5 C16,36.8254834 17.0315359,37.9100387 18.3356243,37.9946823 L18.5,38 L71.5,38 C72.8807119,38 74,36.8807119 74,35.5 C74,34.1192881 72.8807119,33 71.5,33 Z">
+                            </path>
+                        </svg>
+                    </li>
+                    <li>
+                        <svg fill="currentColor" viewBox="0 0 90 120">
+                            <path
+                                    d="M90,0 L90,120 L11,120 C4.92486775,120 0,115.075132 0,109 L0,11 C0,4.92486775 4.92486775,0 11,0 L90,0 Z M71.5,81 L18.5,81 C17.1192881,81 16,82.1192881 16,83.5 C16,84.8254834 17.0315359,85.9100387 18.3356243,85.9946823 L18.5,86 L71.5,86 C72.8807119,86 74,84.8807119 74,83.5 C74,82.1745166 72.9684641,81.0899613 71.6643757,81.0053177 L71.5,81 Z M71.5,57 L18.5,57 C17.1192881,57 16,58.1192881 16,59.5 C16,60.8254834 17.0315359,61.9100387 18.3356243,61.9946823 L18.5,62 L71.5,62 C72.8807119,62 74,60.8807119 74,59.5 C74,58.1192881 72.8807119,57 71.5,57 Z M71.5,33 L18.5,33 C17.1192881,33 16,34.1192881 16,35.5 C16,36.8254834 17.0315359,37.9100387 18.3356243,37.9946823 L18.5,38 L71.5,38 C72.8807119,38 74,36.8807119 74,35.5 C74,34.1192881 72.8807119,33 71.5,33 Z">
+                            </path>
+                        </svg>
+                    </li>
+                    <li>
+                        <svg fill="currentColor" viewBox="0 0 90 120">
+                            <path
+                                    d="M90,0 L90,120 L11,120 C4.92486775,120 0,115.075132 0,109 L0,11 C0,4.92486775 4.92486775,0 11,0 L90,0 Z M71.5,81 L18.5,81 C17.1192881,81 16,82.1192881 16,83.5 C16,84.8254834 17.0315359,85.9100387 18.3356243,85.9946823 L18.5,86 L71.5,86 C72.8807119,86 74,84.8807119 74,83.5 C74,82.1745166 72.9684641,81.0899613 71.6643757,81.0053177 L71.5,81 Z M71.5,57 L18.5,57 C17.1192881,57 16,58.1192881 16,59.5 C16,60.8254834 17.0315359,61.9100387 18.3356243,61.9946823 L18.5,62 L71.5,62 C72.8807119,62 74,60.8807119 74,59.5 C74,58.1192881 72.8807119,57 71.5,57 Z M71.5,33 L18.5,33 C17.1192881,33 16,34.1192881 16,35.5 C16,36.8254834 17.0315359,37.9100387 18.3356243,37.9946823 L18.5,38 L71.5,38 C72.8807119,38 74,36.8807119 74,35.5 C74,34.1192881 72.8807119,33 71.5,33 Z">
+                            </path>
+                        </svg>
+                    </li>
+                    <li>
+                        <svg fill="currentColor" viewBox="0 0 90 120">
+                            <path
+                                    d="M90,0 L90,120 L11,120 C4.92486775,120 0,115.075132 0,109 L0,11 C0,4.92486775 4.92486775,0 11,0 L90,0 Z M71.5,81 L18.5,81 C17.1192881,81 16,82.1192881 16,83.5 C16,84.8254834 17.0315359,85.9100387 18.3356243,85.9946823 L18.5,86 L71.5,86 C72.8807119,86 74,84.8807119 74,83.5 C74,82.1745166 72.9684641,81.0899613 71.6643757,81.0053177 L71.5,81 Z M71.5,57 L18.5,57 C17.1192881,57 16,58.1192881 16,59.5 C16,60.8254834 17.0315359,61.9100387 18.3356243,61.9946823 L18.5,62 L71.5,62 C72.8807119,62 74,60.8807119 74,59.5 C74,58.1192881 72.8807119,57 71.5,57 Z M71.5,33 L18.5,33 C17.1192881,33 16,34.1192881 16,35.5 C16,36.8254834 17.0315359,37.9100387 18.3356243,37.9946823 L18.5,38 L71.5,38 C72.8807119,38 74,36.8807119 74,35.5 C74,34.1192881 72.8807119,33 71.5,33 Z">
+                            </path>
+                        </svg>
+                    </li>
+                </ul>
+            </div>
+            <span>Vui lòng chờ vài giây</span>
+        </div>
+    </div>
+    <div class="container d-flex justify-content-center align-items-center mt-4 mb-4">
+        <!-- Register Container -->
+        <div class="row border  p-3 bg-white shadow box-area" style="width: 534px;">
+            <div class="col-md-12 right-box">
+                <div class="row align-items-center">
+                    <div class="header-text mb-4 text-center">
+                        <h2 class="text-uppercase" th:text="#{lo.mn.signupacc}">Đăng ký</h2>
+                        <p th:text="#{lo.mn.khampha}">Khám phá sách tuyệt vời và tính năng độc đáo tại trang web.</p>
+                    </div>
+
+                    <form ng-submit="signup()">
+                        <!-- Trường Email hoặc Số Điện Thoại -->
+                        <div class="input-group flex-nowrap mb-2">
+                            <label for="phone" class="icon-form">
+                                <i class="fa fa-envelope fa-lg fa-fw" aria-hidden="true"></i>
+                            </label>
+                            <div class="form-floating full-with">
+                                <input type="text" class="form-control" id="phone" placeholder="Số Điện Thoại"
+                                       ng-model="emailAndPhone">
+                                <label for="phone" th:text="#{lo.mn.hoac}">*Email & Số điện thoại</label>
+                            </div>
+                        </div>
+                        <!-- OTP -->
+                        <div class="form-floating  form-floating-row flex-nowrap mb-2">
+                            <input style="padding-left: 15px" ng-model="code" th:placeholder="#{lo.mn.xacthuc}"
+                                   placeholder="Nhập mã xác thực 6 số"
+                                   type="text" name="code" title="Code"
+                                   class="input_frame col-8">
+                            <button class="btn-success1" type="button" ng-click="sendCode()" th:text="#{lo.mn.otp}">Gửi
+                                mã OTP
+                            </button>
+                        </div>
+                        <!-- Trường Mật khẩu -->
+                        <div class="input-group flex-nowrap mb-2">
+                            <label for="password" class="icon-form">
+                                <i class="fa fa-lock fa-lg fa-fw" aria-hidden="true"></i>
+                            </label>
+                            <div class="form-floating full-with">
+                                <input type="password" class="form-control" id="password" placeholder="Mật Khẩu"
+                                       aria-label="Password"
+                                       aria-describedby="addon-wrapping" name="password" ng-model="password"
+                                       ng-change="checkPassword()" ng-readonly="disabled">
+                                <label for="password" th:text="#{lo.mn.matkhau}">*Mật Khẩu </label>
+                            </div>
+                        </div>
+                        <!-- Trường Nhập lại mật khẩu -->
+                        <div class="input-group flex-nowrap mb-2">
+                            <label for="repassword" class="icon-form">
+                                <i class="fa fa-lock fa-lg fa-fw" aria-hidden="true"></i>
+                            </label>
+                            <div class="form-floating full-with">
+                                <input type="password" class="form-control" id="repassword"
+                                       placeholder="Xác Nhận Mật Khẩu"
+                                       aria-label="Confirm-Password" aria-describedby="addon-wrapping" name="repassword"
+                                       ng-model="repassword" ng-readonly="disabled">
+                                <label for="repassword" th:text="#{lo.mn.xacnhan}">*Xác Nhận Mật Khẩu </label></label>
+                            </div>
+                        </div>
+                        <div class="text-danger" ng-show="passwordError" th:text="#{lo.mn.checkPassword}">
+                            Mật khẩu phải có ít nhất 8 ký tự, có ít nhất một chữ cái viết thường, một chữ cái viết hoa,
+                            một số, và một ký tự đặc biệt.
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-lg btn-success1 w-100 fs-6" th:text="#{lo.mn.signupacc}">Đăng ký
+                            </button>
+                        </div>
+                        <div class="dialog-footer d-flex justify-content-center align-items-center mt-3">
+                            <small th:text="#{lo.mn.co}">Bạn đã có tài khoản?</small>
+                            <a href="/login" class="text-green mx-1" th:text="#{lo.mn.login}"> Đăng nhập</a>
+                        </div>
+                    </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+</html>

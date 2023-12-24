@@ -1,0 +1,207 @@
+/* Popup đăng nhập, đăng ký */
+.custom-tab .nav-link {
+  position: relative;
+  color: #333;
+  /* Màu chữ mặc định */
+  background-color: transparent;
+  /* Loại bỏ background của tab */
+  border: none;
+  /* Loại bỏ viền */
+}
+
+.custom-tab .nav-link::before {
+  content: "";
+  display: block;
+  width: 100%;
+  /* Chiều rộng của đường dưới */
+  height: 2px;
+  background-color: transparent;
+  /* Màu mặc định là trong suốt */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: scaleX(0);
+  /* Đặt chiều dài ban đầu là 0 */
+  transform-origin: center bottom;
+  transition: transform 1s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.custom-tab .nav-item:hover .nav-link::before,
+.custom-tab .nav-item.active .nav-link::before {
+  transform: scaleX(1);
+  /* Kéo dài đường dưới khi hover hoặc tab được chọn */
+  background-color: #0d6efd;
+  /* Màu của đường dưới khi hover hoặc tab được chọn */
+}
+
+/* Button Gửi OTP */
+.send-otp-button {
+  border: 1px solid #ced4da;
+  /* Màu border tương tự như input */
+  border-radius: 0.25rem;
+  /* Bo góc tương tự như input */
+  padding: 0.375rem 0.75rem;
+  /* Khoảng cách giữa nội dung và border */
+}
+
+/* login & sigin*/
+/*------------ Login container ------------*/
+.box-area {
+  width: 930px;
+}
+/*------------ Right box ------------*/
+.right-box {
+  padding: 40px 30px 40px 40px;
+}
+/*------------ Custom Placeholder ------------*/
+::placeholder {
+  font-size: 16px;
+}
+.rounded-4 {
+  border-radius: 20px;
+}
+.rounded-5 {
+  border-radius: 30px;
+}
+/*------------ For small screens------------*/
+@media only screen and (max-width: 768px) {
+  .box-area {
+    margin: 0 10px;
+  }
+  .left-box {
+    height: 100px;
+    overflow: hidden;
+  }
+  .right-box {
+    padding: 20px;
+  }
+}
+
+.custom-modal {
+  background-color: transparent;
+  border: none;
+}
+.custom-btn-login-sigin {
+  background-color: #62ab00;
+  border: #62ab00;
+}
+
+.form-floating-row {
+  display: flex;
+  align-items: center;
+}
+
+.form-floating-row .form-control {
+  flex: 1;
+  /* margin-right: 10px; */
+}
+
+/* .form-floating-row .send-otp-button {
+    flex-shrink: 0;
+} */
+
+.form-floating .input_frame {
+  border: 1px solid #b1b6ba;
+  width: 80%;
+  height: 40px;
+  line-height: 40px;
+  /* border: none; */
+  font-size: 14px;
+  outline: none;
+}
+.form-floating .input_frame1 {
+  align-items: center;
+  text-align: center;
+  border: 1px solid #b1b6ba;
+  height: 40px;
+  line-height: 40px;
+  border-left: none;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+}
+.text-green {
+  color: #326e51;
+}
+/* Ẩn icon mặc định */
+#floatingPassword::after {
+  font-family: "FontAwesome";
+  content: "\f070"; /* Icon eye */
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+#floatingPassword.show-password::after {
+  content: "\f06e"; /* Icon eye-slash */
+}
+
+.input-group {
+  border: 1px solid #b1b6ba;
+}
+.input-group .input_frame {
+  /* border: 1px solid #b1b6ba; */
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  border: none;
+  font-size: 14px;
+  outline: none;
+}
+.input-group .input_frame:focus {
+  border: none;
+}
+.input-group i {
+  position: absolute;
+  left: 0;
+  /* top: 8px; */
+  padding: 8px 8px;
+  color: rgb(142, 137, 137);
+  transition: 0.3s;
+}
+
+.icon-form {
+  display: flex;
+  align-items: center;
+  padding: 0.66rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  white-space: nowrap;
+  background-color: #ffffff;
+
+  border-radius: 0.25rem;
+}
+
+.input-group .form-control {
+  border: 0px;
+}
+
+.form-check-input {
+  margin-right: 5px; /* Adjust the margin as needed to separate the checkbox from the label */
+}
+.form-check {
+  display: flex;
+  align-items: center;
+}
+.dialog-footer small {
+  font-size: 0.9rem;
+}
+
+.btn-success1 {
+    color: #fff;
+    background-color: #326e51;
+    height: 40px;
+}
+
+.btn-success1:hover {
+    color: #fff;
+    background-color: #62ab00;
+}
+
+.full-with {
+    width: 100%;
+}

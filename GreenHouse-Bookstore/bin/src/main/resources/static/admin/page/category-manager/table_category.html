@@ -1,0 +1,191 @@
+<div class="container-fluid" ng-controller="CategoryController">
+
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="card-title mb-0">Danh Sách Danh Mục</h4>
+                        <div class="d-flex">
+                            <button type="button" class="btn btn-success mr-2" data-toggle="modal"
+                                    data-target="#addCategoryModal">
+                                <i class="fa fa-plus"> </i> Thêm Danh Mục
+                            </button>
+                            <a type="button" class="btn btn-success" href="#!/categorytype-table">
+                                <i class="fa fa-list"></i> Danh Sách Loại Danh Mục
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- .col-12 -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCategoryModalLabel">
+                        Thêm Danh Mục
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="categoryName">ID Danh Mục(*)</label>
+                                        <input type="text" class="form-control" placeholder="Mã danh mục tự động"
+                                               id="categoryId" ng-disabled="isEditing" name="categoryId"
+                                               ng-model="editingCategory.categoryId"/>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="typeId">Tên Loại Danh Mục(*)</label>
+                                        <select class="form-control " id="typeId" ng-model="editingCategory.typeId"
+                                                ng-change="hideError('typeId')"
+                                                ng-options="typeId as typeId.typeName for typeId in categoryTypes track by typeId.typeName">
+                                            <option value="">Chọn loại danh mục</option>
+                                        </select>
+                                        <small class="text-danger" ng-show="errors.typeId">{{ errors.typeId }}</small>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="categoryName">Tên Danh Mục(*)</label>
+                                    <input type="text" class="form-control" placeholder="Nhập tên danh mục"
+                                           ng-change="hideError('categoryName')" id="categoryName" name="categoryName"
+                                           ng-model="editingCategory.categoryName"/>
+                                    <small class="text-danger" ng-show="errors.categoryName">{{ errors.categoryName
+                                        }}</small>
+                                </div>
+                                <button type="button" class="btn btn-primary" ng-click="saveCategory()">
+                                    <i class="fa fa-save"> </i> {{ isEditing ? ' Lưu Sửa Đổi' : ' Thêm Danh Mục' }}
+                                </button>
+                                <button type="button" class="btn btn-primary" ng-click="resetForm()"><i class="fa fa-undo">
+                                </i>Làm
+                                    Mới
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <div class="col">
+                                <div class="form-inline mb-3">
+                                    <div class="input-container">
+                                        <div class="input-wrapper">
+                                            <i class="fe fe-search fe-18 icon"></i>
+                                            <input class="form-control input" type="search" placeholder="Tìm kiếm..."
+                                                   ng-model="searchText" ng-change="searchData()">
+                                        </div>
+                                    </div>
+                                    <div ng-if="noResults" class="alert alert-warning">
+                                        Không tìm thấy dữ liệu.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- table -->
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>
+                                        <a ng-click="sortBy('categoryId')" href="" style="text-decoration: none;">
+                                            Mã Danh Mục
+                                            <i class="mdi mdi-swap-vertical"></i>
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a ng-click="sortBy('typeId')" href="" style="text-decoration: none;">
+                                            Loại Danh Mục
+                                            <i class="mdi mdi-swap-vertical"></i>
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a ng-click="sortBy('categoryName')" href="" style="text-decoration: none;">
+                                            Tên Danh Mục
+                                            <i class="mdi mdi-swap-vertical"></i>
+                                        </a>
+                                    </th>
+                                    <th>Thao Tác</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr
+                                        ng-repeat="category in filteredCategories| orderBy:orderByField:reverseSort | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
+
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{category.categoryId}}</td>
+                                    <td>{{category.typeId.typeName}}</td>
+                                    <td>{{category.categoryName}}</td>
+                                    <td>
+                                        <a ng-click="editCategoryAndRedirect(category.categoryId)"><i
+                                                class="fe fe-edit fe-16"></i></a>
+                                        <a ng-show="roleName !== 'Nhân viên'"
+                                           ng-click="deleteCategory(category.categoryId)"><i
+                                                class="fe fe-trash-2 fe-16"></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!-- Thanh công cụ -->
+                            <div class="toolbar">
+                                <form class="form">
+                                    <div class="form-row">
+                                        <div class="form-inline col-auto mr-auto">
+                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref1">Hiển thị</label>
+                                            <select class="mr-sm-2 form-control" id="inlineFormCustomSelectPref1"
+                                                    ng-model="itemsPerPage"
+                                                    ng-options="option for option in itemsPerPageOptions"
+                                                    ng-change="currentPage = 1"></select>
+                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref1">danh mục</label>
+                                        </div>
+                                        <div class="form-group col-auto">
+                                            <span>Đang xem {{ calculateRange() }} danh mục</span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <ul uib-pagination ng-model="currentPage" total-items="filteredCategories.length"
+                                items-per-page="itemsPerPage" max-size="maxSize" class="pagination-sm"
+                                boundary-link-numbers="true" boundary-links="true" force-ellipses="true"
+                                previous-text="<" next-text=">" first-text="<<" last-text=">>">
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- simple table -->
+            </div> <!-- end section -->
+        </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+</div> <!-- .container-fluid -->
+
+<style>
+    .search-container {
+        display: flex;
+        align-items: center;
+    }
+
+    /* Định dạng cho thông báo "Không tìm thấy kết quả" */
+    .alert-warning {
+        margin: 1rem;
+
+
+    }
+</style>

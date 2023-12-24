@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{client/main-layout.html :: layout (~{::title}, ~{::#layout})}">
+
+<head>
+    <title>Tài khoản</title>
+</head>
+<main id="layout">
+    <div class="site-wrapper profile-account" id="top" ng-controller="accountController">
+        <section class="breadcrumb-section">
+            <div class="container">
+                <div class="breadcrumb-contents">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/index">Trang chủ</a></li>
+                            <li class="breadcrumb-item ">Tài khoản</li>
+                            <li class="breadcrumb-item active">Thông tin tài khoản</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </section>
+        <div class="page-section inner-page-sec-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <!-- My Account Tab Menu Start -->
+                            <div class="col-lg-3 col-12">
+                                <div class="myaccount-tab-menu nav" role="tablist">
+                                    <a href="/account/info" class="active">
+                                        <i class="fa fa-user"></i>
+                                        <span th:text="#{lo.mn.tttk}">Thông tin tài khoản</span>
+                                    </a>
+                                    <a href="/account/order">
+                                        <i class="fa fa-cart-arrow-down"></i>
+                                        <span th:text="#{lo.mn.dhct}">Đơn hàng của tôi</span>
+                                    </a>
+                                    <a href="/account/address">
+                                        <i class="fa fa-map-marker"></i>
+                                        <span th:text="#{lo.mn.tabaddress}">Địa chỉ</span>
+                                    </a>
+                                    <a href="/account/voucher">
+                                        <i class="fa fa-percent"></i>
+                                        <span th:text="#{lo.mn.tabvoucher}"> Voucher của tôi</span>
+                                    </a>
+                                    <a href="/account/notification">
+                                        <i class="fa fa-bell"></i>
+                                        <span th:text="#{lo.mn.messenger}">Thông báo</span>
+                                    </a>
+                                    <a href="/account/review">
+                                        <i class="fa fa-comment"></i>
+                                        <span th:text="#{lo.mn.nxct}">Nhận xét của tôi</span>
+                                    </a>
+
+                                </div>
+                            </div>
+                            <!-- My Account Tab Menu End -->
+                            <!-- My Account Tab Content Start -->
+                            <div class="col-lg-9 col-12 mt--30 mt-lg--0">
+                                <div class="tab-content" id="myaccountContent">
+                                    <!-- Single Tab Content Start -->
+                                    <div class="tab-pane fade show active" id="account-info" role="tabpanel">
+
+                                        <div class="myaccount-content">
+                                            <h3 th:text="#{lo.mn.tttkcon}">Thông tin tài khoản</h3>
+                                            <form>
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <div class="mb-3">
+                                                            <label for="lastname" class="form-label"
+                                                                th:text="#{lo.mn.hotentk}">Họ và tên </label>
+                                                            <input type="text" class="form-control bg-transparent"
+                                                                id="lastname" name="lastname" required
+                                                                placeholder="Nhập họ và tên"
+                                                                ng-model="account.fullname">
+                                                            <small class="error-label text-danger"
+                                                                ng-show="errorMessages.fullname">{{errorMessages.fullname}}</small>
+
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="telephone" class="form-label"
+                                                                th:text="#{lo.mn.tabtkphone}">Số điện thoại
+                                                            </label>
+                                                            <input type="tel" class="form-control bg-transparent"
+                                                                id="telephone" name="telephone"
+                                                                placeholder="Nhập số điện thoại"
+                                                                ng-model="account.phone">
+                                                            <small class="error-label text-danger"
+                                                                ng-show="errorMessages.phone">{{errorMessages.phone}}</small>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="email" class="form-label">Email (*)</label>
+                                                            <input type="email" class="form-control bg-transparent"
+                                                                id="email" name="email" placeholder="Nhập email"
+                                                                ng-model="account.email">
+                                                            <small class="error-label text-danger"
+                                                                ng-show="errorMessages.email">{{errorMessages.email}}</small>
+
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <p class="mb-2" th:text="#{lo.mn.gender}">Giới Tính</p>
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="radio" name="role"
+                                                                    id="male" value="true" ng-model="account.gender"
+                                                                    ng-value="true" ng-checked="true">
+                                                                <label class="form-check-label" for="male" th:text="#{lo.mn.nam}">Nam</label>
+                                                            </div>
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="radio" name="role"
+                                                                    id="female" value="false" ng-model="account.gender"
+                                                                    ng-value="false">
+                                                                <label class="form-check-label" for="female" th:text="#{lo.mn.nu}">Nữ</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label for="birthday" class="form-label" th:text="#{lo.mn.birthday}">Ngày sinh</label>
+                                                            <input type="date" class="form-control bg-transparent"
+                                                                id="birthday" name="birthday"
+                                                                ng-model="account.birthday"
+                                                                ng-value="formatDate(account.birthday)">
+                                                            <small class="error-label text-danger"
+                                                                ng-show="errorMessages.birthday">{{errorMessages.birthday}}</small>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="Upload">
+                                                            <div class="form-label text-center">
+                                                                <label for="img" class="form-label" th:text="#{lo.mn.avt}">Ảnh đại diện</label>
+                                                            </div>
+                                                            <div class="d-flex justify-content-center">
+                                                                <img class="object-fit border border-light"
+                                                                    ng-src="{{account.image}}" alt="" id="uploadedImage"
+                                                                    name="image"
+                                                                    style="max-height: 250px; height: 130px; width: 150px;">
+
+                                                            </div>
+
+                                                            <div class="d-flex justify-content-center ">
+                                                                <label class="text-center mt-2 btn-outline-dark btn-sm" >
+                                                                    <i class="fa fa-upload"></i>
+                                                                    <span th:text="#{lo.mn.tai}">Tải ảnh lên</span>
+                                                                    
+                                                                    <input type="file" name="file"
+                                                                        style="object-fit: contain;" id="fileInput"
+                                                                        ng-model="account.image"
+                                                                        onchange="displayImage(event)" hidden
+                                                                        accept=".png,.jpg,.jpeg" />
+                                                                </label>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-center">
+                                                    <button type="button"  class="btn btn-primary" 
+                                                        ng-click="saveAccount()" th:text="#{lo.mn.save}">Lưu thay đổi
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                    <!-- Single Tab Content End -->
+                                </div>
+                                <!-- My Account Tab Content End -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade " id="message" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered ">
+                    <div class="modal-content model-message">
+                        <!-- Modal body -->
+                        <div class="modal-body text-center">
+                            <i class="far fa-check-circle text-success mb-1" style="font-size: 50px;"></i>
+                            <p style="color: rgb(255, 255, 255);">{{ modalContent }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+</main>
+
+</html>

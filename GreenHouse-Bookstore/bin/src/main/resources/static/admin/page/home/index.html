@@ -1,0 +1,122 @@
+<div class="container-fluid" ng-controller="IndexController">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-6 col-xl-3 mb-4">
+                    <div class="card shadow  text-white border-0">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-3 text-center">
+                                    <span class="circle circle-sm bg-primary">
+                                        <i class="fe fe-16 fe-shopping-bag text-white mb-0"></i>
+                                    </span>
+                                </div>
+                                <div class="col pr-0">
+                                    <p class="small text-muted mb-0">Tổng người dùng năm 2023</p>
+                                    <span class="h3 mb-0">{{countUsersCurrentYear}}</span>
+                                    <span class="small"
+                                        ng-class="{'text-success': percentageChange > 0, 'text-danger': percentageChange < 0}">
+                                        {{percentageChange}}%
+                                    </span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3 mb-4">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-3 text-center">
+                                    <span class="circle circle-sm bg-primary">
+                                        <i class="fe fe-16 fe-shopping-cart text-white mb-0"></i>
+                                    </span>
+                                </div>
+                                <div class="col pr-0">
+                                    <p class="small text-muted mb-0">Tổng đơn hàng </p>
+                                    <span class="h3 mb-0">{{countOrdersWithStatus}}</span>
+                                    <span class="small text-success">+16.5%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3 mb-4">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-3 text-center">
+                                    <span class="circle circle-sm bg-primary">
+                                        <i class="fe fe-16 fe-book-open text-white mb-0"></i>
+                                    </span>
+                                </div>
+                                <div class="col">
+                                    <p class="small text-muted mb-0">Thương hiệu hợp tác</p>
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col-auto">
+                                            <span class="h3 mr-2 mb-0"> {{countBrand}} </span>
+                                        </div>
+                                        <div class="col-md-12 col-lg">
+                                            <div class="progress progress-sm mt-2" style="height:3px">
+                                                <div class="progress-bar bg-success" role="progressbar"
+                                                    style="width: 87%" aria-valuenow="87" aria-valuemin="0"
+                                                    aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3 mb-4">
+                    <div class="card shadow border-0">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-3 text-center">
+                                    <span class="circle circle-sm bg-primary">
+                                        <i class="fe fe-16 fe-activity text-white mb-0"></i>
+                                    </span>
+                                </div>
+                                <div class="col">
+                                    <p class="small text-muted mb-0">Tổng doanh thu năm 2023</p>
+                                    <span class="h3 mb-0">$80</span>
+                                    <span class="small text-success">+16.5%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end section -->
+
+            <div class="row justify-content-center">
+                <div class="col-12" ng-controller="StaticOvertime">
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <div class="card shadow">
+                                <div class="card-header">
+                                    <div class="dropdown float-right">
+                                        <select ng-model="selectedYear" ng-change="updateSelectedYear()"
+                                            class="btn btn-sm btn-link text-muted p-0" id="rangeDropdown">
+                                            <option value="{{selectedYear}}">{{selectedYear}}</option>
+                                            <option class="dropdown-item small text-muted"
+                                                ng-repeat="year in years track by $index"
+                                                ng-if="year[0] != selectedYear">{{year[0]}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="monthlyRevenueChart" width="300" height="100"></canvas>
+                                    <center><strong class="card-title mb-0 item-text">Biều đồ doanh thu trong năm
+                                            {{selectedYear}}</strong></center>
+                                </div> <!-- /.card-body -->
+                            </div> <!-- /.card -->
+                        </div> <!-- /. col -->
+                    </div> <!-- end section -->
+                </div> <!-- .col-12 -->
+                <!-- .row -->
+
+
+            </div> <!-- .container-fluid -->

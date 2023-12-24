@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{client/main-layout.html :: layout (~{::title}, ~{::#layout})}">
+
+<head>
+  <title>Đăng nhập</title>
+</head>
+<main id="layout">
+    <div class="container d-flex justify-content-center align-items-center mt-4 mb-4">
+        <div class="row border p-3 bg-white shadow box-area" style="width: 534px;">
+            <!-- Add the Close Button -->
+            <div class="col-md-12 right-box">
+                <div class="row align-items-center">
+                    <div class="header-text text-center">
+                        <h2 class="text-uppercase" th:text="#{lo.mn.loginbig}">Đăng nhập</h2>
+                        <p th:text="#{lo.mn.ratvui}">Chúng tôi rất vui khi có bạn trở lại.</p>
+                    </div>
+                    <form th:action="@{/login}" method="post">
+                        <div class="input-group flex-nowrap mb-2">
+                            <label for="username" class="icon-form">
+                                <i class="fa fa-envelope fa-lg fa-fw" aria-hidden="true"></i>
+                            </label>
+                            <div class="form-floating full-with">
+                                <input type="text" class="form-control" id="username" name="username"
+                                       placeholder="Email hoặc Số Điện Thoại" ng-model="userData.username">
+                                <label for="username" th:text="#{lo.mn.hoac}">Email hoặc Số Điện Thoại <label
+                                        for="username"
+                                        class="text-danger">(*)</label></label>
+                            </div>
+            </div>
+                        <div class="input-group flex-nowrap mb-2">
+                            <label for="username" class="icon-form">
+                                <i class="fa fa-lock fa-lg fa-fw" aria-hidden="true"></i>
+                            </label>
+                            <div class="form-floating full-with">
+                                <input type="password" class="form-control" id="password" name="password"
+                                       placeholder="Mật khẩu"
+                                       ng-model="userData.password">
+                                <label for="password" th:text="#{lo.mn.matkhau}">Mật khẩu <label for="password"
+                                                                                                 class="text-danger">(*)</label></label>
+                            </div>
+                        </div>
+            <div class="input-group border-0 mb-3">
+              <button type="submit" class="btn btn-lg btn-success1 w-100 fs-6" th:text="#{lo.mn.loginbig}">Đăng nhập
+              </button>
+            </div>
+            <div class="row">
+              <div class="col-12"><a th:href="@{/oauth2/authorization/google}" class="btn btn-lg btn-light  w-100 fs-6"
+                                     style="border: 1px solid gainsboro;">
+                  <img src="/client/image/logoGoogle.png" style="width:20px" class="me-2"><small>Google</small></a>
+              </div>
+                <div class="dialog-footer d-flex justify-content-center align-items-center mt-3">
+                    <small th:text="#{lo.mn.chua}">Bạn chưa có tài khoản?</small>
+                    <a href="/resgister" class="text-green mx-1" th:text="#{lo.mn.signup}">Đăng ký</a>
+                </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</main>
+
+</html>

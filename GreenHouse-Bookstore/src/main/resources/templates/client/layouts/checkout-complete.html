@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{client/main-layout.html :: layout (~{::title}, ~{::#layout})}">
+
+<head>
+	<title>Green house</title>
+</head>
+<main id="layout" ng-controller="checkoutCompleteController">
+	<div class="site-wrapper" id="top">
+		<section class="order-complete inner-page-sec-padding-bottom">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="order-complete-message text-center" ng-if="payment_status">
+							<h1>CẢM ƠN BẠN ĐÃ MUA HÀNG !</h1>
+							<p>Đơn hàng của bạn đang được xác nhận.</p>
+						</div>
+						<div class="order-complete-message text-center" ng-if="!payment_status">
+							<h1>THANH TOÁN CHƯA THÀNH CÔNG !</h1>
+							<p>Đơn hàng của bạn sẽ bị hủy bỏ.</p>
+						</div>
+						<ul class="order-details-list">
+							<li>Mã đơn hàng: <strong>{{order.orderCode}}</strong></li>
+							<li>Ngày đặt hàng: <strong>{{order.create_Date | date:'dd/MM/yyyy HH:mm:ss'}}</strong></li>
+							<li>Tổng tiền: <strong>{{invoice.paymentAmount | number:'0'}} đ</strong></li>
+							<li>Phương thức thanh toán: <strong>{{invoice.paymentMethod == "cod" ? 'Thanh toán khi nhận
+									hàng' : invoice.paymentMethod}}</strong></li>
+						</ul>
+						<h3 class="order-table-title">Đơn hàng của bạn</h3>
+						<div class="table-responsive">
+							<table class="table order-details-table">
+								<thead>
+									<tr>
+										<th style="font-weight: bold">Sản phẩm</th>
+										<th style="font-weight: bold">Tổng</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="order in orderDetails track by $index">
+										<td><a href="single-product.html">{{order.productName}}</a>
+											<strong>×{{order.quantity}}</strong>
+										</td>
+										<td class="money"><span>{{order.price | number:'0'}} đ</span></td>
+									</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<th style="font-weight: bold">Thành tiền:</th>
+										<td class="money"><span>{{invoice.totalAmount | number:'0'}} đ</span></td>
+									</tr>
+									<tr>
+										<th>Phí ship:</th>
+										<td class="money">{{order.codAmount <= 0 ? "Miễn phí" : order.codAmount
+												| number:'0'}} đ</td>
+									</tr>
+									<tr ng-repeat="imv in invoiceMV track by $index">
+										<th>{{imv.voucher.voucherName}}</th>
+										<td class="money">{{imv.discountAmount | number:'0'}} đ</td>
+									</tr>
+									<tr>
+										<th style="font-weight: bold">Thanh toán:</th>
+										<td class="money"><span>{{invoice.paymentAmount | number:'0'}} đ</span></td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- order complete Page End -->
+	</div>
+	<!--=================================
+  Brands Slider
+===================================== -->
+	<section class="section-margin">
+		<h2 class="sr-only">Brand Slider</h2>
+		<div class="container">
+			<div class="brand-slider sb-slick-slider border-top border-bottom" data-slick-setting='{
+                                            "autoplay": true,
+                                            "autoplaySpeed": 8000,
+                                            "slidesToShow": 6
+                                            }' data-slick-responsive='[
+                {"breakpoint":992, "settings": {"slidesToShow": 4} },
+                {"breakpoint":768, "settings": {"slidesToShow": 3} },
+                {"breakpoint":575, "settings": {"slidesToShow": 3} },
+                {"breakpoint":480, "settings": {"slidesToShow": 2} },
+                {"breakpoint":320, "settings": {"slidesToShow": 1} }
+            ]'>
+				<div class="single-slide">
+					<img src="image/others/brand-1.jpg" alt="">
+				</div>
+				<div class="single-slide">
+					<img src="image/others/brand-2.jpg" alt="">
+				</div>
+				<div class="single-slide">
+					<img src="image/others/brand-3.jpg" alt="">
+				</div>
+				<div class="single-slide">
+					<img src="image/others/brand-4.jpg" alt="">
+				</div>
+				<div class="single-slide">
+					<img src="image/others/brand-5.jpg" alt="">
+				</div>
+				<div class="single-slide">
+					<img src="image/others/brand-6.jpg" alt="">
+				</div>
+				<div class="single-slide">
+					<img src="image/others/brand-1.jpg" alt="">
+				</div>
+				<div class="single-slide">
+					<img src="image/others/brand-2.jpg" alt="">
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+
+</html>

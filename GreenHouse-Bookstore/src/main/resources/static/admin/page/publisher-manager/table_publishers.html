@@ -1,0 +1,127 @@
+<div class="container-fluid" ng-controller="PublishersController">
+  <div class="row justify-content-center">
+    <div class="col-12">
+        <div class="card mb-3 ">
+            <h3 class="mb-3 mt-3 ml-3">Danh Sách Nhà Xuất Bản</h3>
+        </div>
+        <div class="row my-2">
+            <!-- Small table -->
+            <div class="col-md-12">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="toolbar row mb-3">
+                            <div class="col-md-6">
+                                <form class="form-inline mr-auto border text-muted">
+                                    <input class="form-control input" type="search" placeholder="Tìm kiếm..."
+                                           ng-model="searchText"
+                                           ng-change="searchData()">
+                                </form>
+                            </div>
+                            <div class="col-md-6 ml-auto">
+                                <div class="dropdown float-right">
+                                    <button class="btn btn-default border-1 float-right ml-3 dropdown-toggle"
+                                            type="button"
+                                            id="btnnhaphang" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                        Tất cả trạng thái
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="btnnhaphang">
+
+                                        <a class="dropdown-item" ng-click="printPDF()"><i
+                                                class='bx bxs-file-export mr-1'></i>Xuất file
+                                            PDF</a>
+                                        <a class="dropdown-item" ng-click="exportToExcel()"><i
+                                                class='bx bxs-file-export mr-1'></i>Xuất
+                                            File Excel</a>
+                                    </div>
+                                    <a class="btn btn-info " href="#!/publisher-form"> <i
+                                            class='bx bx-plus-medical mr-1'></i>Thêm nhà
+                                        cung cấp
+                                    </a>
+                                </div>
+                </div>
+              </div>
+              <table class="table table-striped table-hover-green">
+                <thead>
+                <tr>
+                    <th><a href="" style="text-decoration: none;">
+                        #
+                        <i class="mdi mdi-swap-vertical"></i>
+                    </a></th>
+                    <th><a ng-click="sortBy('publisherId')" href="" style="text-decoration: none;">
+                        ID
+                        <i class="mdi mdi-swap-vertical"></i>
+                    </a></th>
+                    <th><a ng-click="sortBy('publisherName')" href="" style="text-decoration: none;">
+                        Tên nhà xuất bản
+                        <i class="mdi mdi-swap-vertical"></i>
+                    </a></th>
+                    <th><a ng-click="sortBy('description')" href="" style="text-decoration: none;">
+                        Mô tả
+                        <i class="mdi mdi-swap-vertical"></i>
+                    </a></th>
+                    <th><a ng-click="sortBy('address')" href="" style="text-decoration: none;">
+                        Địa chỉ
+                        <i class="mdi mdi-swap-vertical"></i>
+                    </a></th>
+                    <th><a ng-click="sortBy('email')" href="" style="text-decoration: none;">
+                        Email
+                        <i class="mdi mdi-swap-vertical"></i>
+                    </a></th>
+                    <th><a href="" style="text-decoration: none;">
+                        Hình ảnh Logo
+                        <i class="mdi mdi-swap-vertical"></i>
+                    </a></th>
+                    <th><a href="" style="text-decoration: none;">
+                        Thao tác
+                        <i class="mdi mdi-swap-vertical"></i>
+                    </a></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr
+                        ng-repeat="publisher in publishers | orderBy:orderByField:reverseSort | startFrom:(currentPage - 1) * itemsPerPage | limitTo:itemsPerPage">
+                    <td>{{$index + 1}}</td>
+                    <td>{{publisher.publisherId}}</td>
+                    <td>{{publisher.publisherName}}</td>
+                    <td>{{publisher.description}}</td>
+                    <td>{{publisher.address}}</td>
+                    <td>{{publisher.email}}</td>
+                    <td>
+                        <img ng-src="{{publisher.image}}" alt="Chưa có ảnh"
+                             style="width: 50px; height: 50px; border-radius: 10%;">
+                    </td>
+                    <td>
+                        <a ng-click="editPublisherAndRedirect(publisher.publisherId)"><i
+                                class="fe fe-edit fe-16"></i></a>
+                        <a ng-show="roleName !== 'Nhân viên'" ng-click="deletePublisher(publisher.publisherId)"><i
+                                class="fe fe-trash fe-16"></i></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="toolbar">
+                <form class="form">
+                  <div class="form-row">
+                    <div class="form-inline col-auto mr-auto">
+                      <label class="my-1 mr-2" for="inlineFormCustomSelectPref1">Show</label>
+                      <select class="mr-sm-2 form-control" id="inlineFormCustomSelectPref1" ng-model="itemsPerPage"
+                        ng-options="option for option in itemsPerPageOptions" ng-change="currentPage = 1">
+                      </select>
+                    </div>
+                    <div class="form-group col-auto">
+                      <span>Đang xem {{ calculateRange() }}</span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <ul uib-pagination ng-model="currentPage" total-items="totalItems" items-per-page="itemsPerPage"
+                max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" boundary-links="true"
+                force-ellipses="true" previous-text="<" next-text=">" first-text="<<" last-text=">>"></ul>
+            </div>
+          </div>
+        </div> <!-- simple table -->
+      </div> <!-- end section -->
+    </div> <!-- .col-12 -->
+  </div> <!-- .row -->
+</div> <!-- .container-fluid -->

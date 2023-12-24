@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{client/main-layout.html :: layout (~{::title}, ~{::#layout})}">
+
+<head>
+	<title>Thanh toán</title>
+</head>
+<main id="layout">
+	<div class="site-wrapper" id="top" ng-controller="checkoutController">
+		<section class="breadcrumb-section">
+			<div class="container">
+				<div class="breadcrumb-contents">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+							<li class="breadcrumb-item active">Thanh toán</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</section>
+		<main id="content" class="page-section inner-page-sec-padding-bottom space-db--20">
+			<div class="container-fuild container-checkout">
+				<div class="row">
+					<div class="col-12">
+						<!-- Checkout Form s-->
+						<div class="checkout-form">
+							<div class="row row-40">
+								<!-- Cart Total -->
+								<div class="col-lg-7">
+									<div class="checkout-cart-total">
+										<h4 class="checkout-title">Đơn hàng của bạn</h4>
+										<h4>Sản phẩm <span>Thành tiền</span></h4>
+										<div class="border-product"></div>
+										<div class="product-cart-left">
+											<div ng-repeat="cart in products track by $index">
+												<div class="item-product-cart">
+													<div class="img-product-cart">
+														<a href="#"><img src="{{cart.productDetail.image}}" alt=""></a>
+													</div>
+													<div class="group-product-info">
+														<div class="info-product-cart">
+															<h2 class="product-name-full-text">
+																{{cart.productDetail.product.productName}}</h2>
+															<div class="price-original">
+																<div class="cart-price">
+																	<div class="cart-item-price">
+																		<div>
+																			<span class="price">{{(cart.priceDiscount -
+																				cart.price
+																				!= 0
+																				?
+																				cart.priceDiscount : cart.price) |
+																				number:'0'}}
+																				<span class="currency">đ</span></span>
+																		</div>
+																		<div class="price-old"
+																			ng-if="cart.priceDiscount - cart.price != 0">
+																			<span class="price">
+																				{{cart.price | number:'0'}} <span
+																					class="currency">đ</span>
+																			</span>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="number-product-cart">
+															<div class="product-view-quantity-box">
+																<div class="product-view-quantity-box-block">
+																	<span>{{cart.quantity}}</span>
+																</div>
+															</div>
+															<div class="cart-price-total">
+																<span class="cart-price">
+																	<span class="price">{{cart.amount | number:'0'}}
+																		đ</span>
+																</span>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="border-product"></div>
+											</div>
+										</div>
+										<div class="border-product"></div>
+										<div class="total-bill">
+											<p>Tổng tiền <span>{{totalAmount | number:'0'}} đ</span></p>
+											<p>Phí giao hàng <span>{{shippingFee | number:'0'}} đ</span></p>
+											<h4>Tổng thanh toán <span>{{totalPaymentAmount | number:'0'}} đ</span>
+											</h4>
+											<h4>Tiền thành chữ ở đây</h4>
+											<span class="money-word">{{VNnum2words(totalPaymentAmount) +' đồng'}}</span>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-lg-5">
+									<div class="row">
+										<div class="col-12">
+											<!-- Billing Address -->
+											<div id="billing-form" class="mb-40 p-4">
+												<h4 class="checkout-title">Thông tin người nhận</h4>
+												<div class="checkout-info-receiver p-3">
+													<div class="receiver-name-phone">
+														{{infoReceiver.to_name + ' | ' + infoReceiver.to_phone}}
+													</div>
+													<div class="receiver-address">
+														{{infoReceiver.to_address}}
+													</div>
+												</div>
+												<div class="method-notice mt--25"> 
+												</div>
+												<div class="payment-form mb-3">
+													<h5 class="checkout-title mb-4">Phương thức thanh toán</h5>
+
+													<label for="cod" class="payment-option mb-3 p-2">
+														<div class="form-group">
+															<input type="radio" id="cod" name="paymentMethod"
+																ng-model="paymentMethod" value="cod">
+															Thanh toán khi nhận hàng
+														</div>
+														<div class="payment-method-icon">
+
+														</div>
+													</label>
+													<label for="vnpay" class="payment-option mb-3 p-2">
+														<div class="form-group">
+															<input type="radio" id="vnpay" name="paymentMethod"
+																ng-model="paymentMethod" value="vnpay">
+															VNPay
+														</div>
+														<div class="payment-method-icon">
+															<img src="https://i.gyazo.com/4914b35ab9381a3b5a1e7e998ee9550c.png"
+																alt="">
+														</div>
+													</label>
+													<label for="payos" class="payment-option mb-3 p-2">
+														<div class="form-group">
+															<input type="radio" id="payos" name="paymentMethod"
+																ng-model="paymentMethod" value="payos">
+															PayOS
+														</div>
+														<div class="payment-method-icon">
+															<img src="https://payos.vn/docs/img/logo.svg"
+																alt="">
+														</div>
+													</label>
+												</div>
+												<a ng-click="checkout()" class="place-order w-100">Thanh toán</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+</main>
+
+</html>

@@ -1,0 +1,154 @@
+<div class="container-fluid" ng-controller="ProductDiscountController">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="card-title mb-0">Thông Tin Giảm Giá Sản Phẩm</h4>
+                        <a type="button" class="btn btn-success" href="#!/productDiscount-form">
+                            <i class="fa fa-plus"> </i> Thêm Giảm Giá Sản Phẩm
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- .col-12 -->
+
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <div class="form-inline mb-3">
+                                <div class="input-container">
+                                    <div class="input-wrapper">
+                                        <i class="fe fe-search fe-18 icon"></i>
+                                        <input class="form-control input" type="search" placeholder="Tìm kiếm..."
+                                            ng-model="searchText" ng-change="searchData()">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- table -->
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th colspan="2">Tên Sản Phẩm</th>
+                                        <th>Phần Trăm Giảm Giá</th>
+                                        <th>Số Lượng</th>
+                                        <th>Giá Gốc</th>
+                                        <th>Giá Giảm</th>
+                                        <th>Thao Tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        ng-repeat="dis in filterProductDiscounts  | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
+                                        <td>{{$index + 1}}</td>
+                                        <td><img class="object-fit" ng-src="{{dis.productDetail.image}}"
+                                                style="width: 50px; height: 50px; border-radius: 10%;"></td>
+                                        <td>{{dis.productDetail.product.productName}}</td>
+                                        <td>{{dis.discount.value}} %</td>
+                                        <td>{{dis.discount.quantity}}</td>
+                                        <td>{{dis.productDetail.price | number }} VNĐ</td>
+                                        <td>{{dis.productDetail.priceDiscount | number }} VNĐ</td>
+                                        <td>
+                                            <a ng-show="roleName !== 'Nhân viên'" ng-click="deleteDiscount(dis.id)">
+                                                <i class="fe fe-trash-2 fe-16"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- Thanh công cụ -->
+                            <div class="toolbar">
+                                <form class="form">
+                                    <div class="form-row">
+                                        <div class="form-inline col-auto mr-auto">
+                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref1">Hiển thị</label>
+                                            <select class="mr-sm-2 form-control" id="inlineFormCustomSelectPref1"
+                                                ng-model="itemsPerPage"
+                                                ng-options="option for option in itemsPerPageOptions"
+                                                ng-change="currentPage = 1"></select>
+                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref1">giảm giá sản
+                                                phẩm</label>
+
+                                        </div>
+                                        <div class="form-group col-auto">
+                                            <span>Đang xem {{ calculateRange() }} giảm giá sản phẩm</span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- Phân trang -->
+                            <ul uib-pagination ng-model="currentPage" total-items="filterProductDiscounts.length"
+                                items-per-page="itemsPerPage" max-size="maxSize" class="pagination-sm"
+                                boundary-link-numbers="true" boundary-links="true" force-ellipses="true"
+                                previous-text="<" next-text=">" first-text="<<" last-text=">>"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- simple table -->
+            </div>
+            <!-- end section -->
+        </div>
+        <!-- .col-12 -->
+    </div>
+    <!-- .row -->
+</div>
+<!-- .container-fluid -->
+
+
+<style>
+    .search-container {
+        display: flex;
+        align-items: center;
+    }
+
+    /* Định dạng cho thông báo "Không tìm thấy kết quả" */
+    .alert-warning {
+        margin: 1rem;
+
+
+    }
+
+    .form-inline {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+
+    @media (max-width: 767px) {
+        .form-inline {
+            flex-direction: column;
+        }
+
+        .input-container {
+            max-width: 50%;
+            margin-right: 0;
+            margin-bottom: 15px;
+        }
+    }
+
+    .table {
+        margin-top: 20px;
+    }
+
+    @media (max-width: 767px) {
+        .table {
+            width: 100%;
+            overflow-x: scroll;
+        }
+    }
+</style>

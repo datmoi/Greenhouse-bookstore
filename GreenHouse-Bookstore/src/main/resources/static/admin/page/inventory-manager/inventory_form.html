@@ -1,0 +1,189 @@
+<style>
+  .truncate-cell {
+    max-width: 100px;
+    /* Độ rộng tối đa của cột */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
+
+
+<div class="container-fluid" ng-controller="InventoryStatic">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card mb-2">
+            <h5 class="mb-3 mt-3 ml-3 ">Danh Sách Sản Phẩm Trong Kho</h5>
+          </div>
+          <div class="card shadow my-4">
+            <div class="card-body">
+              <div class="toolbar row mb-3">
+                <div class="col-md-6">
+                  <form class="form-inline mr-auto border text-muted">
+                    <input class="form-control input" type="search" placeholder="Tìm kiếm..." ng-model="searchText1" ng-change="searchData1()">
+                  </form>
+                </div>
+                <div class="col-md-6 d-flex align-items-center justify-content-end">
+                  <div class="dropdown">
+                    <button class="btn btn-default border-1 dropdown-toggle" type="button" id="btnnhaphang" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Tất cả trạng thái
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnnhaphang">
+                      <a class="dropdown-item" ng-click="printPDF1()"><i class='bx bxs-file-export mr-1'></i>Xuất file PDF</a>
+                      <a class="dropdown-item" ng-click="exportToExcel1();"><i class='bx bxs-file-export mr-1'></i>Xuất File Excel</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- table -->
+              <table class="table table-hover table-hover-green">
+                <thead>
+                  <tr>
+                    <thead>
+                      <tr>
+                        <th class="text-center"><a> # </a></th>
+                        <th class="text-center"><a> Hình ảnh</a></th>
+                        <th class="text-center"><a ng-click="sortBy('item[1]')"> ID <i
+                              class="mdi mdi-swap-vertical"></i></a></th>
+                        <th class="text-center"><a ng-click="sortBy('item[2]')"> Tên sản phẩm <i
+                              class="mdi mdi-swap-vertical"></i></a></th>
+                        <th class="text-center"><a ng-click="sortBy('item[3]')"> Số lượng tồn <i
+                              class="mdi mdi-swap-vertical"></i></a></th>
+                        <th class="text-center"><a ng-click="sortBy('item[4]')"> Giá nhập <i
+                              class="mdi mdi-swap-vertical"></i></a></th>
+                        <th class="text-center"><a ng-click="sortBy('item[5]')"> Trạng thái <i
+                              class="mdi mdi-swap-vertical"></i></a></th>
+                        <th class="text-center"><a ng-click="sortBy('item[7]')"> Ngày sản xuất <i
+                              class="mdi mdi-swap-vertical"></i></a></th>
+                      </tr>
+                    </thead>
+                <tbody>
+                  <tr
+                    ng-repeat="item in inventorystatics  | orderBy:sortField:reverseSort | startFrom:(currentPage1 - 1) * itemsPerPage1 | limitTo:itemsPerPage1"
+                    data-toggle="collapse" data-target="#{{item[0]}}">
+                    <td class="text-center">{{$index + 1}}</td>
+                    <td class="text-center">
+                      <img ng-src="{{item[0]}}" alt="Chưa có ảnh"
+                        style="width: 50px; height: 50px; border-radius: 10%;">
+                    </td>
+                    <td class="text-center">{{item[1]}}</td>
+                    <td>{{item[2]}}</td>
+                    <td class="text-center">{{item[3] | number:'0'}}</td>
+                    <td class="text-center">{{item[4] | number:'0'}}</td>
+                    <td class="text-center">{{item[5] ? 'Đang bán' : 'Dừng kinh doanh'}}</td>
+                    <td class="text-center">{{item[6] | date:'dd/MM/yyyy'}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="toolbar">
+                <form class="form">
+                  <div class="form-row">
+                    <div class="form-inline col-auto mr-auto">
+                      <label class="my-1 mr-2" for="inlineFormCustomSelectPref1">Show</label>
+                      <select class="mr-sm-2 form-control" id="inlineFormCustomSelectPref1" ng-model="itemsPerPage1"
+                        ng-options="option for option in itemsPerPageOptions1" ng-change="currentPage1 = 1">
+                      </select>
+                    </div>
+                    <div class="form-group col-auto">
+                      <span>Đang xem {{ calculateRange1() }}</span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <ul uib-pagination ng-model="currentPage1" total-items="totalItems1" items-per-page="itemsPerPage1"
+                max-size="maxSize1" class="pagination-sm" boundary-link-numbers="true" boundary-links="true"
+                force-ellipses="true" previous-text="<" next-text=">" first-text="<<" last-text=">>">
+              </ul>
+            </div>
+          </div>
+        </div> <!-- simple table -->
+        <div class="col-md-12">
+          <div class="card mb-2 ">
+            <h5 class="mb-3 mt-3 ml-3 ">Danh Sách Sản Phẩm Sắp Hết Hàng</h5>
+          </div>
+          <div class="card shadow my-4">
+            <div class="card-body">
+              <div class="toolbar row mb-3">
+                <div class="col-md-6">
+                  <form class="form-inline mr-auto border text-muted">
+                    <input class="form-control input" type="search" placeholder="Tìm kiếm..." ng-model="searchText2" ng-change="searchData2()">
+                  </form>
+                </div>
+                <div class="col-md-6 d-flex align-items-center justify-content-end">
+                  <div class="dropdown">
+                    <button class="btn btn-default border-1 dropdown-toggle" type="button" id="btnnhaphang" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Tất cả trạng thái
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnnhaphang">
+                      <a class="dropdown-item" ng-click="printPDF2()"><i class='bx bxs-file-export mr-1'></i>Xuất file PDF</a>
+                      <a class="dropdown-item" ng-click="exportToExcel2();"><i class='bx bxs-file-export mr-1'></i>Xuất File Excel</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <table class="table table-hover table-hover-green">
+                <thead>
+                  <tr>
+                    <th class="text-center"><a> # </a></th>
+                    <th class="text-center"><a> Hình ảnh</a></th>
+                    <th class="text-center"><a ng-click="sortByTable2('item[1]')"> ID <i
+                          class="mdi mdi-swap-vertical"></i></a></th>
+                    <th class="text-center"><a ng-click="sortByTable2('item[2]')"> Tên sản phẩm <i
+                          class="mdi mdi-swap-vertical"></i></a></th>
+                    <th class="text-center"><a ng-click="sortByTable2('item[3]')"> Số lượng tồn <i
+                          class="mdi mdi-swap-vertical"></i></a></th>
+                    <th class="text-center"><a ng-click="sortByTable2('item[4]')"> Giá nhập <i
+                          class="mdi mdi-swap-vertical"></i></a></th>
+                    <th class="text-center"><a ng-click="sortByTable2('item[5]')"> Trạng thái <i
+                          class="mdi mdi-swap-vertical"></i></a></th>
+                    <th class="text-center"><a ng-click="sortByTable2('item[7]')"> Ngày sản xuất <i
+                          class="mdi mdi-swap-vertical"></i></a></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    ng-repeat="item in inventorystaticsasc | orderBy:sortField1:reverseSortTable2 | startFrom:(currentPage2 - 1) * itemsPerPage2 | limitTo:itemsPerPage2"
+                    data-toggle="collapse" data-target="#desc{{item[0]}}">
+                    <td class="text-center">{{$index + 1}}</td>
+                    <td class="text-center">
+                      <img ng-src="{{item[0]}}" alt="Chưa có ảnh"
+                        style="width: 50px; height: 50px; border-radius: 10%;">
+                    </td>
+                    <td class="text-center">{{item[1]}}</td>
+                    <td>{{item[2]}}</td>
+                    <td class="text-center"><span class="text-danger">{{item[3] | number:'0'}}</span></td>
+                    <td class="text-center">{{item[4] | number:'0'}}</td>
+                    <td class="text-center">{{item[5] ? 'Đang bán' : 'Dừng kinh doanh'}}</td>
+                    <td class="text-center">{{item[6] | date:'dd/MM/yyyy'}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="toolbar">
+                <form class="form">
+                  <div class="form-row">
+                    <div class="form-inline col-auto mr-auto">
+                      <label class="my-1 mr-2" for="inlineFormCustomSelectPref2">Show</label>
+                      <select class="mr-sm-2 form-control" id="inlineFormCustomSelectPref2" ng-model="itemsPerPage2"
+                        ng-options="option for option in itemsPerPageOptions2" ng-change="currentPage2 = 1">
+                      </select>
+                    </div>
+                    <div class="form-group col-auto">
+                      <span>Đang xem {{ calculateRange2() }}</span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <ul uib-pagination ng-model="currentPage2" total-items="totalItems2" items-per-page="itemsPerPage2"
+                max-size="maxSize1" class="pagination-sm" boundary-link-numbers="true" boundary-links="true"
+                force-ellipses="true" previous-text="<" next-text=">" first-text="<<" last-text=">>">
+              </ul>
+            </div>
+          </div>
+        </div> <!-- simple table -->
+      </div> <!-- end section -->
+    </div> <!-- .col-12 -->
+  </div> <!-- .row -->
+</div> <!-- .container-fluid -->

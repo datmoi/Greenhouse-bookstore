@@ -1,0 +1,141 @@
+<div class="container-fluid" ng-controller="AccountController">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div class="card shadow mb-4">
+        <div class="card-header">
+          <h4 class="mb-3 mt-3 ml-3">Thông tin tài khoản</h4>
+        </div>
+
+
+      </div>
+      <div class="card shadow mb-4">
+        <div class="card-header d-flex justify-content-end">
+          <a type="button" class="btn btn-success" href="#!/account-table">
+            <i class="fa fa-list"> </i> Danh sách tài khoản
+          </a>
+        </div>
+        <div class="card-body">
+          <form enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-md-9">
+
+                <div class="form-row">
+                  <div class="col-md-4 mb-3">
+                    <label for="PublishersID">Tên Tài Khoản(*)</label>
+                    <input type="text" class="form-control" placeholder="Nhập tên tài khoản" id="username"
+                      name="username" ng-model="editingAccounts.username" ng-disabled="isEditing">
+                    <small class="error-label text-danger"
+                      ng-show="errorMessages.username">{{errorMessages.username}}</small>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <label for="PublishersName">Họ và Tên(*)</label>
+                    <input type="text" name="fullname" class="form-control" placeholder="Nhập họ và tên"
+                      ng-model="editingAccounts.fullname">
+                    <small class="error-label text-danger"
+                      ng-show="errorMessages.fullname">{{errorMessages.fullname}}</small>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <label for="example-password">Mật Khẩu(*)</label>
+                    <input type="password" id="password" class="form-control" value="password"
+                      ng-model="editingAccounts.password" placeholder="Nhập password">
+                    <small class="error-label text-danger"
+                      ng-show="errorMessages.password">{{errorMessages.password}}</small>
+                  </div>
+
+                </div>
+                <div class="form-row">
+                  <div class="col-md-4 mb-3">
+                    <label for="example-email">Email(*)</label>
+                    <input type="email" id="example-email" name="example-email" class="form-control"
+                      placeholder="Nhập email" ng-model="editingAccounts.email">
+                    <small class="error-label text-danger" ng-show="errorMessages.email">{{errorMessages.email}}</small>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <label for="custom-phone">Số Điện Thoại(*)</label>
+                    <input class="form-control input-phoneus" id="custom-phone" placeholder="Nhập số điện thoại"
+                      ng-model="editingAccounts.phone">
+                    <small class="error-label text-danger" ng-show="errorMessages.phone">{{errorMessages.phone}}</small>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <label for="address">Ngày Sinh(*)</label>
+                    <input class="form-control" id="example-date" type="date" name="date"
+                      ng-model="editingAccounts.birthday" ng-value="formatDate(editingAccounts.birthday)">
+                    <small class="error-label text-danger"
+                      ng-show="errorMessages.birthday">{{errorMessages.birthday}}</small>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-4 mb-3">
+                    <p class="mb-2">Giới Tính(*)</p>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="role" id="male" value="true"
+                        ng-model="editingAccounts.gender" ng-value="true" ng-checked="true">
+                      <label class="form-check-label" for="male">Nam</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="role" id="female" value="false"
+                        ng-model="editingAccounts.gender" ng-value="false">
+                      <label class="form-check-label" for="female">Nữ</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <p class="mb-2">Trạng Thái(*)</p>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="active" value="true"
+                        ng-model="editingAccounts.active" ng-value="true" ng-checked="true">
+                      <label class="form-check-label" for="active">Hoạt động</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="unactive" value="false"
+                        ng-model="editingAccounts.active" ng-value="false">
+                      <label class="form-check-label" for="unactive">Ngừng hoạt động</label>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <!-- /.col -->
+              <div class="col-md-2 ">
+                <div class="form-label h5 text-center">
+                  <label for="price" class="form-label h6"><span class="text-danger"></span> Ảnh đại diện(*)</label>
+                </div>
+                <div class="row d-flex justify-content-center">
+                  <img class="img-fluid w-100 h-100"
+                       ng-src="{{editingAccounts.image || '/admin/assets/images/default.jpg'}}" alt="Ảnh đại diện"
+                       id="uploadedImage" name="image"/>
+                </div>
+
+                <div class="row d-flex justify-content-center">
+                  <label class="text-center mt-2 btn btn-outline-secondary">
+                    <i class="fa fa-upload"></i>
+                    Tải ảnh lên
+                    <input type="file" name="file" style="object-fit: contain;" id="fileInput"
+                      ng-model="editingAccounts.image" onchange="displayImage(event)" hidden accept=".png,.jpg,.jpeg" />
+                  </label>
+                </div>
+
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary" ng-click="saveAccounts()"><i class="fa fa-save"> </i>
+              {{ isEditing ? 'Lưu sửa đổi' : 'Thêm mới' }}
+            </button>
+            <button type="submit" class="btn btn-info" ng-click="resetForm()"> <i class="fa fa-undo"> </i> Làm
+              mới</button>
+
+          </form>
+        </div>
+
+      </div> <!-- / .card -->
+
+    </div> <!-- .col-12 -->
+
+     <!-- Thêm phần tử HTML này nơi bạn muốn hiển thị hiệu ứng loading -->
+     <div id="loadingOverlay" class="loading-overlay">
+      <div class="loading-spinner">
+          <i class="fas fa-spinner fa-spin"></i>
+      </div>
+  </div>
+  </div> <!-- .row -->
+
+</div> <!-- .container-fluid -->

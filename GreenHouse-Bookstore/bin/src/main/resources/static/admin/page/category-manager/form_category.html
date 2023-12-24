@@ -1,0 +1,69 @@
+<div class="container-fluid" ng-controller="CategoryController">
+    <div class="row justify-content-center">
+        <div class="col-12">
+
+
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="card-title mb-0">Thông Tin Danh Mục</h4>
+
+                        <div class="d-flex">
+                            <a type="button" class="btn btn-success mr-2" href="#!/category-table">
+                                <i class="fa fa-list"></i> Danh Sách Danh Mục
+                            </a>
+
+                            <a type="button" class="btn btn-success" href="#!/categorytype-table">
+                                <i class="fa fa-list"></i> Danh Sách Loại Danh Mục
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="categoryName">ID Danh Mục(*)</label>
+                                    <input type="text" class="form-control" placeholder="Mã danh mục tự động"
+                                           id="categoryId" ng-disabled="isEditing" name="categoryId"
+                                           ng-model="editingCategory.categoryId"/>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="typeId">Tên Loại Danh Mục(*)</label>
+                                    <select class="form-control " id="typeId" ng-model="editingCategory.typeId"
+                                            ng-change="hideError('typeId')"
+                                            ng-options="typeId as typeId.typeName for typeId in categoryTypes track by typeId.typeName">
+                                        <option value="">Chọn loại danh mục</option>
+                                    </select>
+                                    <small class="text-danger" ng-show="errors.typeId">{{ errors.typeId }}</small>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="categoryName">Tên Danh Mục(*)</label>
+                                <input type="text" class="form-control" placeholder="Nhập tên danh mục"
+                                       ng-change="hideError('categoryName')" id="categoryName" name="categoryName"
+                                       ng-model="editingCategory.categoryName"/>
+                                <small class="text-danger" ng-show="errors.categoryName">{{ errors.categoryName
+                                    }}</small>
+                            </div>
+                            <button type="button" class="btn btn-primary" ng-click="saveCategory()">
+                                <i class="fa fa-save"> </i> {{ isEditing ? ' Lưu Sửa Đổi' : ' Thêm Danh Mục' }}
+                            </button>
+                            <button type="button" class="btn btn-primary" ng-click="resetForm()"><i class="fa fa-undo">
+                            </i>Làm
+                                Mới
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- / .card -->
+
+        </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+</div> <!-- .container-fluid -->

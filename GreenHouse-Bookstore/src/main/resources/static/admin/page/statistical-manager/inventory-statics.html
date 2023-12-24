@@ -1,0 +1,264 @@
+<style>
+    .truncate-cell {
+        max-width: 100px;
+        /* Độ rộng tối đa của cột */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+
+<div class="container-fluid" ng-controller="InventoryStatic">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-2">
+                        <h5 class="mb-3 mt-3 ml-3 ">Danh Sách Sản Phẩm Trong Kho</h5>
+                    </div>
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <div class="toolbar row mb-3">
+                                <div class="col">
+                                    <form class="form-inline mr-auto  text-muted">
+                                        <input class="form-control input" type="search" placeholder="Tìm kiếm..."
+                                            ng-model="searchText1" ng-change="searchData1()">
+                                    </form>
+                                </div>
+                                <div class="col ml-auto">
+                                    <div class="dropdown float-right">
+                                        <button class="btn btn-default border-1 float-right ml-3 dropdown-toggle"
+                                            type="button" id="btnnhaphang" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            Tất cả trạng thái
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="btnnhaphang">
+                                            <a class="dropdown-item" ng-click="printPDF1()"><i
+                                                    class='bx bxs-file-export mr-1'></i>Xuất file PDF</a>
+                                            <a class="dropdown-item" ng-click="exportToExcel1();"><i
+                                                    class='bx bxs-file-export mr-1'></i>Xuất File Excel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class=" toolbar row mb-3">
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label for="categoryFilter" class="form-label">Danh mục:</label>
+                                        <select class="form-control" id="category" ng-model="editingProduct.category"
+                                            ng-options="category as category.categoryName for category in categories track by category.categoryId">
+                                            <option value="">Chọn tên danh mục</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label for="brandFilter" class="form-label">Thương hiệu:</label>
+                                        <select class="form-control " id="brand" name="brand"
+                                            ng-model="editingProduct.brand"
+                                            ng-options="brand as brand.brandName for brand in brands track by brand.brandName">
+                                            <option value="">Chọn thương hiệu</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- table -->
+                            <table class="table table-hover table-hover-green">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th>Hình ảnh</th>
+                                        <th class="text-center">ID</th>
+                                        <th class="text-center">Tên sản phẩm</th>
+                                        <th class="text-center">Số lượng tồn</th>
+                                        <th class="text-center">Giá nhập</th>
+                                        <th class="text-center">Trạng thái</th>
+                                        <th class="text-center">Ngày sản xuất</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in inventorystatics | startFrom:(currentPage1 - 1) * itemsPerPage1 | limitTo:itemsPerPage1"
+                                        data-toggle="collapse" data-target="#{{item[0]}}">
+                                        <td class="text-center">{{$index + 1}}</td>
+                                        <td class="text-center">
+                                            <img ng-src="{{item[0]}}"
+                                                alt="Chưa có ảnh"
+                                                style="width: 50px; height: 50px; border-radius: 10%;">
+                                        </td>
+                                        <td class="text-center">{{item[1]}}</td>
+                                        <td>{{item[2]}}</td>
+                                        <td class="text-center">{{item[3] | number:'0'}}</td>
+                                        <td class="text-center">{{item[4] | number:'0'}}</td>
+                                        <td class="text-center">{{item[5] ? 'Đang bán' : 'Dừng kinh doanh'}}</td>
+                                        <td class="text-center">{{item[6] | date:'dd/MM/yyyy'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="toolbar">
+                                <form class="form">
+                                    <div class="form-row">
+                                        <div class="form-inline col-auto mr-auto">
+                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref1">Show</label>
+                                            <select class="mr-sm-2 form-control" id="inlineFormCustomSelectPref1"
+                                                ng-model="itemsPerPage1"
+                                                ng-options="option for option in itemsPerPageOptions1"
+                                                ng-change="currentPage1 = 1">
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-auto">
+                                            <span>Đang xem {{ calculateRange1() }}</span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <ul uib-pagination ng-model="currentPage1" total-items="totalItems1"
+                                items-per-page="itemsPerPage1" max-size="maxSize1" class="pagination-sm"
+                                boundary-link-numbers="true" boundary-links="true" force-ellipses="true"
+                                previous-text="<" next-text=">" first-text="<<" last-text=">>">
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- simple table -->
+                <div class="col-md-12">
+                    <div class="card mb-2 mt-4">
+                        <h5 class="mb-3 mt-3 ml-3 ">Danh Sách Sản Phẩm Sắp Hết Hàng</h5>
+                    </div>
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <div class="toolbar row mb-3">
+                                <div class="col">
+                                    <form class="form-inline mr-auto  text-muted">
+                                        <input class="form-control input" type="search" placeholder="Tìm kiếm..."
+                                            ng-model="searchText2" ng-change="searchData2()">
+                                    </form>
+
+                                </div>
+                                <div class="col ml-auto">
+                                    <div class="dropdown float-right">
+                                        <button class="btn btn-default border-1 float-right ml-3 dropdown-toggle"
+                                            type="button" id="btnnhaphang" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            Tất cả trạng thái
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="btnnhaphang">
+                                            <a class="dropdown-item" ng-click="printPDF2()"><i
+                                                    class='bx bxs-file-export mr-1'></i>Xuất file PDF</a>
+                                            <a class="dropdown-item" ng-click="exportToExcel2();"><i
+                                                    class='bx bxs-file-export mr-1'></i>Xuất File Excel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class=" toolbar row mb-3">
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label for="categoryFilter" class="form-label">Danh mục:</label>
+                                        <select class="form-control" id="categoryFilter">
+                                            <option value="all">Tất cả</option>
+                                            <option value="category1">Danh mục 1</option>
+                                            <option value="category2">Danh mục 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label for="brandFilter" class="form-label">Thương hiệu:</label>
+                                        <select class="form-control" id="brandFilter">
+                                            <option value="all">Tất cả</option>
+                                            <option value="brand1">Thương hiệu 1</option>
+                                            <option value="brand2">Thương hiệu 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- table -->
+                            <table class="table table-hover table-hover-green">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">Hình ảnh</th>
+                                        <th class="text-center">ID</th>
+                                        <th class="text-center">Tên sản phẩm</th>
+                                        <th class="text-center">Số lượng tồn</th>
+                                        <th class="text-center">Giá nhập</th>
+                                        <th class="text-center">Trạng thái</th>
+                                        <th class="text-center">Ngày sản xuất</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in inventorystaticsasc | startFrom:(currentPage2 - 1) * itemsPerPage2 | limitTo:itemsPerPage2"
+                                        data-toggle="collapse" data-target="#desc{{item[0]}}">
+                                        <td class="text-center">{{$index + 1}}</td>
+                                        <td class="text-center">
+                                            <img ng-src="{{item[0]}}"
+                                                alt="Chưa có ảnh"
+                                                style="width: 50px; height: 50px; border-radius: 10%;">
+                                        </td>
+                                        <td class="text-center">{{item[1]}}</td>
+                                        <td>{{item[2]}}</td>
+                                        <td class="text-center">{{item[3] | number:'0'}}</td>
+                                        <td class="text-center">{{item[4] | number:'0'}}</td>
+                                        <td class="text-center">{{item[5] ? 'Đang bán' : 'Dừng kinh doanh'}}</td>
+                                        <td class="text-center">{{item[6] | date:'dd/MM/yyyy'}}</td>
+                                    </tr>
+                                    <!-- <tr ng-repeat-end id="desc{{item[0]}}" class="collapse">
+                                    <td colspan="10">
+                                        <table class="table table-bordered">
+                                            <thead style="pointer-events: none;">
+                                                <tr>
+                                                    <th class="text-center">Ngày sản xuất</th>
+                                                    <th class="text-center">Ngày nhập kho</th>
+                                                    <th class="text-center">Nhà cung cấp</th>
+                                                    <th class="text-center">Thời gian tồn kho</th>
+                                                    <th class="text-center">Số lượng bán ra</th>
+                                                    <th class="text-center">Tổng giá nhập</th>
+                                                    <th class="text-center">Doanh số bán ra</th>
+                                                    <th class="text-center">Lợi nhuận</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{item[7] | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{item[8] | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{item[9]}}</td>
+                                                    <td>{{item[10]}}</td>
+                                                    <td>{{item[11]}}</td>
+                                                    <td>{{item[12]}}</td>
+                                                    <td>{{item[13]}}</td>
+                                                    <td>{{item[14]}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr> -->
+                                </tbody>
+                            </table>
+                            <div class="toolbar">
+                                <form class="form">
+                                    <div class="form-row">
+                                        <div class="form-inline col-auto mr-auto">
+                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref2">Show</label>
+                                            <select class="mr-sm-2 form-control" id="inlineFormCustomSelectPref2"
+                                                ng-model="itemsPerPage2"
+                                                ng-options="option for option in itemsPerPageOptions2"
+                                                ng-change="currentPage2 = 1">
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-auto">
+                                            <span>Đang xem {{ calculateRange2() }}</span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <ul uib-pagination ng-model="currentPage2" total-items="totalItems2"
+                                items-per-page="itemsPerPage2" max-size="maxSize1" class="pagination-sm"
+                                boundary-link-numbers="true" boundary-links="true" force-ellipses="true"
+                                previous-text="<" next-text=">" first-text="<<" last-text=">>">
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- simple table -->
+            </div> <!-- end section -->
+        </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+</div> <!-- .container-fluid -->

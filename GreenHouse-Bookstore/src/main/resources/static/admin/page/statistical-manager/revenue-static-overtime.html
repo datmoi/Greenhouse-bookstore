@@ -1,0 +1,286 @@
+<div class="container-fluid" ng-controller="StaticOvertime">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card ">
+                        <h5 class="mb-3 mt-3 ml-3 ">Thống kê doanh thu</h5>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row justify-content-center">
+                        <div class="col-md-4 my-4">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <strong class="card-title">Tổng danh thu trong năm nay</strong>
+                                            <p class="small mb-0">
+                                                <span class="fe fe-12 fe-arrow-up text-success"></span>
+                                                <span class="text-muted">{{calculateTotalRevenueForCurrentYear |
+                                                    number:'0'}}</span>
+                                                <span class="small"
+                                                    ng-class="{'text-success': percent > 0, 'text-danger': percent < 0}">
+                                                    {{ percent |number:'2'}}%
+                                                    <span ng-if="percent > 0"
+                                                        class="fe fe-12 fe-arrow-up text-success"></span>
+                                                    <span ng-if="percent < 0"
+                                                        class="fe fe-12 fe-arrow-down text-danger"></span>
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <span class="sparkline inlinebar"></span>
+                                        </div>
+                                    </div> <!-- /. row -->
+                                </div> <!-- /. card-body -->
+                            </div> <!-- /. card -->
+                        </div> <!-- /. col -->
+                        <div class="col-md-4 my-4">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <strong class="card-title">Tổng doanh thu năm trước</strong>
+                                            <p class="small mb-0">
+                                                <span class="fe fe-12 fe-arrow-up text-success"></span>
+                                                <span class="text-muted">{{calculateTotalRevenueForLastYear |
+                                                    number:'0'}}</span>
+                                            </p>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <span class="sparkline inlinebar"></span>
+                                        </div>
+                                    </div> <!-- /. row -->
+                                </div> <!-- /. card-body -->
+                            </div> <!-- /. card -->
+                        </div> <!-- /. col -->
+                        <div class="col-md-4 my-4">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <strong class="card-title">Tổng doanh trong tháng hiện
+                                                tại</strong>
+                                            <p class="small mb-0"><span
+                                                    class="fe fe-12 fe-arrow-up text-success"></span><span
+                                                    class="text-muted">{{calculateTotalRevenueForCurrentMonth |
+                                                    number:'0'}}</span></p>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <span class="sparkline inlinebar"></span>
+                                        </div>
+                                    </div> <!-- /. row -->
+                                </div> <!-- /. card-body -->
+                            </div> <!-- /. card -->
+                        </div> <!-- /. col -->
+                    </div> <!-- end section -->
+                </div> <!-- .container-fluid -->
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <div class="card shadow">
+                                <div class="card-header">
+                                    <strong class="card-title mb-0">Biều đồ doanh thu trong năm
+                                        {{selectedYear}}</strong>
+                                    <div class="dropdown float-right">
+                                        <select ng-model="selectedYear" ng-change="updateSelectedYear()"
+                                            class="btn btn-sm btn-link text-muted p-0" id="rangeDropdown">
+                                            <option value="{{selectedYear}}">{{selectedYear}}</option>
+                                            <option class="dropdown-item small text-muted"
+                                                ng-repeat="year in years track by $index"
+                                                ng-if="year[0] != selectedYear">{{year[0]}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="monthlyRevenueChart" width="300" height="100"></canvas>
+                                </div> <!-- /.card-body -->
+                            </div> <!-- /.card -->
+                        </div> <!-- /. col -->
+                    </div> <!-- end section -->
+                </div> <!-- /. col -->
+                <div class="col-md-12">
+
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <div class="toolbar row mb-3">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <label class="text-success">Ngày Bắt Đầu</label>
+                                            <input type="date" ng-change="searchByDate()" ng-model="dateStart"
+                                                class="form-control" />
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <label class="text-success">Ngày Kết Thúc</label>
+                                            <input type="date" ng-change="searchByDate()" ng-model="dateEnd"
+                                                class="form-control" />
+                                        </div>
+                                        <div class="col-sm-2 mt-4">
+                                            <button type="button" class="btn btn-primary" ng-click="resetFilters()">Xóa
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <small class="text-danger small"
+                                        ng-show="errorMessages.dateError">{{errorMessages.dateError}}</small>
+                                    <label style="visibility: hidden;" id="start">{{dateNow |
+                                        date:'yyyy-MM-dd'}}</label>
+                                </div>
+                                <div class="col ml-auto">
+                                    <div class="dropdown float-right">
+                                        <button class="btn btn-default border-1 float-right ml-3 dropdown-toggle"
+                                            type="button" id="btnnhaphang" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            Tất cả trạng thái
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="btnnhaphang">
+                                            <a class="dropdown-item" ng-click="printPDF()"><i
+                                                    class='bx bxs-file-export mr-1'></i>Xuất file PDF</a>
+                                            <a class="dropdown-item" ng-click="exportToExcel();"><i
+                                                    class='bx bxs-file-export mr-1'></i>Xuất File Excel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="row mb-2">
+                                <div class="col-sm-2">
+                                    <label class="text-success">Ngày Bắt Đầu</label>
+                                    <input type="date" ng-change="searchByDate()" ng-model="dateStart"
+                                        class="form-control" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="text-success">Ngày Kết Thúc</label>
+                                    <input type="date" ng-change="searchByDate()" ng-model="dateEnd"
+                                        class="form-control" />
+                                </div>
+                            </div>
+                            <small class="text-danger small" ng-show="errorMessages.dateError">{{errorMessages.dateError}}</small>
+                            <label style="visibility: hidden;" id="start">{{dateNow | date:'yyyy-MM-dd'}}</label> -->
+                            <!-- table -->
+                            <table class="table table-hover table-hover-green">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Mã hóa đơn</th>
+                                        <th>Tên khách hàng</th>
+                                        <th>Ngày tạo</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Phí ship</th>
+                                        <th>Tiền thanh toán</th>
+                                        <th>Ngày thanh toán</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat-start="item in invoiceRepeat" data-toggle="collapse"
+                                        data-target="#collapse-{{item.invoiceId}}">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{item.invoiceId}}</td>
+                                        <td>{{item.account.fullname}}</td>
+                                        <td>{{item.createDate | date:'dd/MM/yyyy'}}</td>
+                                        <td>{{item.totalAmount | number:'0'}}</td>
+                                        <td>{{item.shippingFee | number:'0'}}</td>
+                                        <td>{{item.paymentAmount | number:'0'}}</td>
+                                        <td>{{item.paymentDate | date:'dd/MM/yyyy'}}</td>
+                                    </tr>
+                                    <tr ng-repeat-end id="collapse-{{item.invoiceId}}" class="collapse">
+                                        <td colspan="8">
+                                            <table class="table table-bordered">
+                                                <thead style="pointer-events: none;">
+                                                    <tr>
+                                                        <th class="text-center">Hình ảnh</th>
+                                                        <th class="text-center">Mã sản phẩm</th>
+                                                        <th class="text-center">Tên sản phẩm</th>
+                                                        <th class="text-center">Gía nhập</th>
+                                                        <th class="text-center">Gía bán</th>
+                                                        <th class="text-center">Số lượng</th>
+                                                        <th class="text-center">Tổng giá</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr
+                                                        ng-repeat="invoiceDetail in getListInvoiceDetailByInvoiceId(item.invoiceId) track by $index">
+                                                        <!-- <td>{{invoiceDetail.productDetail.image}}</td> -->
+                                                        <td class="text-center">
+                                                            <img ng-src="{{invoiceDetail.productDetail.image}}"
+                                                                alt="Chưa có ảnh"
+                                                                style="width: 50px; height: 50px; border-radius: 10%;">
+                                                        </td>
+                                                        <td class="text-center">{{invoiceDetail.productDetail.product.productId}}</td>
+                                                        <td>{{invoiceDetail.productDetail.product.productName}}</td>
+                                                        <td class="text-center">{{invoiceDetail.price | number:'0'}}</td>
+                                                        <td class="text-center">{{invoiceDetail.priceDiscount | number:'0'}}</td>
+                                                        <td class="text-center">{{invoiceDetail.quantity | number:'0'}}</td>
+                                                        <td class="text-center">{{invoiceDetail.amount | number:'0'}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="toolbar">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <!-- Nút để ẩn/hiện body-profit -->
+                                        <button class="btn btn-secondary" data-toggle="collapse"
+                                            data-target="#bodyProfitCollapse" aria-expanded="false">
+                                            <span id="toggleButtonText">Hiện doanh thu</span>
+                                        </button>
+                                        <!-- total-profit -->
+                                        <div class="total-profit">
+                                            <!-- body-profit -->
+                                            <div id="bodyProfitCollapse" class="collapse">
+                                                <div class="body-profit">
+                                                    <div>
+                                                        <h6>Tổng doanh thu:<span class="total">{{totalRevenueBySearch |
+                                                                number:'0' }}</span></h6>
+                                                    </div>
+                                                    <div>
+                                                        <h6>Tổng chi phí:<span class="expense">{{totalExpenseBySearch |
+                                                                number:'0'}}</span></h6>
+                                                    </div>
+                                                    <hr class="table-hr">
+                                                    <div>
+                                                        <h6>Tổng lợi nhuận:<span class="profit">{{totalProfitBySearch |
+                                                                number:'0'}}</span></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="toolbar">
+                                <form class="form">
+                                    <div class="form-row">
+                                        <div class="form-inline col-auto mr-auto">
+                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref1">Show</label>
+                                            <select class="mr-sm-2 form-control" id="inlineFormCustomSelectPref1"
+                                                ng-model="itemsPerPage"
+                                                ng-options="option for option in itemsPerPageOptions"
+                                                ng-change="currentPage = 1">
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-auto">
+                                            <span>Đang xem {{ calculateRange() }}</span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <ul uib-pagination ng-model="currentPage" total-items="totalItems"
+                                items-per-page="itemsPerPage" max-size="maxSize" class="pagination-sm"
+                                boundary-link-numbers="true" boundary-links="true" force-ellipses="true"
+                                previous-text="<" next-text=">" first-text="<<" last-text=">>">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- simple table -->
+        </div> <!-- end section -->
+    </div> <!-- .col-12 -->
+</div> <!-- .row -->
+</div> <!-- .container-fluid -->
